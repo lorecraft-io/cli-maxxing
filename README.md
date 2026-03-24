@@ -4,19 +4,23 @@ Everything you need to start working with AI-powered development tools, installe
 
 ## How It Works
 
-There are three scripts. Run them in order — each one builds on the last.
+There are three scripts. Run them in order. Each one builds on the last.
 
-**Script 0** gets the bare essentials on your machine — just enough to get Claude Code (your AI assistant) and Warp Terminal (your new terminal) up and running. This is the fastest script. It needs to run first because everything else depends on it.
+**Script 0** is the only part that feels "techy." It gets the bare essentials on your machine so Claude (your AI assistant) and Warp (your new terminal) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like setting up your Warp account and logging into Claude. This is the most hands-on part of the entire process. Once you get through it, everything else is basically a conversation between you and Claude.
 
-**Script 1** installs the rest of your development tools — file converters, search tools, and utilities that Claude will use when working on your projects. You run this from inside Warp after Script 0 is done.
+**Script 1** installs the rest of your development tools. File converters, search tools, utilities. You run this from inside Warp after Script 0 is done. Much more straightforward.
 
-**Script 2** *(coming soon)* sets up ClaudeFlow — the multi-agent orchestration layer that makes Claude dramatically more powerful.
+**Script 2** *(coming soon)* sets up ClaudeFlow, the multi-agent orchestration layer that makes Claude way more powerful.
+
+After Script 0, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
 ---
 
-## Script 0 — Get Claude Running
+## Script 0 - Get Claude Running
 
-Installs the minimum needed to get Claude Code working on your machine. Detects your operating system automatically.
+This is the foundation. It installs the minimum needed to get Claude Code working on your machine.
+
+**Heads up:** This is the most manual part of the setup. The script itself runs automatically, but afterwards you'll need to set up Warp and your Claude account yourself. Don't worry, it's all spelled out below. Once you're past this, Claude is there to help you with everything else.
 
 ### macOS / Linux
 
@@ -40,7 +44,7 @@ irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/scri
 |------|-------------|
 | Homebrew (Mac) / winget (Win) | Installs other software for you |
 | Git | Tracks and manages code changes |
-| Node.js (v18+) | Runs JavaScript — needed for Claude Code |
+| Node.js (v18+) | Runs JavaScript, needed for Claude Code |
 | Warp Terminal | Your new terminal (see below) |
 | Claude Code | AI coding assistant |
 
@@ -48,11 +52,11 @@ irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/scri
 
 Script 0 installs [Warp](https://www.warp.dev) as your terminal. Here's why:
 
-- **Shift+Tab to toggle permissions** — When Claude is running, press Shift+Tab to switch between normal mode (Claude asks before doing anything) and auto-approve mode (Claude just does it). No need to exit and relaunch.
-- **Built for AI workflows** — Warp is designed around working with AI in the terminal. It handles long-running output, code blocks, and multi-step processes better than a standard terminal.
-- **Works on Mac, Linux, and Windows** — Same experience everywhere.
+- **Shift+Tab to toggle permissions.** When Claude is running, press Shift+Tab to switch between normal mode (Claude asks before doing anything) and auto-approve mode (Claude just does it). No need to exit and relaunch.
+- **Built for AI workflows.** Warp handles long-running output, code blocks, and multi-step processes better than a standard terminal.
+- **Works on Mac, Linux, and Windows.** Same experience everywhere.
 
-After Script 0 finishes, **close your old terminal and open Warp.** Everything from here on happens in Warp.
+After Script 0 finishes, close your old terminal and open Warp. Everything from here on happens in Warp.
 
 ### After Script 0
 
@@ -60,7 +64,7 @@ After Script 0 finishes, **close your old terminal and open Warp.** Everything f
 
 Open **Warp** (it was just installed by Script 0).
 
-- Warp will ask you to create an account — go ahead and sign up. **The free plan is all you need.** No payment required for Warp.
+Warp will ask you to create an account. Go ahead and sign up. **The free plan is all you need.** No payment required for Warp.
 
 #### 2. Configure Warp
 
@@ -68,27 +72,27 @@ Before doing anything else, change one setting:
 
 1. Open Warp settings (**Cmd+Comma** on Mac, **Ctrl+Comma** on Windows/Linux)
 2. Go to **Features**
-3. The very first setting is **Default Mode** — make sure it's set to **Terminal**, not Agent
+3. The very first setting is **Default Mode**. Make sure it's set to **Terminal**, not Agent
 
 This keeps Warp acting as a normal terminal so Claude Code runs properly.
 
-> **If you see "Agent Oz" instead of a terminal:** Press the **Esc** key. This switches you back to the normal terminal view. That's also why we changed the default to Terminal — so this doesn't keep happening.
+> **If you see "Agent Oz" instead of a terminal:** Press the **Esc** key. This switches you back to the normal terminal view. That's why we changed the default to Terminal, so this doesn't keep happening.
 
 #### 3. Set Up Your Claude Account (Do This Before Step 4)
 
-You need a Claude account with an active subscription before you can log in. **Do this now if you haven't already** — the login in Step 4 won't work without it.
+You need a Claude account with an active subscription before you can log in. **Do this now if you haven't already.** Step 4 won't work without it.
 
 Sign up at [claude.ai](https://claude.ai).
 
 #### Why Claude?
 
-We use Claude because it's genuinely the best AI platform for the kind of work we do. It's not just marketing — Claude consistently outperforms other models at understanding complex instructions, writing clean code, and reasoning through multi-step problems without losing the thread. And they ship new features fast — the pace of improvement is unreal.
+We use Claude because it's genuinely the best AI platform for the kind of work we do. Not marketing, just what we've seen firsthand. Claude consistently outperforms other models at understanding complex instructions, writing clean code, and reasoning through multi-step problems without losing the thread. They also ship new features incredibly fast. The pace of improvement is unreal.
 
-But beyond the tech, we chose Anthropic for how they operate. Their CEO Dario Amodei left OpenAI specifically to take a more responsible approach to AI development. He's shown real backbone — including being willing to walk away from government contracts rather than compromise on their principles. Anthropic leads on safety research, they're transparent about what their models can and can't do, and they actually listen to their users when building new features. No shady practices, no cutting corners, no chasing hype at the expense of doing things right.
+But beyond the tech, we chose Anthropic for how they operate. Their CEO Dario Amodei left OpenAI specifically to take a more responsible approach to AI development. He's shown real backbone, including being willing to walk away from government contracts rather than compromise on their principles. Anthropic leads on safety research, they're transparent about what their models can and can't do, and they actually listen to their users when building new features. No shady practices, no cutting corners, no chasing hype at the expense of doing things right.
 
-That philosophy shows up in how Claude actually works — it's careful, honest, and doesn't try to BS you when it doesn't know something.
+That philosophy shows up in how Claude actually works. It's careful, honest, and doesn't try to BS you when it doesn't know something.
 
-In short: Claude is the smartest tool in the room, built by people who actually care about getting this right.
+Claude is the smartest tool in the room, built by people who actually care about getting this right.
 
 #### Subscription Plans
 
@@ -96,9 +100,9 @@ Claude Code requires a paid plan. The install is free, but to actually use it yo
 
 | Plan | Cost | What you get |
 |------|------|-------------|
-| **Claude Pro** | $20/month | Good for getting started. Handles everyday tasks — writing code, editing files, answering questions. You'll hit usage limits if you run long sessions or do heavy back-to-back work. |
+| **Claude Pro** | $20/month | Good for getting started. Handles everyday tasks like writing code, editing files, answering questions. You'll hit usage limits if you run long sessions or do heavy back-to-back work. |
 | **Claude Max 5x** | $100/month | 5x the usage of Pro. Best for people who use Claude throughout the day or run multi-step workflows. You can work for hours without hitting a wall. |
-| **Claude Max 20x** | $200/month | 20x the usage of Pro. For power users running complex, long-running tasks — things like full codebase refactors, multi-agent swarms, or all-day sessions. Virtually unlimited for most people. |
+| **Claude Max 20x** | $200/month | 20x the usage of Pro. For power users running complex, long-running tasks like full codebase refactors, multi-agent swarms, or all-day sessions. Virtually unlimited for most people. |
 
 **Our recommendation:** Start with **Pro** ($20/month). If you find yourself getting rate-limited or waiting for usage to reset, upgrade to Max. You'll know pretty quickly which tier fits your workflow.
 
@@ -114,15 +118,15 @@ If this is your first time, Claude will automatically open a browser and ask you
 
 ---
 
-## Script 1 — Dev Tools
+## Script 1 - Dev Tools
 
-Installs the development tools that Claude uses when working on your projects — file converters, search tools, and utilities. You run this in Warp using `cskip` (auto-approve mode).
+Installs the development tools that Claude uses when working on your projects. File converters, search tools, and utilities. You run this in Warp.
 
 ### Why auto-approve mode?
 
-When Claude runs in normal mode, it asks your permission before every single action — every file it reads, every command it runs. During a setup script that installs 10+ tools, that means dozens of approval prompts. There's no sound or notification when Claude is waiting for you, so if you look away for a moment, the whole process just sits there frozen until you come back and type "y".
+When Claude runs in normal mode, it asks your permission before every single action. Every file it reads, every command it runs. During a setup script that installs 10+ tools, that means dozens of approval prompts. There's no sound or notification when Claude is waiting for you, so if you look away for a moment, the whole process just sits there frozen until you come back and type "y".
 
-**Auto-approve mode (`cskip`) lets Claude run without stopping to ask.** It will install everything in one smooth pass. You can watch it work in real time — you just don't have to babysit it.
+**Auto-approve mode (`cskip`) lets Claude run without stopping to ask.** It installs everything in one smooth pass. You can watch it work in real time, you just don't have to babysit it.
 
 You can always switch back to normal mode later for regular work. This is just for setup.
 
@@ -134,7 +138,7 @@ In Warp, paste:
 curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.sh | bash
 ```
 
-**Windows** — in Warp or PowerShell:
+**Windows** (in Warp or PowerShell):
 
 ```powershell
 irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.ps1 | iex
@@ -145,11 +149,11 @@ irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/scri
 | Tool | What it does |
 |------|-------------|
 | Python 3 + pip | Runs Python scripts and tools |
-| Pandoc | Converts documents (Word, PowerPoint → text) |
+| Pandoc | Converts documents (Word, PowerPoint to text) |
 | xlsx2csv | Converts spreadsheets to readable format |
 | pdftotext | Extracts text from PDFs |
 | jq | Reads and edits config files |
-| ripgrep | Searches code fast — used by Claude Code |
+| ripgrep | Searches code fast, used by Claude Code |
 | GitHub CLI | Manage GitHub from your terminal |
 | tree | Shows folder structure visually |
 | fzf | Find files and commands quickly |
@@ -157,7 +161,7 @@ irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/scri
 
 ---
 
-## Script 2 — ClaudeFlow Setup *(coming soon)*
+## Script 2 - ClaudeFlow Setup *(coming soon)*
 
 Installs and configures ClaudeFlow, the multi-agent orchestration system that coordinates multiple AI agents to work on complex tasks together. Requires Scripts 0 and 1 to be completed first.
 
@@ -165,13 +169,13 @@ Installs and configures ClaudeFlow, the multi-agent orchestration system that co
 
 ## [Cheat Sheet](CHEATSHEET.md)
 
-Quick reference for terminal basics, launching Claude, useful commands, and tips. **Read this after running Script 0** — especially if you're new to working in a terminal.
+Quick reference for terminal basics, launching Claude, useful commands, and tips. **Read this after running Script 0**, especially if you're new to working in a terminal.
 
 ---
 
 ## Before You Start
 
 - Your computer needs to be from roughly **2020 or later** (macOS Big Sur+, Windows 10+, or a recent Linux)
-- You need an **internet connection** — the script downloads everything live
-- **Don't run it as admin/root** — just open your terminal normally and paste the command
+- You need an **internet connection** since the script downloads everything live
+- **Don't run it as admin/root.** Just open your terminal normally and paste the command
 - If anything is already installed on your machine, the script will skip it automatically
