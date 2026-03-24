@@ -9,6 +9,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
 | [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
+| [Update (not your first time?)](#not-your-first-time-here) | Catch up | One command to update everything | ~2 min |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow) | ClaudeFlow | Multi-agent orchestration, 75% cost savings | ~3 min |
@@ -46,6 +47,22 @@ There are three steps. Run them in order. Each one builds on the last.
 ### Already have Claude Code installed?
 
 If you already have Claude Code working on your machine, you can skip Step 1 entirely. Just make sure you have [Warp](https://www.warp.dev) installed (we use it for the Shift+Tab permissions toggle), then jump straight to [Step 2](#step-2---dev-tools). Everything will work the same. You can paste the install commands directly in Warp, or if you prefer, download this repo as a ZIP from GitHub, unzip it, and tell Claude to run the scripts from whatever folder they landed in.
+
+### Not your first time here?
+
+If you've already been through the setup before and just want to make sure you're up to date, you don't need to redo everything manually. This one command will re-run all the steps, skip anything you already have, and install anything new that's been added since your last visit.
+
+**macOS / Linux** (paste in Warp):
+```bash
+curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.sh | bash
+```
+
+**Windows** (paste in Warp or PowerShell):
+```powershell
+irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.ps1 | iex
+```
+
+That's it. One paste, and you're current with everything in this repo.
 
 ### Bonus
 
