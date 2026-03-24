@@ -251,7 +251,7 @@ This step installs ClaudeFlow, the layer that turns Claude from a single assista
 
 Built by [@ruvnet](https://github.com/ruvnet) ([repo](https://github.com/ruvnet/claude-flow)). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
 
-Without ClaudeFlow, Claude works alone. One conversation, one task at a time. ClaudeFlow changes that completely:
+Claude Code is already powerful on its own. But ClaudeFlow takes it to another level by adding coordinated multi-agent workflows, persistent memory, and smart cost optimization on top:
 
 - **Multiple agents working in parallel.** Claude can spin up several agents at once, each focused on a different part of your task. A researcher, a coder, a reviewer, all working simultaneously instead of one after the other.
 - **Saves up to 75% on token costs.** ClaudeFlow uses smart model routing. Simple tasks get handled by faster, cheaper models. Complex reasoning goes to the heavy hitters. You stop paying full price for things that don't need it.
