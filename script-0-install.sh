@@ -31,6 +31,14 @@ detect_os() {
         *)      fail "Unsupported OS: $(uname -s). This script supports macOS and Linux." ;;
     esac
     info "Detected OS: $OS"
+
+    # Detect user's actual shell for profile writes
+    case "$SHELL" in
+        */zsh)  USER_SHELL="zsh";  SHELL_RC="$HOME/.zshrc" ;;
+        */bash) USER_SHELL="bash"; SHELL_RC="$HOME/.bashrc" ;;
+        *)      USER_SHELL="zsh";  SHELL_RC="$HOME/.zshrc" ;;
+    esac
+    info "Detected shell: $USER_SHELL ($SHELL_RC)"
 }
 
 # -----------------------------------------------------------------------------
@@ -102,9 +110,14 @@ install_homebrew() {
         # Add brew to PATH for Apple Silicon and Intel
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
-            SHELL_PROFILE="$HOME/.zprofile"
-            if ! grep -q 'homebrew' "$SHELL_PROFILE" 2>/dev/null; then
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$SHELL_PROFILE"
+            # Write to the login profile that matches their shell
+            if [ "$USER_SHELL" = "bash" ]; then
+                BREW_PROFILE="$HOME/.bash_profile"
+            else
+                BREW_PROFILE="$HOME/.zprofile"
+            fi
+            if ! grep -q 'homebrew' "$BREW_PROFILE" 2>/dev/null; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$BREW_PROFILE"
             fi
         elif [ -f /usr/local/bin/brew ]; then
             eval "$(/usr/local/bin/brew shellenv)"
@@ -253,16 +266,17 @@ install_xlsx2csv() {
     fi
 
     info "Installing xlsx2csv..."
-    python3 -m pip install --user xlsx2csv --quiet || { soft_fail "xlsx2csv installation failed"; return; }
+    # --break-system-packages needed for Ubuntu 23.04+ / Debian 12+ (PEP 668)
+    python3 -m pip install --user xlsx2csv --quiet 2>/dev/null \
+        || python3 -m pip install --user --break-system-packages xlsx2csv --quiet \
+        || { soft_fail "xlsx2csv installation failed"; return; }
 
     # Add Python user bin to PATH so xlsx2csv is usable immediately
     PYTHON_USER_BIN="$(python3 -m site --user-base)/bin"
     if [ -d "$PYTHON_USER_BIN" ]; then
         export PATH="$PYTHON_USER_BIN:$PATH"
 
-        # Persist to shell profile
-        SHELL_RC="$HOME/.zshrc"
-        [ "$OS" = "linux" ] && [ ! -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.bashrc"
+        # Persist to shell profile (uses detected shell from detect_os)
         if ! grep -q 'Python.*bin' "$SHELL_RC" 2>/dev/null; then
             echo "" >> "$SHELL_RC"
             echo "# Python user packages" >> "$SHELL_RC"
@@ -467,7 +481,9 @@ install_claude_code() {
         success "Claude Code already installed"
     else
         info "Installing Claude Code..."
-        npm install -g @anthropic-ai/claude-code
+        # Try without sudo first (works with nvm), fall back to sudo (needed for system Node)
+        npm install -g @anthropic-ai/claude-code 2>/dev/null \
+            || sudo npm install -g @anthropic-ai/claude-code
 
         command -v claude &>/dev/null || fail "Claude Code installation failed"
         success "Claude Code installed"
