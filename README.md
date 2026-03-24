@@ -11,7 +11,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
-| [Step 3](#step-3---claudeflow-coming-soon) | ClaudeFlow | Multi-agent orchestration | Coming soon |
+| [Step 3](#step-3---claudeflow) | ClaudeFlow | Multi-agent orchestration, 75% cost savings | ~3 min |
 
 ---
 
@@ -38,7 +38,7 @@ There are three steps. Run them in order. Each one builds on the last.
 
 **Step 2** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from inside Warp after Step 1 is done. Much more straightforward.
 
-**Step 3** *(coming soon)* is where you set up ClaudeFlow, the multi-agent orchestration layer that makes Claude way more powerful.
+**Step 3** is where you set up ClaudeFlow. This is the multi-agent orchestration layer that turns Claude from a single assistant into a full team of AI agents. It also cuts your token costs by up to 75% with smart model routing. This is where everything comes together.
 
 ### Already have Claude Code installed?
 
@@ -230,8 +230,56 @@ You don't need to do anything to make this work. It's already configured. Just k
 
 ---
 
-## Step 3 - ClaudeFlow *(coming soon)*
+## Step 3 - ClaudeFlow
 
 [Back to top](#quick-nav)
 
-This step installs and configures ClaudeFlow, the multi-agent orchestration system that coordinates multiple AI agents to work on complex tasks together. You'll need to complete Steps 1 and 2 before running this one.
+This is the final step. It installs ClaudeFlow, the layer that turns Claude from a single assistant into a full team of coordinated AI agents.
+
+### What ClaudeFlow does
+
+Without ClaudeFlow, Claude works alone. One conversation, one task at a time. ClaudeFlow changes that completely:
+
+- **Multiple agents working in parallel.** Claude can spin up several agents at once, each focused on a different part of your task. A researcher, a coder, a reviewer, all working simultaneously instead of one after the other.
+- **Saves up to 75% on token costs.** ClaudeFlow uses smart model routing. Simple tasks get handled by faster, cheaper models. Complex reasoning goes to the heavy hitters. You stop paying full price for things that don't need it.
+- **Autonomous execution.** You describe what you want, and ClaudeFlow figures out how to break it down, assign it, and execute it. You don't have to micromanage every step.
+- **Persistent memory.** ClaudeFlow has its own memory system that agents share. Context doesn't get lost between tasks or sessions. Your agents remember what they learned.
+- **Self-healing workflows.** If something fails, ClaudeFlow can detect it and recover automatically instead of just stopping.
+
+In short, this is what takes you from "using AI" to actually being an AI super user.
+
+### Run Step 3
+
+You should still be in Warp from Step 2. If you closed it, open Warp and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+**macOS / Linux:**
+```
+run this command to set up ClaudeFlow: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.sh | bash
+```
+
+**Windows:**
+```
+run this command to set up ClaudeFlow: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.ps1 | iex
+```
+
+Claude will run the install for you. Same as Step 2. If Claude tells you to restart your terminal, close the window, reopen Warp, type `cskip`, and let Claude know where you left off.
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| ClaudeFlow CLI | This is the command-line tool that manages everything below. |
+| MCP Server Connection | This connects ClaudeFlow to Claude Code so they can talk to each other. |
+| ClaudeFlow Daemon | This runs in the background and coordinates agents, memory, and tasks. |
+| Memory System | This gives your agents persistent, searchable memory across sessions. |
+| Smart Model Routing | This automatically picks the cheapest model that can handle each task, saving up to 75% on costs. |
+
+### After Step 3
+
+That's it. You're done. Your setup is complete.
+
+Open a new `cskip` session and try something ambitious. Ask Claude to build something, research something, or refactor something complex. You'll see ClaudeFlow kick in automatically when the task calls for it.
+
+Welcome to being an AI Super User.
