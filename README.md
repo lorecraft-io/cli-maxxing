@@ -220,6 +220,13 @@ These are the tools that Claude will install for you:
 | tree | This shows your folder structure visually. |
 | fzf | This helps you find files and commands quickly. |
 | wget | This downloads files from the web. |
+| Memory auto-save hook | This makes Claude automatically save important notes from your conversation when you end a session. You don't have to do anything. It just works in the background. |
+
+### What's the memory hook?
+
+Step 2 also sets up something called a "stop hook." Every time you end a Claude session (by pressing Ctrl+C or typing `/exit`), Claude will automatically review the conversation and save anything important to memory. Things like decisions you made, preferences you mentioned, or context about what you were working on. Next time you start a session, Claude already knows that stuff. You don't have to repeat yourself.
+
+You don't need to do anything to make this work. It's already configured. Just keep using Claude normally and it'll build up memory over time.
 
 ---
 
