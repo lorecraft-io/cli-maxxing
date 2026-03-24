@@ -9,11 +9,10 @@ Everything you need to start working with AI-powered development tools, installe
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
 | [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
-| [Update (been here before?)](#been-here-before) | Catch up | One command to update everything | ~2 min |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow--context-hub) | ClaudeFlow + Context Hub | Multi-agent orchestration, API docs, 75% cost savings | ~3 min |
-| [Step 4](#step-4---coming-soon) | Coming soon | | Coming soon |
+| [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
 | [Step 5](#step-5---coming-soon) | Coming soon | | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
@@ -47,22 +46,6 @@ There are three steps. Run them in order. Each one builds on the last.
 ### Already have Claude Code installed?
 
 If you already have Claude Code working on your machine, you can skip Step 1 entirely. Just make sure you have [Warp](https://www.warp.dev) installed (we use it for the Shift+Tab permissions toggle), then jump straight to [Step 2](#step-2---dev-tools). Everything will work the same. You can paste the install commands directly in Warp, or if you prefer, download this repo as a ZIP from GitHub, unzip it, and tell Claude to run the scripts from whatever folder they landed in.
-
-### Been here before?
-
-If you've already been through the setup before and just want to make sure you're up to date, you don't need to redo everything manually. This one command will re-run all the steps, skip anything you already have, and install anything new that's been added since your last visit.
-
-**macOS / Linux** (paste in Warp):
-```bash
-curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.sh | bash
-```
-
-**Windows** (paste in Warp or PowerShell):
-```powershell
-irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.ps1 | iex
-```
-
-That's it. One paste, and you're current with everything in this repo.
 
 ### Bonus
 
@@ -266,7 +249,7 @@ This step installs ClaudeFlow, the layer that turns Claude from a single assista
 
 ### ClaudeFlow
 
-Built by [ruv](https://github.com/ruvnet/claude-flow). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
+Built by [@ruvnet](https://github.com/ruvnet) ([repo](https://github.com/ruvnet/claude-flow)). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
 
 Without ClaudeFlow, Claude works alone. One conversation, one task at a time. ClaudeFlow changes that completely:
 
@@ -278,7 +261,7 @@ Without ClaudeFlow, Claude works alone. One conversation, one task at a time. Cl
 
 ### Context Hub
 
-Built by [Andrew Ng](https://github.com/andrewyng/context-hub). Andrew is one of the most respected names in AI. He built this tool to solve a real problem: AI agents hallucinating API calls.
+Built by [@andrewyng](https://github.com/andrewyng) ([repo](https://github.com/andrewyng/context-hub)). Andrew Ng is one of the most respected names in AI. He built this tool to solve a real problem: AI agents hallucinating API calls.
 
 When Claude writes code that calls an external API, it's working from its training data, which can be outdated or just wrong. Context Hub fixes that by giving Claude access to curated, up-to-date API documentation on demand.
 
@@ -326,11 +309,73 @@ More steps are being added below. Check back or run the update command to stay c
 
 ---
 
-## Step 4 - Coming Soon
+## Step 4 - Design Tools
 
 [Back to top](#quick-nav)
 
-Details coming soon.
+This step supercharges how Claude handles anything visual. It installs two tools that make Claude dramatically better at building user interfaces, web pages, apps, and anything design-related.
+
+### UI/UX Pro Max Skill
+
+Built by [@nextlevelbuilder](https://github.com/nextlevelbuilder) ([repo](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)). This is an open-source design intelligence engine that gives Claude professional-level UI/UX knowledge.
+
+Without this skill, Claude generates generic-looking interfaces. With it, Claude has access to:
+
+- **161 industry-specific design rules.** Claude knows how a fintech dashboard should look different from a fitness app or a restaurant website.
+- **67 UI styles.** Glassmorphism, Brutalism, Dark Mode, Neumorphism, and more. You can just say the style you want and Claude nails it.
+- **161 color palettes and 57 font pairings.** No more default blues and grays. Claude picks cohesive, professional color schemes and typography.
+- **99 UX guidelines.** Accessibility, responsive layouts, user flow patterns. Claude doesn't just make things look good, it makes things that actually work.
+- **13 tech stacks supported.** React, Vue, Flutter, SwiftUI, Tailwind, and more. The skill adapts to whatever you're building with.
+
+You don't have to tell Claude to "use the UI/UX skill." It activates automatically whenever you ask for anything design-related. Just describe what you want and Claude will generate a complete design system before writing a single line of code.
+
+### 21st.dev Magic MCP
+
+Built by the team at [@21st-dev](https://github.com/21st-dev) ([site](https://21st.dev)). This connects Claude to a massive library of production-ready UI components.
+
+While the UI/UX Pro Max Skill handles the design thinking, 21st.dev Magic handles the actual components. Claude can pull from a library of pre-built, beautifully designed React components and assemble them into whatever you're building.
+
+- **Production-ready components.** Not rough prototypes. These are polished, responsive, accessible components you can ship.
+- **Huge library.** Buttons, cards, modals, navigation, forms, dashboards, and more. Claude picks the right ones for your design.
+- **Works right inside Claude.** Once connected, Claude just uses the components automatically when building UI.
+
+**Setting up 21st.dev requires a free account.** The script will install the MCP connection, but you'll also need to do this:
+
+1. Go to [21st.dev](https://21st.dev) and create a free account. No payment needed to start.
+2. Once logged in, go to the MCP setup page and follow their instructions. They'll give you a command to run.
+3. If the auto-install didn't connect it, the setup page will walk you through it.
+
+### Run Step 4
+
+You should still be in Warp. If you closed it, open Warp and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+**macOS / Linux:**
+```
+run this command to install design tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-4/step-4-install.sh | bash
+```
+
+**Windows:**
+```
+run this command to install design tools: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-4/step-4-install.ps1 | iex
+```
+
+### After the script runs, set up 21st.dev
+
+The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create an account:
+
+1. Go to [21st.dev](https://21st.dev)
+2. Sign up for free (no payment required)
+3. Follow their MCP setup instructions. They'll give you a command to paste in your terminal.
+4. Once connected, Claude will automatically use their component library when building UI.
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| UI/UX Pro Max Skill | This gives Claude professional design intelligence. 161 design rules, 67 styles, 161 palettes, 57 font pairings, 99 UX guidelines. |
+| 21st.dev Magic MCP | This connects Claude to a library of production-ready UI components it can use when building interfaces. |
 
 ---
 
@@ -346,16 +391,18 @@ Details coming soon.
 
 [Back to top](#quick-nav)
 
-New steps and updates get added to this repo over time. If you've already completed the steps above and want to make sure you have everything current, run this command in Warp. It will re-run all steps, skip anything already installed, and pick up anything new.
+New steps and updates get added to this repo over time. If you've already completed the steps above and want to make sure you have everything current, open Warp and run `cskip` to start a Claude session, then paste the update command. Claude will run it for you.
+
+Or if you prefer to run it directly without Claude, just paste the command into Warp on its own.
 
 **macOS / Linux:**
-```bash
-curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.sh | bash
+```
+run this update command: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.sh | bash
 ```
 
 **Windows:**
-```powershell
-irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.ps1 | iex
+```
+run this update command: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.ps1 | iex
 ```
 
 ---

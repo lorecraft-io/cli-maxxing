@@ -35,9 +35,15 @@ Write-Host ""
 Invoke-Expression (Invoke-RestMethod "$BaseUrl/step-3/step-3-install.ps1")
 Write-Host ""
 
+# Step 4
+Write-Host ">>> Running Step 4 - Design Tools" -ForegroundColor Yellow
+Write-Host ""
+Invoke-Expression (Invoke-RestMethod "$BaseUrl/step-4/step-4-install.ps1")
+Write-Host ""
+
 # Add new steps here as they're created
-# Write-Host ">>> Running Step 4 - ..." -ForegroundColor Yellow
-# Invoke-Expression (Invoke-RestMethod "$BaseUrl/step-4/step-4-install.ps1")
+# Write-Host ">>> Running Step 5 - ..." -ForegroundColor Yellow
+# Invoke-Expression (Invoke-RestMethod "$BaseUrl/step-4/step-5-install.ps1")
 
 Write-Host ""
 Write-Host "  ==========================================================" -ForegroundColor Green
