@@ -183,6 +183,8 @@ If this is your first time, Claude will automatically open a browser and ask you
 
 Once you're in a Claude session, you can ask it questions, and it will help you through the rest of the process. This is where it stops being manual and starts being a conversation.
 
+> **Reminder:** You can press **Shift+Tab** in Warp at any time to toggle auto-approve permissions on or off without restarting Claude.
+
 #### Why auto-approve mode?
 
 When Claude runs in normal mode, it asks your permission before every single action. Every file it reads, every command it runs. During a setup that installs 10+ tools, that means dozens of approval prompts. There's no sound or notification when Claude is waiting for you, so if you look away for a moment, the whole process just sits there frozen until you come back and type "y".
@@ -253,7 +255,7 @@ In short, this is what takes you from "using AI" to actually being an AI super u
 
 ### Run Step 3
 
-You should still be in Warp from Step 2. If you closed it, open Warp and type `cskip` to start a new Claude session.
+You should still be in Warp from Step 2. If you closed it, open Warp and type `cskip` to start a new Claude session. Remember, you can press **Shift+Tab** at any time to toggle auto-approve on or off.
 
 Once you're inside the Claude session, paste this and hit Enter:
 
