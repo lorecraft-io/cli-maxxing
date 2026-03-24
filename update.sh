@@ -40,9 +40,15 @@ echo ""
 curl -fsSL "$BASE_URL/step-3/step-3-install.sh" | bash
 echo ""
 
+# Step 4
+echo -e "${YELLOW}>>> Running Step 4 — Design Tools${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-4/step-4-install.sh" | bash
+echo ""
+
 # Add new steps here as they're created
-# echo -e "${YELLOW}>>> Running Step 4 — ...${NC}"
-# curl -fsSL "$BASE_URL/step-4/step-4-install.sh" | bash
+# echo -e "${YELLOW}>>> Running Step 5 — ...${NC}"
+# curl -fsSL "$BASE_URL/step-5/step-5-install.sh" | bash
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
