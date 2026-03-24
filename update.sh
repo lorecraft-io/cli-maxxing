@@ -70,11 +70,17 @@ echo ""
 curl -fsSL "$BASE_URL/step-5/step-5d-wire-vault.sh" | bash
 echo ""
 
+# Step 6
+echo -e "${YELLOW}>>> Running Step 6 — Visual Media${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-6/step-6-install.sh" | bash
+echo ""
+
 # Add new steps here as they're created
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Update complete. Steps 1 through 5 are current.${NC}"
+echo -e "${GREEN}  Update complete. Steps 1 through 6 are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  Note: Steps 5b, 5c, and 5d are interactive. If you've"

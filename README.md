@@ -14,6 +14,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
 | [Step 5](#step-5---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 15-30+ min |
+| [Step 6](#step-6---visual-media) | Visual Media | Programmatic video creation with Remotion | ~3 min |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
@@ -36,7 +37,7 @@ Everything you need to start working with AI-powered development tools, installe
 
 [Back to top](#quick-nav)
 
-There are five steps. Run them in order. Each one builds on the last.
+There are six steps. Run them in order. Each one builds on the last.
 
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) and Warp (your new terminal) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like setting up your Warp account and logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
@@ -47,6 +48,8 @@ There are five steps. Run them in order. Each one builds on the last.
 **[Step 4](#step-4---design-tools)** gives Claude professional design skills and a library of production-ready UI components.
 
 **[Step 5](#step-5---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding.
+
+**[Step 6](#step-6---visual-media)** gives Claude the ability to create videos programmatically using React. Animations, captions, transitions, data visualizations — all generated from code.
 
 Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
 
@@ -591,6 +594,56 @@ If things don't look right, here are the most common issues and how to fix them.
 
 ---
 
+## Step 6 - Visual Media
+
+[Back to top](#quick-nav)
+
+This step gives Claude the ability to create videos programmatically using React. Instead of editing video in a timeline tool, you describe what you want and Claude writes code that generates the video. Animations, captions, transitions, data visualizations, 3D content — all from code.
+
+### Remotion
+
+Built by [@remotion-dev](https://github.com/remotion-dev) ([site](https://remotion.dev)). Remotion is a framework for creating videos using React. You write React components and Remotion renders them into actual video files.
+
+This is not screen recording or template filling. It's real programmatic video creation:
+
+- **React-based video.** Every frame is a React component. If you can build it in React, you can turn it into a video.
+- **Animations and transitions.** Spring animations, easing curves, scene transitions, text animations — all built in.
+- **Captions and subtitles.** Automatic caption generation and styling, synced to audio.
+- **Audio and sound.** Import audio, control volume, trim, adjust speed and pitch, add sound effects, visualize audio as waveforms or spectrum bars.
+- **3D content.** Three.js and React Three Fiber integration for 3D scenes in your videos.
+- **Charts and data viz.** Bar charts, pie charts, line charts, stock charts — animated and rendered as video.
+- **Maps.** Animated Mapbox maps in your videos.
+- **FFmpeg integration.** Trim videos, detect silence, process audio — the heavy-duty video operations.
+- **Parametric videos.** Define a schema and generate different versions of the same video with different data.
+
+The Remotion skill teaches Claude best practices, patterns, and techniques for all of these. Claude doesn't just know about Remotion — it knows the right way to use it.
+
+### Run Step 6
+
+You should still be in Warp. If you closed it, open Warp and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to install visual media tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-6/step-6-install.sh | bash
+> ```
+
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| Remotion Skills | Teaches Claude best practices for programmatic video creation with React — animations, transitions, captions, audio, 3D, charts, and more. |
+| FFmpeg | Powerful command-line tool for video and audio processing. Used by Remotion for rendering and by Claude for media operations. |
+
+### After Step 6
+
+You're now set up for visual media creation. Ask Claude to create a Remotion project and describe the video you want. Claude will scaffold the project, write the components, and you can render the output.
+
+---
+
 ## Video Tutorials *(coming soon)*
 
 [Back to top](#quick-nav)
@@ -603,7 +656,7 @@ Video walkthroughs for every step are coming soon. These will show you exactly w
 
 [Back to top](#quick-nav)
 
-This command re-runs all five steps (1 through 5), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
+This command re-runs all six steps (1 through 6), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
 
 Open Warp and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into Warp without Claude.
 
