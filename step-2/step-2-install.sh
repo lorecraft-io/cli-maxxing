@@ -427,7 +427,7 @@ print_summary() {
         echo -e "  ${YELLOW}Scroll up to see which ones and install them manually.${NC}"
         echo ""
     fi
-    echo "  Next: Run Script 2 to set up ClaudeFlow (coming soon)"
+    echo "  Next: Run Step 3 to set up ClaudeFlow (coming soon)"
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }

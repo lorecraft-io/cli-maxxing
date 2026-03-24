@@ -1,9 +1,9 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Step 1 — Get Claude Running (Windows)
+    Step 1 - Get Claude Running (Windows)
 .DESCRIPTION
-    Installs all prerequisites + Claude Code on Windows 10/11
+    Installs Git, Node.js, Warp Terminal, and Claude Code on Windows 10/11
     Uses winget (built into Windows 10 1709+ and Windows 11)
 .USAGE
     irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-1-install.ps1 | iex
@@ -19,7 +19,6 @@ function Write-Warn    { param([string]$Msg) Write-Host "[WARN] $Msg" -Foregroun
 function Write-Fail    { param([string]$Msg) Write-Host "[FAIL] $Msg" -ForegroundColor Red; exit 1 }
 function Write-SoftFail { param([string]$Msg) Write-Host "[FAIL] $Msg (non-critical, continuing...)" -ForegroundColor Red; $script:Errors++ }
 
-# --- Refresh PATH within this session ---
 function Refresh-Path {
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" +
                 [System.Environment]::GetEnvironmentVariable("Path", "User")
@@ -29,21 +28,18 @@ function Refresh-Path {
 # 1. Preflight checks
 # ==========================================================================
 function Test-Preflight {
-    # Block running as admin — matches the bash script's no-root policy
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($identity)
     if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         Write-Fail "Do not run this script as Administrator. Run as your normal user account."
     }
 
-    # Check Windows version (need Windows 10 1709+ for winget)
     $build = [System.Environment]::OSVersion.Version.Build
     if ($build -lt 16299) {
         Write-Fail "Windows 10 version 1709 or later is required (build 16299+). Current build: $build"
     }
     Write-Ok "Windows build $build meets requirements"
 
-    # Check internet
     try {
         $null = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/" -UseBasicParsing -TimeoutSec 5
         Write-Ok "Internet connectivity verified"
@@ -61,7 +57,6 @@ function Install-Winget {
     } else {
         Write-Info "winget not found. Attempting to install..."
         try {
-            # winget is part of App Installer — try to get it from the Store
             Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe
             Refresh-Path
             if (Get-Command winget -ErrorAction SilentlyContinue) {
@@ -91,7 +86,6 @@ function Install-WithWinget {
 
     Write-Info "Installing $DisplayName..."
     winget install --id $PackageId --accept-source-agreements --accept-package-agreements --silent 2>$null
-
     Refresh-Path
 
     if (Get-Command $TestCommand -ErrorAction SilentlyContinue) {
@@ -120,7 +114,7 @@ function Install-Node {
             Write-Ok "Node.js $(node -v) already installed (meets v18+ requirement)"
             return
         } else {
-            Write-Warn "Node.js $(node -v) found but too old — need v18+. Installing LTS..."
+            Write-Warn "Node.js $(node -v) found but too old. Need v18+. Installing LTS..."
         }
     }
 
@@ -136,164 +130,9 @@ function Install-Node {
 }
 
 # ==========================================================================
-# 5. Python 3
-# ==========================================================================
-function Install-Python {
-    if (Get-Command python3 -ErrorAction SilentlyContinue) {
-        Write-Ok "Python 3 already installed ($(python3 --version))"
-    } elseif (Get-Command python -ErrorAction SilentlyContinue) {
-        $pyVer = (python --version 2>&1).ToString()
-        if ($pyVer -match "Python 3") {
-            Write-Ok "Python 3 already installed ($pyVer)"
-        } else {
-            Write-Info "Installing Python 3..."
-            winget install --id Python.Python.3.12 --accept-source-agreements --accept-package-agreements --silent 2>$null
-            Refresh-Path
-        }
-    } else {
-        Write-Info "Installing Python 3..."
-        winget install --id Python.Python.3.12 --accept-source-agreements --accept-package-agreements --silent 2>$null
-        Refresh-Path
-    }
-
-    # Verify
-    $pyCmd = if (Get-Command python3 -ErrorAction SilentlyContinue) { "python3" }
-             elseif (Get-Command python -ErrorAction SilentlyContinue) { "python" }
-             else { $null }
-
-    if ($pyCmd) {
-        Write-Ok "Python available ($pyCmd)"
-        # Ensure pip
-        & $pyCmd -m pip --version 2>$null | Out-Null
-        if ($LASTEXITCODE -ne 0) {
-            Write-Info "Installing pip..."
-            & $pyCmd -m ensurepip --upgrade 2>$null
-        }
-        Write-Ok "pip available"
-    } else {
-        Write-Fail "Python 3 installation failed"
-    }
-
-    # Store which python command works for later use
-    $script:PythonCmd = $pyCmd
-}
-
-# ==========================================================================
-# 6. Pandoc
-# ==========================================================================
-function Install-Pandoc {
-    Install-WithWinget -PackageId "JohnMacFarlane.Pandoc" -DisplayName "Pandoc" -TestCommand "pandoc"
-}
-
-# ==========================================================================
-# 7. xlsx2csv (pip package)
-# ==========================================================================
-function Install-Xlsx2csv {
-    $check = & $script:PythonCmd -c "import xlsx2csv" 2>&1
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok "xlsx2csv already installed"
-        return
-    }
-
-    Write-Info "Installing xlsx2csv..."
-    & $script:PythonCmd -m pip install xlsx2csv --quiet 2>$null
-    if ($LASTEXITCODE -ne 0) {
-        # Try with --break-system-packages for newer Python
-        & $script:PythonCmd -m pip install --break-system-packages xlsx2csv --quiet 2>$null
-    }
-
-    $check2 = & $script:PythonCmd -c "import xlsx2csv" 2>&1
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok "xlsx2csv installed"
-    } else {
-        Write-SoftFail "xlsx2csv installation failed"
-    }
-}
-
-# ==========================================================================
-# 8. pdftotext (poppler)
-# ==========================================================================
-function Install-Pdftotext {
-    if (Get-Command pdftotext -ErrorAction SilentlyContinue) {
-        Write-Ok "pdftotext already installed"
-        return
-    }
-
-    Write-Info "Installing poppler (pdftotext)..."
-    # winget doesn't have poppler — try chocolatey if available, otherwise skip
-    if (Get-Command choco -ErrorAction SilentlyContinue) {
-        choco install poppler -y --no-progress 2>$null
-        Refresh-Path
-        if (Get-Command pdftotext -ErrorAction SilentlyContinue) {
-            Write-Ok "pdftotext installed"
-        } else {
-            Write-SoftFail "pdftotext installation failed — install Chocolatey and run: choco install poppler"
-        }
-    } else {
-        Write-SoftFail "pdftotext requires Chocolatey (choco install poppler) or manual install from: https://github.com/oschwartz10612/poppler-windows/releases"
-    }
-}
-
-# ==========================================================================
-# 9. jq
-# ==========================================================================
-function Install-Jq {
-    Install-WithWinget -PackageId "jqlang.jq" -DisplayName "jq" -TestCommand "jq"
-}
-
-# ==========================================================================
-# 10. ripgrep
-# ==========================================================================
-function Install-Ripgrep {
-    Install-WithWinget -PackageId "BurntSushi.ripgrep.MSVC" -DisplayName "ripgrep" -TestCommand "rg"
-}
-
-# ==========================================================================
-# 11. GitHub CLI
-# ==========================================================================
-function Install-Gh {
-    Install-WithWinget -PackageId "GitHub.cli" -DisplayName "GitHub CLI" -TestCommand "gh"
-}
-
-# ==========================================================================
-# 12. tree (built into Windows)
-# ==========================================================================
-function Install-Tree {
-    # tree.com is built into Windows
-    Write-Ok "tree is built into Windows"
-}
-
-# ==========================================================================
-# 13. fzf
-# ==========================================================================
-function Install-Fzf {
-    Install-WithWinget -PackageId "junegunn.fzf" -DisplayName "fzf" -TestCommand "fzf"
-}
-
-# ==========================================================================
-# 14. wget
-# ==========================================================================
-function Install-Wget {
-    if (Get-Command wget -ErrorAction SilentlyContinue) {
-        Write-Ok "wget already installed"
-        return
-    }
-
-    # PowerShell aliases wget to Invoke-WebRequest — check for real wget
-    $realWget = Get-Command wget.exe -ErrorAction SilentlyContinue
-    if ($realWget) {
-        Write-Ok "wget already installed"
-        return
-    }
-
-    Install-WithWinget -PackageId "JernejSimoncic.Wget" -DisplayName "wget" -TestCommand "wget"
-}
-
-# ==========================================================================
-# 15. Warp Terminal
+# 5. Warp Terminal
 # ==========================================================================
 function Install-Warp {
-    # Check if Warp is installed
     $warpPath = "$env:LOCALAPPDATA\Programs\Warp\Warp.exe"
     if (Test-Path $warpPath) {
         Write-Ok "Warp Terminal already installed"
@@ -320,20 +159,19 @@ function Install-Warp {
         Write-Host "  The key feature: press " -NoNewline
         Write-Host "Shift+Tab" -ForegroundColor Green -NoNewline
         Write-Host " while Claude is"
-        Write-Host "  running to toggle permissions on and off — no need to"
-        Write-Host "  exit and relaunch."
+        Write-Host "  running to toggle permissions on and off."
         Write-Host ""
         Write-Host "  After this script finishes, open Warp and run all"
         Write-Host "  future commands from there."
         Write-Host ""
         Write-Host "  ==========================================================" -ForegroundColor Blue
     } else {
-        Write-SoftFail "Warp Terminal installation failed — install manually: https://www.warp.dev"
+        Write-SoftFail "Warp Terminal installation failed. Install manually: https://www.warp.dev"
     }
 }
 
 # ==========================================================================
-# 16. Claude Code
+# 6. Claude Code
 # ==========================================================================
 function Install-ClaudeCode {
     if (Get-Command claude -ErrorAction SilentlyContinue) {
@@ -341,7 +179,6 @@ function Install-ClaudeCode {
     } else {
         Write-Info "Installing Claude Code..."
         npm install -g @anthropic-ai/claude-code 2>$null
-
         Refresh-Path
 
         if (Get-Command claude -ErrorAction SilentlyContinue) {
@@ -351,7 +188,7 @@ function Install-ClaudeCode {
         }
     }
 
-    # Add cskip function to PowerShell profile — launches Claude with auto-approve
+    # Add cskip function to PowerShell profile
     $profilePath = $PROFILE.CurrentUserAllHosts
     $profileDir = Split-Path $profilePath -Parent
     if (!(Test-Path $profileDir)) { New-Item -ItemType Directory -Path $profileDir -Force | Out-Null }
@@ -367,45 +204,66 @@ function Install-ClaudeCode {
 }
 
 # ==========================================================================
-# Auth prompt
+# Self-test
 # ==========================================================================
-function Show-AuthPrompt {
-    Write-Host ""
-    Write-Host "  ==========================================================" -ForegroundColor Yellow
-    Write-Host "    ACTION REQUIRED: Claude Code Login" -ForegroundColor Yellow
-    Write-Host "  ==========================================================" -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host "  Run this command to log in:"
-    Write-Host ""
-    Write-Host "    claude auth login" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "  This will open a browser window. Sign in with your"
-    Write-Host "  Anthropic account and approve the connection."
-    Write-Host ""
-    Write-Host "  After logging in, verify it worked with:"
-    Write-Host ""
-    Write-Host "    claude --version" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "  ==========================================================" -ForegroundColor Yellow
+function Test-AllTools {
     Write-Host ""
     Write-Host "  ==========================================================" -ForegroundColor Blue
-    Write-Host "    Two Ways to Launch Claude" -ForegroundColor Blue
+    Write-Host "    Running Self-Test" -ForegroundColor Blue
     Write-Host "  ==========================================================" -ForegroundColor Blue
     Write-Host ""
-    Write-Host "  Normal mode - Claude asks permission before each action:"
+
+    $pass = 0
+    $fail = 0
+
+    # Git
+    if (Get-Command git -ErrorAction SilentlyContinue) {
+        Write-Ok "TEST: Git - $(git --version)"
+        $pass++
+    } else { Write-SoftFail "TEST: Git - not found"; $fail++ }
+
+    # Node
+    if (Get-Command node -ErrorAction SilentlyContinue) {
+        $nodeMajor = (node -v) -replace 'v(\d+)\..*', '$1'
+        if ([int]$nodeMajor -ge 18) {
+            Write-Ok "TEST: Node.js $(node -v) - meets v18+ requirement"
+            $pass++
+        } else { Write-SoftFail "TEST: Node.js $(node -v) - too old, need v18+"; $fail++ }
+    } else { Write-SoftFail "TEST: Node.js - not found"; $fail++ }
+
+    # npm
+    if (Get-Command npm -ErrorAction SilentlyContinue) {
+        Write-Ok "TEST: npm v$(npm -v)"
+        $pass++
+    } else { Write-SoftFail "TEST: npm - not found"; $fail++ }
+
+    # Warp
+    $warpPath = "$env:LOCALAPPDATA\Programs\Warp\Warp.exe"
+    if ((Test-Path $warpPath) -or (Get-Command warp -ErrorAction SilentlyContinue)) {
+        Write-Ok "TEST: Warp Terminal - installed"
+        $pass++
+    } else { Write-SoftFail "TEST: Warp Terminal - not found"; $fail++ }
+
+    # Claude
+    if (Get-Command claude -ErrorAction SilentlyContinue) {
+        Write-Ok "TEST: Claude Code - $(claude --version 2>$null)"
+        $pass++
+    } else { Write-SoftFail "TEST: Claude Code - not found"; $fail++ }
+
+    # cskip
+    $profilePath = $PROFILE.CurrentUserAllHosts
+    if ((Test-Path $profilePath) -and (Select-String -Path $profilePath -Pattern "cskip" -Quiet -ErrorAction SilentlyContinue)) {
+        Write-Ok "TEST: cskip shortcut - configured"
+        $pass++
+    } else { Write-SoftFail "TEST: cskip shortcut - not found in profile"; $fail++ }
+
     Write-Host ""
-    Write-Host "    claude" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "  Auto-approve mode - Claude runs without asking (faster,"
-    Write-Host "  best for guided sessions and Script 1 setup):"
-    Write-Host ""
-    Write-Host "    cskip" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "  'cskip' is a shortcut we just added. It runs:"
-    Write-Host "  claude --dangerously-skip-permissions"
-    Write-Host ""
-    Write-Host "  You can switch between modes any time by exiting Claude"
-    Write-Host "  (type /exit) and relaunching with the other command."
+    if ($fail -eq 0) {
+        Write-Host "  All $pass tests passed." -ForegroundColor Green
+    } else {
+        Write-Host "  $pass passed, $fail failed." -ForegroundColor Yellow
+        Write-Host "  Scroll up to see what went wrong." -ForegroundColor Yellow
+    }
     Write-Host ""
     Write-Host "  ==========================================================" -ForegroundColor Blue
 }
@@ -416,42 +274,21 @@ function Show-AuthPrompt {
 function Show-Summary {
     Write-Host ""
     Write-Host "  ==========================================================" -ForegroundColor Green
-    Write-Host "    Script 0 Complete - Environment Ready" -ForegroundColor Green
+    Write-Host "    Step 1 Complete - Claude is Ready" -ForegroundColor Green
     Write-Host "  ==========================================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Installed:"
+    Write-Host "    Git            $(git --version 2>$null)"
+    Write-Host "    Node.js        $(node -v 2>$null)"
+    Write-Host "    npm            v$(npm -v 2>$null)"
 
-    $tools = @(
-        @("Git",        { git --version 2>$null }),
-        @("Node.js",    { node -v 2>$null }),
-        @("npm",        { npm -v 2>$null }),
-        @("Python",     { & $script:PythonCmd --version 2>$null }),
-        @("Pandoc",     { pandoc --version 2>$null | Select-Object -First 1 }),
-        @("xlsx2csv",   { & $script:PythonCmd -c "import xlsx2csv; print('installed')" 2>$null }),
-        @("pdftotext",  { if (Get-Command pdftotext -EA Silent) { "installed" } else { $null } }),
-        @("jq",         { jq --version 2>$null }),
-        @("ripgrep",    { rg --version 2>$null | Select-Object -First 1 }),
-        @("GitHub CLI", { gh --version 2>$null | Select-Object -First 1 }),
-        @("tree",       { "built-in" }),
-        @("fzf",        { fzf --version 2>$null }),
-        @("wget",       { if (Get-Command wget.exe -EA Silent) { "installed" } else { $null } }),
-        @("Warp",       { if ((Test-Path "$env:LOCALAPPDATA\Programs\Warp\Warp.exe") -or (Get-Command warp -EA Silent)) { "installed" } else { $null } }),
-        @("Claude Code",{ claude --version 2>$null })
-    )
-
-    foreach ($tool in $tools) {
-        $name = $tool[0].PadRight(15)
-        try {
-            $ver = & $tool[1]
-            if ($ver) {
-                Write-Host "    $name $ver"
-            } else {
-                Write-Host "    $name -" -ForegroundColor DarkGray
-            }
-        } catch {
-            Write-Host "    $name -" -ForegroundColor DarkGray
-        }
+    $warpPath = "$env:LOCALAPPDATA\Programs\Warp\Warp.exe"
+    if ((Test-Path $warpPath) -or (Get-Command warp -EA Silent)) {
+        Write-Host "    Warp Terminal  installed"
+    } else {
+        Write-Host "    Warp Terminal  -" -ForegroundColor DarkGray
     }
+    Write-Host "    Claude Code    $(claude --version 2>$null)"
 
     Write-Host ""
     if ($script:Errors -gt 0) {
@@ -459,11 +296,45 @@ function Show-Summary {
         Write-Host "  Scroll up to see which ones and install them manually." -ForegroundColor Yellow
         Write-Host ""
     }
-    Write-Host "  Next steps:"
-    Write-Host "    1. Log in to Claude Code (see above)"
-    Write-Host "    2. Run Script 1 to set up ClaudeFlow"
-    Write-Host ""
     Write-Host "  ==========================================================" -ForegroundColor Green
+}
+
+# ==========================================================================
+# Next steps
+# ==========================================================================
+function Show-NextSteps {
+    Write-Host ""
+    Write-Host "  ==========================================================" -ForegroundColor Yellow
+    Write-Host "    NEXT: Set Up Warp, Then Move to Step 2" -ForegroundColor Yellow
+    Write-Host "  ==========================================================" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "  1. Press " -NoNewline
+    Write-Host "Ctrl+C" -ForegroundColor Green -NoNewline
+    Write-Host " if anything is still running,"
+    Write-Host "     then close this window."
+    Write-Host ""
+    Write-Host "  2. Open " -NoNewline
+    Write-Host "Warp" -ForegroundColor Green -NoNewline
+    Write-Host " (it was just installed)."
+    Write-Host ""
+    Write-Host "  3. If Warp asks to create an account, sign up."
+    Write-Host "     The free plan is all you need."
+    Write-Host ""
+    Write-Host "  4. Go to Warp settings (Ctrl+Comma):"
+    Write-Host "     -> Features -> Default Mode -> set to " -NoNewline
+    Write-Host "Terminal" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "     If you see 'Agent Oz' instead of a terminal,"
+    Write-Host "     just press " -NoNewline
+    Write-Host "Esc" -ForegroundColor Green -NoNewline
+    Write-Host " to switch to the terminal view."
+    Write-Host ""
+    Write-Host "  5. Set up your Claude account at claude.ai"
+    Write-Host "     (you need a paid subscription, see the README)."
+    Write-Host ""
+    Write-Host "  6. Continue to Step 2 in the README."
+    Write-Host ""
+    Write-Host "  ==========================================================" -ForegroundColor Yellow
 }
 
 # ==========================================================================
@@ -472,29 +343,25 @@ function Show-Summary {
 function Main {
     Write-Host ""
     Write-Host "  ==========================================================" -ForegroundColor Blue
-    Write-Host "    Script 0 - Client Environment Setup (Windows)" -ForegroundColor Blue
-    Write-Host "    16 tools - Windows 10/11" -ForegroundColor Blue
+    Write-Host "    Step 1 - Get Claude Running (Windows)" -ForegroundColor Blue
+    Write-Host "    5 tools - Windows 10/11" -ForegroundColor Blue
     Write-Host "  ==========================================================" -ForegroundColor Blue
+    Write-Host ""
+    Write-Host "  Note: This script installs everything automatically, but" -ForegroundColor Yellow
+    Write-Host "  the steps AFTER it finishes (Warp setup, Claude login) are" -ForegroundColor Yellow
+    Write-Host "  manual. Claude won't be helping in your terminal yet." -ForegroundColor Yellow
+    Write-Host "  That starts after you complete the setup steps below." -ForegroundColor Yellow
     Write-Host ""
 
     Test-Preflight
     Install-Winget
     Install-Git
     Install-Node
-    Install-Python
-    Install-Pandoc
-    Install-Xlsx2csv
-    Install-Pdftotext
-    Install-Jq
-    Install-Ripgrep
-    Install-Gh
-    Install-Tree
-    Install-Fzf
-    Install-Wget
     Install-Warp
     Install-ClaudeCode
-    Show-AuthPrompt
+    Test-AllTools
     Show-Summary
+    Show-NextSteps
 }
 
 Main
