@@ -68,8 +68,7 @@ After Script 0 finishes, **open Warp and run all future scripts from there.** Yo
 
 Close your current terminal. Open **Warp** (it was just installed).
 
-- If Warp asks you to create an account, you can — **the free version is all you need.**
-- You can also skip sign-up and use it without an account.
+- Warp will ask you to create an account — go ahead and sign up. **The free plan is all you need.** No payment required for Warp.
 
 #### 2. Configure Warp
 
@@ -81,7 +80,18 @@ Before doing anything else, change one setting:
 
 This keeps Warp acting as a normal terminal so Claude Code runs properly.
 
-#### 3. Log in to Claude Code
+#### 3. Claude Code Subscription
+
+Claude Code requires a paid Anthropic account. The install is free, but to actually use it you'll need one of these:
+
+| Plan | Cost | Best for |
+|------|------|----------|
+| **Claude Pro** | $20/month | Most people — solid usage for day-to-day work |
+| **Claude Max** | $100/month | Heavy usage, long sessions, complex projects |
+
+Sign up at [claude.ai](https://claude.ai) if you don't already have an account. We recommend **Claude Pro** to start — you can always upgrade later if you need more.
+
+#### 4. Log in to Claude Code
 
 In Warp, paste:
 
@@ -91,7 +101,7 @@ claude auth login
 
 This opens a browser — sign in with your Anthropic account.
 
-#### 4. Verify it works
+#### 5. Verify it works
 
 ```bash
 claude --version
