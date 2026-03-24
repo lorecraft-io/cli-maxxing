@@ -1,4 +1,4 @@
-# AI Superuser Setup
+# AI Super User Setup
 
 Everything you need to start working with AI-powered development tools, installed in the right order with one command per step.
 
@@ -21,7 +21,7 @@ Sets up your machine with 16 essential tools. Detects your operating system auto
 Open Terminal and paste:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/script-0/script-0-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.sh | bash
 ```
 
 ### Windows
@@ -29,7 +29,7 @@ curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/mai
 Open PowerShell and paste:
 
 ```powershell
-irm https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/script-0/script-0-install.ps1 | iex
+irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.ps1 | iex
 ```
 
 ### What Script 0 Installs

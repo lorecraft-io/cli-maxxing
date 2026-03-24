@@ -6,7 +6,7 @@
     Installs all prerequisites + Claude Code on Windows 10/11
     Uses winget (built into Windows 10 1709+ and Windows 11)
 .USAGE
-    irm https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/script-0-install.ps1 | iex
+    irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0-install.ps1 | iex
 #>
 
 $ErrorActionPreference = "Continue"

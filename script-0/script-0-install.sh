@@ -28,8 +28,8 @@ detect_os() {
     case "$(uname -s)" in
         Darwin)       OS="mac" ;;
         Linux)        OS="linux" ;;
-        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/script-0-install.ps1 | iex" ;;
-        CYGWIN*)      fail "Cygwin detected. Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/script-0-install.ps1 | iex" ;;
+        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0-install.ps1 | iex" ;;
+        CYGWIN*)      fail "Cygwin detected. Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0-install.ps1 | iex" ;;
         *)            fail "Unsupported OS: $(uname -s). This script supports macOS and Linux.\nFor Windows, use the PowerShell version: script-0-install.ps1" ;;
     esac
     info "Detected OS: $OS"
