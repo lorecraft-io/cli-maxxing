@@ -603,9 +603,9 @@ Video walkthroughs for every step are coming soon. These will show you exactly w
 
 [Back to top](#quick-nav)
 
-New steps and updates get added to this repo over time. If you've already completed the steps above and want to make sure you have everything current, open Warp and run `cskip` to start a Claude session, then paste the update command. Claude will run it for you.
+This command re-runs all five steps (1 through 5), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
 
-Or if you prefer to run it directly without Claude, just paste the command into Warp on its own.
+Open Warp and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into Warp without Claude.
 
 > [!IMPORTANT]
 > **Paste this into your Claude session (or Warp directly):**

@@ -46,16 +46,38 @@ echo ""
 curl -fsSL "$BASE_URL/step-4/step-4-install.sh" | bash
 echo ""
 
-# Step 5 (vault setup only — imports are interactive)
+# Step 5a (vault structure)
 echo -e "${YELLOW}>>> Running Step 5a — Second Brain Vault Structure${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-5/step-5a-setup-vault.sh" | bash
+echo ""
+
+# Step 5b (Claude history import)
+echo -e "${YELLOW}>>> Running Step 5b — Import Claude History${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-5/step-5b-import-claude.sh" | bash
+echo ""
+
+# Step 5c (notes import)
+echo -e "${YELLOW}>>> Running Step 5c — Import Existing Notes${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-5/step-5c-import-notes.sh" | bash
+echo ""
+
+# Step 5d (wire it up)
+echo -e "${YELLOW}>>> Running Step 5d — Wire Up Vault${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-5/step-5d-wire-vault.sh" | bash
 echo ""
 
 # Add new steps here as they're created
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Update complete. Everything is current.${NC}"
+echo -e "${GREEN}  Update complete. Steps 1 through 5 are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo ""
+echo "  Note: Steps 5b, 5c, and 5d are interactive. If you've"
+echo "  already completed them before, they just verify your setup."
+echo "  If you haven't, follow the prompts to import your data."
 echo ""
