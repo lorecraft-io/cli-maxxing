@@ -540,7 +540,22 @@ install_warp() {
         fi
     fi
 
-    success "Warp Terminal installed — use Shift+Tab to toggle Claude permissions"
+    success "Warp Terminal installed"
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}  Why Warp?${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo "  Warp is your new terminal for working with Claude."
+    echo ""
+    echo "  The key feature: press ${GREEN}Shift+Tab${NC} while Claude is"
+    echo "  running to toggle permissions on and off — no need to"
+    echo "  exit and relaunch."
+    echo ""
+    echo "  After this script finishes, open Warp and run all"
+    echo "  future commands from there."
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }
 
 # -----------------------------------------------------------------------------

@@ -52,6 +52,16 @@ irm https://raw.githubusercontent.com/lorecraft-io/ai-superuser-setup/main/scrip
 | Warp Terminal | Modern terminal with Shift+Tab permissions toggle |
 | Claude Code | AI coding assistant |
 
+### Why Warp Terminal?
+
+Script 0 installs [Warp](https://www.warp.dev) as your terminal. Here's why:
+
+- **Shift+Tab to toggle permissions** — When Claude is running, press Shift+Tab to switch between normal mode (Claude asks before doing anything) and auto-approve mode (Claude just does it). No need to exit and relaunch.
+- **Built for AI workflows** — Warp is designed around working with AI in the terminal. It handles long-running output, code blocks, and multi-step processes better than a standard terminal.
+- **Works on Mac, Linux, and Windows** — Same experience everywhere.
+
+After Script 0 finishes, **open Warp and run all future scripts from there.** You can keep using your old terminal for other things, but Warp is where Claude works best.
+
 ### After Script 0
 
 The script will tell you to log in to Claude Code:

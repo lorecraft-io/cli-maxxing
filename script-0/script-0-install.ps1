@@ -309,7 +309,24 @@ function Install-Warp {
     Refresh-Path
 
     if ((Test-Path $warpPath) -or (Get-Command warp -ErrorAction SilentlyContinue)) {
-        Write-Ok "Warp Terminal installed — use Shift+Tab to toggle Claude permissions"
+        Write-Ok "Warp Terminal installed"
+        Write-Host ""
+        Write-Host "  ==========================================================" -ForegroundColor Blue
+        Write-Host "    Why Warp?" -ForegroundColor Blue
+        Write-Host "  ==========================================================" -ForegroundColor Blue
+        Write-Host ""
+        Write-Host "  Warp is your new terminal for working with Claude."
+        Write-Host ""
+        Write-Host "  The key feature: press " -NoNewline
+        Write-Host "Shift+Tab" -ForegroundColor Green -NoNewline
+        Write-Host " while Claude is"
+        Write-Host "  running to toggle permissions on and off — no need to"
+        Write-Host "  exit and relaunch."
+        Write-Host ""
+        Write-Host "  After this script finishes, open Warp and run all"
+        Write-Host "  future commands from there."
+        Write-Host ""
+        Write-Host "  ==========================================================" -ForegroundColor Blue
     } else {
         Write-SoftFail "Warp Terminal installation failed — install manually: https://www.warp.dev"
     }
