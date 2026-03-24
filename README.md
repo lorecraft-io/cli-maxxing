@@ -13,7 +13,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow--context-hub) | ClaudeFlow + Context Hub | Multi-agent orchestration, API docs, 75% cost savings | ~3 min |
-| [Step 4](#step-4---coming-soon) | Coming soon | | |
+| [Step 4](#step-4---coming-soon) | Coming soon | | Coming soon |
 | [Step 5](#step-5---coming-soon) | Coming soon | | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
@@ -264,7 +264,9 @@ You don't need to do anything to make this work. It's already configured. Just k
 
 This step installs ClaudeFlow, the layer that turns Claude from a single assistant into a full team of coordinated AI agents. Each agent focuses on a particular task, work is split up, done with more attention to detail: power in numbers. It also installs Context Hub, which makes sure those agents don't hallucinate when writing code that talks to external APIs.
 
-### What ClaudeFlow does
+### ClaudeFlow
+
+Built by [ruv](https://github.com/ruvnet/claude-flow). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
 
 Without ClaudeFlow, Claude works alone. One conversation, one task at a time. ClaudeFlow changes that completely:
 
@@ -274,7 +276,9 @@ Without ClaudeFlow, Claude works alone. One conversation, one task at a time. Cl
 - **Persistent memory.** ClaudeFlow has its own memory system that agents share. Context doesn't get lost between tasks or sessions. Your agents remember what they learned.
 - **Self-healing workflows.** If something fails, ClaudeFlow can detect it and recover automatically instead of just stopping.
 
-### What Context Hub does
+### Context Hub
+
+Built by [Andrew Ng](https://github.com/andrewyng/context-hub). Andrew is one of the most respected names in AI. He built this tool to solve a real problem: AI agents hallucinating API calls.
 
 When Claude writes code that calls an external API, it's working from its training data, which can be outdated or just wrong. Context Hub fixes that by giving Claude access to curated, up-to-date API documentation on demand.
 
@@ -292,12 +296,12 @@ Once you're inside the Claude session, paste this and hit Enter:
 
 **macOS / Linux:**
 ```
-run this command to set up ClaudeFlow: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.sh | bash
+run this command to set up ClaudeFlow and Context Hub: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.sh | bash
 ```
 
 **Windows:**
 ```
-run this command to set up ClaudeFlow: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.ps1 | iex
+run this command to set up ClaudeFlow and Context Hub: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-3/step-3-install.ps1 | iex
 ```
 
 Claude will run the install for you. Same as Step 2. If Claude tells you to restart your terminal, close the window, reopen Warp, type `cskip`, and let Claude know where you left off.
