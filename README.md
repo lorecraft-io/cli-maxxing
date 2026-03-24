@@ -39,7 +39,7 @@ This is the foundation. It installs the minimum needed to get Claude Code workin
 Open Terminal and paste:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-1-install.sh | bash
 ```
 
 ### Windows
@@ -47,7 +47,7 @@ curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/ma
 Open PowerShell and paste:
 
 ```powershell
-irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.ps1 | iex
+irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-1-install.ps1 | iex
 ```
 
 ### What Step 1 Installs
@@ -149,13 +149,13 @@ You can always switch back to normal mode later for regular work. This is just f
 In Warp, paste:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-2/step-2-install.sh | bash
 ```
 
 **Windows** (in Warp or PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.ps1 | iex
+irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-2/step-2-install.ps1 | iex
 ```
 
 ### What Step 2 Installs

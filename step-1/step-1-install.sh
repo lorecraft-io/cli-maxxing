@@ -2,9 +2,9 @@
 set -uo pipefail
 
 # =============================================================================
-# Script 0 — Get Claude Running
+# Step 1 — Get Claude Running
 # Installs: Xcode CLT/build-essential, Homebrew, Git, Node.js, Warp, Claude Code
-# Usage: curl -fsSL <hosted-url>/script-0/script-0-install.sh | bash
+# Usage: curl -fsSL <hosted-url>/step-1/step-1-install.sh | bash
 # =============================================================================
 
 RED='\033[0;31m'
@@ -28,9 +28,9 @@ detect_os() {
     case "$(uname -s)" in
         Darwin)       OS="mac" ;;
         Linux)        OS="linux" ;;
-        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.ps1 | iex" ;;
-        CYGWIN*)      fail "Cygwin detected. Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-0/script-0-install.ps1 | iex" ;;
-        *)            fail "Unsupported OS: $(uname -s). This script supports macOS and Linux.\nFor Windows, use the PowerShell version: script-0-install.ps1" ;;
+        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-1-install.ps1 | iex" ;;
+        CYGWIN*)      fail "Cygwin detected. Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-1-install.ps1 | iex" ;;
+        *)            fail "Unsupported OS: $(uname -s). This script supports macOS and Linux.\nFor Windows, use the PowerShell version: step-1-install.ps1" ;;
     esac
     info "Detected OS: $OS"
 
@@ -408,9 +408,9 @@ show_next_steps() {
     echo ""
     echo -e "     ${GREEN}cskip${NC}"
     echo ""
-    echo "  5. Run Script 1 to install dev tools:"
+    echo "  5. Run Step 2 to install dev tools:"
     echo ""
-    echo -e "     ${GREEN}curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.sh | bash${NC}"
+    echo -e "     ${GREEN}curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-2/step-2-install.sh | bash${NC}"
     echo ""
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }
@@ -421,7 +421,7 @@ show_next_steps() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Script 0 Complete — Claude is Ready${NC}"
+    echo -e "${GREEN}  Step 1 Complete — Claude is Ready${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo "  Installed:"
@@ -452,7 +452,7 @@ print_summary() {
 main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Script 0 — Get Claude Running${NC}"
+    echo -e "${BLUE}  Step 1 — Get Claude Running${NC}"
     echo -e "${BLUE}  5 tools • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""

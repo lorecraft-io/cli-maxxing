@@ -2,10 +2,10 @@
 set -uo pipefail
 
 # =============================================================================
-# Script 1 — Dev Tools
+# Step 2 — Dev Tools
 # Installs: Python, Pandoc, xlsx2csv, pdftotext, jq, ripgrep, gh, tree, fzf, wget
-# Run this in Warp after completing Script 0
-# Usage: curl -fsSL <hosted-url>/script-1/script-1-install.sh | bash
+# Run this in Warp after completing Step 1
+# Usage: curl -fsSL <hosted-url>/step-1/step-2-install.sh | bash
 # =============================================================================
 
 RED='\033[0;31m'
@@ -29,7 +29,7 @@ detect_os() {
     case "$(uname -s)" in
         Darwin)       OS="mac" ;;
         Linux)        OS="linux" ;;
-        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/script-1/script-1-install.ps1 | iex" ;;
+        MINGW*|MSYS*) fail "Windows detected (Git Bash). Run the PowerShell version instead:\n\n  irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-1/step-2-install.ps1 | iex" ;;
         *)            fail "Unsupported OS: $(uname -s)." ;;
     esac
     info "Detected OS: $OS"
@@ -42,16 +42,16 @@ detect_os() {
 }
 
 # -----------------------------------------------------------------------------
-# Verify Script 0 ran
+# Verify Step 1 ran
 # -----------------------------------------------------------------------------
 verify_prerequisites() {
     if ! command -v node &>/dev/null; then
-        fail "Node.js not found. Run Script 0 first."
+        fail "Node.js not found. Run Step 1 first."
     fi
     if ! command -v claude &>/dev/null; then
-        fail "Claude Code not found. Run Script 0 first."
+        fail "Claude Code not found. Run Step 1 first."
     fi
-    success "Script 0 prerequisites verified (Node.js + Claude Code)"
+    success "Step 1 prerequisites verified (Node.js + Claude Code)"
 }
 
 # -----------------------------------------------------------------------------
@@ -407,7 +407,7 @@ run_self_test() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Script 1 Complete — Dev Tools Installed${NC}"
+    echo -e "${GREEN}  Step 2 Complete — Dev Tools Installed${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo "  Installed:"
@@ -438,7 +438,7 @@ print_summary() {
 main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Script 1 — Dev Tools${NC}"
+    echo -e "${BLUE}  Step 2 — Dev Tools${NC}"
     echo -e "${BLUE}  10 tools • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
