@@ -5,7 +5,7 @@ set -uo pipefail
 # Step 2 — Dev Tools
 # Installs: Python, Pandoc, xlsx2csv, pdftotext, jq, ripgrep, gh, tree, fzf, wget
 # Run this in Warp after completing Step 1
-# Usage: curl -fsSL <hosted-url>/step-1/step-2-install.sh | bash
+# Usage: curl -fsSL <hosted-url>/step-2/step-2-install.sh | bash
 # =============================================================================
 
 RED='\033[0;31m'
