@@ -74,9 +74,23 @@ This keeps Warp acting as a normal terminal so Claude Code runs properly.
 
 > **If you see "Agent Oz" instead of a terminal:** Press the **Esc** key. This switches you back to the normal terminal view. That's also why we changed the default to Terminal — so this doesn't keep happening.
 
-#### 3. Claude Code Subscription
+#### 3. Set Up Your Claude Account (Do This Before Step 4)
 
-Claude Code requires a paid Anthropic account. The install is free, but to actually use it you'll need one of these:
+You need a Claude account with an active subscription before you can log in. **Do this now if you haven't already** — the login in Step 4 won't work without it.
+
+Sign up at [claude.ai](https://claude.ai).
+
+#### Why Claude?
+
+We use Claude because it's genuinely the best AI platform for the kind of work we do. It's not just marketing — Claude consistently outperforms other models at understanding complex instructions, writing clean code, and reasoning through multi-step problems without losing the thread.
+
+But beyond the tech, we chose Anthropic for how they build. Their CEO Dario Amodei left OpenAI specifically to take a more responsible approach to AI development. Anthropic leads on safety research, they're transparent about what their models can and can't do, and they build tools that are designed to be genuinely helpful rather than just impressive. That philosophy shows up in how Claude actually works — it's careful, honest, and doesn't try to BS you when it doesn't know something.
+
+In short: Claude is the smartest tool in the room, built by people who actually care about getting this right.
+
+#### Subscription Plans
+
+Claude Code requires a paid plan. The install is free, but to actually use it you'll need one of these:
 
 | Plan | Cost | What you get |
 |------|------|-------------|
@@ -85,8 +99,6 @@ Claude Code requires a paid Anthropic account. The install is free, but to actua
 | **Claude Max 20x** | $200/month | 20x the usage of Pro. For power users running complex, long-running tasks — things like full codebase refactors, multi-agent swarms, or all-day sessions. Virtually unlimited for most people. |
 
 **Our recommendation:** Start with **Pro** ($20/month). If you find yourself getting rate-limited or waiting for usage to reset, upgrade to Max. You'll know pretty quickly which tier fits your workflow.
-
-Sign up at [claude.ai](https://claude.ai) if you don't already have an account.
 
 #### 4. Log in to Claude Code
 
