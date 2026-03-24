@@ -36,7 +36,7 @@ Everything you need to start working with AI-powered development tools, installe
 
 [Back to top](#quick-nav)
 
-There are three steps. Run them in order. Each one builds on the last.
+There are five steps. Run them in order. Each one builds on the last.
 
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) and Warp (your new terminal) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like setting up your Warp account and logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
@@ -47,6 +47,12 @@ There are three steps. Run them in order. Each one builds on the last.
 **[Step 4](#step-4---design-tools)** gives Claude professional design skills and a library of production-ready UI components.
 
 **[Step 5](#step-5---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding.
+
+Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
+
+**[Video tutorials](#video-tutorials-coming-soon)** walking through every step are coming soon.
+
+Already done with everything? Use the **[Staying Up to Date](#staying-up-to-date)** command to catch any new steps or updates that have been added since your last visit.
 
 ### Already have Claude Code installed?
 
