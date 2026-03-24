@@ -13,7 +13,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow--context-hub) | ClaudeFlow + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
-| [Step 5](#step-5---coming-soon) | Coming soon | | |
+| [Step 5](#step-5---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 30-60 min |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
 ---
@@ -392,11 +392,189 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 
 ---
 
-## Step 5 - Coming Soon
+## Step 5 - Second Brain (Obsidian)
 
 [Back to top](#quick-nav)
 
-Details coming soon.
+This is the biggest step. It sets up your personal knowledge management system, a "Second Brain" that captures, connects, and retrieves everything you know and everything you're working on. This step takes real time. Don't rush it.
+
+> **Heads up:** This step has multiple parts (5a through 5d). Each one is its own script. Take them one at a time.
+
+### What is a Second Brain?
+
+Your brain is great at having ideas. It's terrible at storing them. You read an article, have an insight, learn something useful, and a week later it's gone. A Second Brain is a system outside your head that captures all of that, organizes it, and makes it findable later. Instead of trying to remember everything, you write it down in a structured way and let the system do the remembering for you.
+
+This isn't just note-taking. It's building a personal knowledge base that grows smarter over time. Every note you add connects to other notes. Over months and years, you end up with a web of knowledge that's uniquely yours.
+
+### What is Obsidian?
+
+[Obsidian](https://obsidian.md) is a free note-taking app that stores everything as plain text files on your computer. No cloud lock-in, no subscription required, your notes are just files in a folder. But the magic is in how Obsidian connects them.
+
+Every note can link to any other note using `[[wikilinks]]`. You type `[[` and start typing a concept, and Obsidian lets you link to it. Over time, these links create a web of connected knowledge that you can actually visualize.
+
+### What is Zettelkasten?
+
+Zettelkasten is a German word that means "slip box." It's a method for organizing knowledge that was invented by a sociologist named Niklas Luhmann who used it to write over 70 books and 400 academic papers. The core idea is simple:
+
+- **One idea per note.** Each note captures a single concept, written in your own words.
+- **Link everything.** Every note connects to related notes. The value isn't in any single note, it's in the connections between them.
+- **Let structure emerge.** You don't start with a rigid folder hierarchy. You start by writing notes and linking them, and the structure reveals itself over time.
+
+Obsidian is the perfect tool for Zettelkasten because it makes linking effortless and lets you see your entire knowledge web as a visual graph.
+
+### The Node Graph
+
+This is the part that clicks for most people. Obsidian has a graph view that shows every note as a dot and every link as a line between dots. When you first start, it's a handful of scattered points. But as you add notes and link them, clusters form. You can literally see which topics are deeply connected and which ones are isolated. It's your knowledge, visualized.
+
+The more you link, the more useful it gets. Claude will help you create these links automatically.
+
+### What You're About to Set Up
+
+The folder structure we use is based on Zettelkasten principles:
+
+| Folder | What goes in it |
+|--------|----------------|
+| **00-Inbox** | Raw captures. URLs, quick thoughts, anything unprocessed. This is your dumping ground. |
+| **01-Fleeting** | Quick ideas and thoughts, lightly formatted. Shower thoughts, observations, things you want to remember. |
+| **02-Literature** | Notes from articles, videos, books, podcasts. Summarized in your own words with a source link. |
+| **03-Permanent** | Refined, atomic notes. One clear concept per note, written as if explaining to someone else. Densely linked. These are the core of your knowledge graph. |
+| **04-MOC** | Maps of Content. Index notes that group and link related permanent notes. Think of these as tables of contents for topic areas. |
+| **05-Templates** | Note templates for each type above. Claude uses these when creating new notes. |
+| **06-Assets** | Images, PDFs, attachments. Anything that isn't a text note. |
+| **07-Projects** | Active projects. Each one gets its own folder with an index note. If you use Claude Projects, you can mirror your Claude project names here. |
+
+### Step 5a - Install Obsidian + Create Your Vault
+
+This part installs Obsidian on your machine and has Claude set up the full folder structure for you.
+
+**First, install Obsidian:**
+
+- **Mac:** Press **Cmd+Space**, type **Terminal** (or open **Warp** if you have it), and run: `brew install --cask obsidian`
+- **Windows:** Open PowerShell and run: `winget install Obsidian.Obsidian`
+- **Linux:** `sudo snap install obsidian` or download from [obsidian.md](https://obsidian.md)
+
+Or just go to [obsidian.md/download](https://obsidian.md/download) and download it directly.
+
+**Then, open Obsidian and create your vault:**
+
+1. Open Obsidian. **How to find it:** On Mac, press **Cmd+Space** and type **Obsidian**. On Windows, press the **Windows key** and type **Obsidian**.
+2. Click **Create new vault**
+3. Name it something you'll remember. "Brain" or "Second-Brain" or "Vault" all work fine.
+4. For the location, pick somewhere easy to find. We recommend your **Desktop** or a **Documents** folder. Don't bury it deep in some random directory.
+5. Click **Create**
+
+Obsidian will open with an empty vault. That's perfect. Now Claude will set it up for you.
+
+**Open Warp, run cskip, and paste this:**
+
+> [!IMPORTANT]
+> **macOS / Linux. Paste this into your Claude session:**
+> ```
+> run this command to set up my Second Brain vault structure: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5a-setup-vault.sh | bash
+> ```
+
+> [!IMPORTANT]
+> **Windows. Paste this into your Claude session:**
+> ```
+> run this command to set up my Second Brain vault structure: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5a-setup-vault.ps1 | iex
+> ```
+
+Claude will ask you where your vault is located, then create all the folders, templates, and the CLAUDE.md file that teaches Claude how to work with your vault going forward.
+
+### Step 5b - Import Your Claude History
+
+Before importing your other notes, let's get your Claude conversation history in first. This helps because some people name their vault project folders after their Claude Projects, and having that data available makes the whole organization process smoother.
+
+**Download your Claude data:**
+
+1. Go to [claude.ai](https://claude.ai) in your browser
+2. Click your profile icon (bottom left)
+3. Go to **Settings**
+4. Go to **Privacy**
+5. Click **Download my data** and select **All time** for the date range
+6. Click **Request download**
+7. Check your email. Anthropic will send you a download link. This can take a few minutes.
+8. Download the zip file and save it somewhere easy to find (like your Desktop)
+
+**Once you have the zip file, go back to your cskip session and paste this:**
+
+> [!IMPORTANT]
+> **macOS / Linux. Paste this into your Claude session:**
+> ```
+> run this command to import my Claude history into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5b-import-claude.sh | bash
+> ```
+
+> [!IMPORTANT]
+> **Windows. Paste this into your Claude session:**
+> ```
+> run this command to import my Claude history into my vault: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5b-import-claude.ps1 | iex
+> ```
+
+Claude will ask you where the zip file is, then parse your conversations into the right vault folders. It will create project folders based on your Claude Projects, convert conversation logs into literature notes, and start building connections.
+
+### Step 5c - Import Your Existing Notes
+
+Now let's get the rest of your notes in. If you have notes in Apple Notes, Google Keep, Notion, Evernote, or any other app, this step helps you export them and bring them into your vault.
+
+**For Apple Notes (Mac):**
+
+1. Download [Apple Notes Exporter](https://github.com/thijsve/apple-notes-exporter). This is a free app that exports your Apple Notes as files Claude can read.
+2. **How to find it after downloading:** Check your Downloads folder, or press **Cmd+Space** and type the app name.
+3. Open it, select the notes you want to export, and save them to a folder you can find easily.
+
+**For Windows (Sticky Notes / OneNote):**
+- For Sticky Notes, they're stored in a database file. Ask Claude to help you extract them.
+- For OneNote, export your notebooks as PDF or HTML from the OneNote app, then save them to a folder.
+
+**For other apps (Notion, Evernote, Google Keep):**
+- Most note apps have an export feature somewhere in their settings. Export as markdown if possible, HTML if not.
+- Save everything to a single folder.
+
+**Once you have your exported notes in a folder, go back to your cskip session and paste this:**
+
+> [!IMPORTANT]
+> **macOS / Linux. Paste this into your Claude session:**
+> ```
+> run this command to import my notes into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5c-import-notes.sh | bash
+> ```
+
+> [!IMPORTANT]
+> **Windows. Paste this into your Claude session:**
+> ```
+> run this command to import my notes into my vault: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5c-import-notes.ps1 | iex
+> ```
+
+Claude will ask you where your exported notes are, what format they're in, and then convert and organize them into your vault. It will handle file conversion (docx, pptx, xlsx, html all get converted to markdown), catch any corrupt files, and move everything into the Inbox for processing.
+
+### Step 5d - Wire It All Up
+
+This is where the magic happens. Claude goes through everything in your vault and connects it all together. This is the stuff that would take you hours to do manually. Claude does it in minutes.
+
+What Claude will do:
+- **Process your Inbox.** Sort raw captures into Fleeting, Literature, or Permanent notes based on what they are.
+- **Create wikilinks.** Find related concepts across your notes and link them together with `[[wikilinks]]`.
+- **Fix bidirectional links.** Make sure if Note A links to Note B, Note B also links back to Note A.
+- **Build Maps of Content.** Create MOC index notes that group related permanent notes by topic.
+- **Convert tables to bullet lists.** Obsidian's graph doesn't see links inside tables, so Claude converts them for better connectivity.
+- **Validate files.** Catch any corrupt, empty, or misplaced files.
+
+> [!IMPORTANT]
+> **macOS / Linux. Paste this into your Claude session:**
+> ```
+> run this command to wire up my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5d-wire-vault.sh | bash
+> ```
+
+> [!IMPORTANT]
+> **Windows. Paste this into your Claude session:**
+> ```
+> run this command to wire up my vault: irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/step-5/step-5d-wire-vault.ps1 | iex
+> ```
+
+After this runs, open Obsidian and click the **graph view** icon (it looks like a network of dots, in the left sidebar). You'll see your entire knowledge base visualized as connected nodes. The more you add and link over time, the more powerful this becomes.
+
+**Claude does the heavy lifting here.** The whole point of this setup is that you don't have to manually organize, link, or categorize anything. You dump things into the Inbox, and Claude (or you working with Claude) processes them into the right places. The system gets smarter as it grows.
+
+> **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take anywhere from 10 minutes to over an hour. Let Claude work. You can watch it go or come back when it's done.
 
 ---
 
