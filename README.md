@@ -13,7 +13,8 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow--context-hub) | ClaudeFlow + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
-| [Step 5](#step-5---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 30-60 min |
+| [Step 5](#step-5---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 15-30+ min |
+| [Video Tutorials](#video-tutorials) | Walkthroughs | Coming soon | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
 ---
@@ -595,7 +596,44 @@ After this runs, open Obsidian and click the **graph view** icon (it looks like 
 
 **Claude does the heavy lifting here.** The whole point of this setup is that you don't have to manually organize, link, or categorize anything. You dump things into the Inbox, and Claude (or you working with Claude) processes them into the right places. The system gets smarter as it grows.
 
-> **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take anywhere from 10 minutes to over an hour. Let Claude work. You can watch it go or come back when it's done.
+> **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 15-30+ minutes. Let Claude work. You can watch it go or come back when it's done.
+
+### Step 5 Troubleshooting
+
+If things don't look right, here are the most common issues and how to fix them. You can ask Claude to fix any of these for you.
+
+**Notes aren't showing connections in the graph:**
+- Open the graph view in Obsidian (left sidebar, looks like connected dots). If you see a bunch of isolated dots with no lines between them, your notes don't have wikilinks yet. Tell Claude: "Create wikilinks between related notes in my vault."
+- Take a screenshot of the graph and share it with Claude. Claude can see what's connected and what's not.
+
+**Wikilinks inside tables aren't showing in the graph:**
+- This is a known Obsidian limitation. Links inside markdown tables are invisible to the graph. Tell Claude: "Convert all wikilinks inside tables to bullet lists in my vault." This was an issue we hit during our own setup.
+
+**Bidirectional links are broken:**
+- If Note A links to Note B but Note B doesn't link back, the graph is incomplete. Tell Claude: "Fix all bidirectional links in my vault. If A links to B, make sure B links back to A."
+
+**Some files failed to convert:**
+- If Pandoc couldn't convert a file, it might be corrupt or in an unexpected format. Tell Claude: "Validate all files in my vault and flag anything that's corrupt or failed to convert."
+- We caught a fake PDF during our own setup (a file with a .pdf extension that was actually empty). Claude will catch these.
+
+**Frontmatter is missing on some notes:**
+- If notes don't have the YAML frontmatter block at the top, Obsidian can't filter or categorize them properly. Tell Claude: "Add proper frontmatter to any notes in my vault that are missing it."
+
+**The Inbox is still full after running 5d:**
+- Claude might have been conservative about categorizing some notes. Tell Claude: "Process everything remaining in my Inbox. Sort each note into the appropriate folder and create links."
+
+**You want to reorganize folders or rename projects:**
+- Just tell Claude. For example: "Rename the project folder WAGMI to WAGMI-HQ and update all links." Claude handles the renaming and fixes every reference.
+
+**General rule:** If something looks off, take a screenshot and show it to Claude. Or just describe the problem. Claude can read your vault, find the issue, and fix it. That's the whole point of this setup.
+
+---
+
+## Video Tutorials
+
+[Back to top](#quick-nav)
+
+Video walkthroughs for every step are coming soon. These will show you exactly what to do, screen by screen, so you can follow along at your own pace.
 
 ---
 

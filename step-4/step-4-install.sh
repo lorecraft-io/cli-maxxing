@@ -61,22 +61,14 @@ install_uiux_skill() {
     info "Installing UI/UX Pro Max Skill..."
     mkdir -p "$SKILL_DIR"
 
-    # Download the skill from the repo
-    SKILL_URL="https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/SKILL.md"
+    # Download the skill from the repo (file is CLAUDE.md in the repo, we save as SKILL.md)
+    SKILL_URL="https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/CLAUDE.md"
     curl -fsSL "$SKILL_URL" -o "$SKILL_DIR/SKILL.md" 2>/dev/null
 
     if [ -f "$SKILL_DIR/SKILL.md" ] && [ -s "$SKILL_DIR/SKILL.md" ]; then
         success "UI/UX Pro Max Skill installed at $SKILL_DIR"
     else
-        # Fallback: try alternate file locations in the repo
-        ALT_URL="https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/skill.md"
-        curl -fsSL "$ALT_URL" -o "$SKILL_DIR/SKILL.md" 2>/dev/null
-
-        if [ -f "$SKILL_DIR/SKILL.md" ] && [ -s "$SKILL_DIR/SKILL.md" ]; then
-            success "UI/UX Pro Max Skill installed at $SKILL_DIR"
-        else
-            soft_fail "Could not download skill file. Install manually from: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
-        fi
+        soft_fail "Could not download skill file. Install manually from: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
     fi
 }
 

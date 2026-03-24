@@ -46,9 +46,13 @@ echo ""
 curl -fsSL "$BASE_URL/step-4/step-4-install.sh" | bash
 echo ""
 
+# Step 5 (vault setup only — imports are interactive)
+echo -e "${YELLOW}>>> Running Step 5a — Second Brain Vault Structure${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-5/step-5a-setup-vault.sh" | bash
+echo ""
+
 # Add new steps here as they're created
-# echo -e "${YELLOW}>>> Running Step 5 — ...${NC}"
-# curl -fsSL "$BASE_URL/step-5/step-5-install.sh" | bash
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"

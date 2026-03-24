@@ -36,7 +36,7 @@ function Install-UIUXSkill {
     New-Item -ItemType Directory -Path $skillDir -Force | Out-Null
 
     try {
-        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/SKILL.md" -OutFile $skillFile -UseBasicParsing
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/CLAUDE.md" -OutFile $skillFile -UseBasicParsing
         if (Test-Path $skillFile) {
             Write-Ok "UI/UX Pro Max Skill installed"
         } else {
