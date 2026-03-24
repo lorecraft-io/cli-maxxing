@@ -12,6 +12,9 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---claudeflow) | ClaudeFlow | Multi-agent orchestration, 75% cost savings | ~3 min |
+| [Step 4](#step-4---context-hub-coming-soon) | Context Hub | Coming soon | |
+| [Step 5](#step-5---coming-soon) | Coming soon | | |
+| [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 
 ---
 
@@ -234,7 +237,7 @@ You don't need to do anything to make this work. It's already configured. Just k
 
 [Back to top](#quick-nav)
 
-This is the final step. It installs ClaudeFlow, the layer that turns Claude from a single assistant into a full team of coordinated AI agents.
+This step installs ClaudeFlow, the layer that turns Claude from a single assistant into a full team of coordinated AI agents.
 
 ### What ClaudeFlow does
 
@@ -278,8 +281,46 @@ Claude will run the install for you. Same as Step 2. If Claude tells you to rest
 
 ### After Step 3
 
-That's it. You're done. Your setup is complete.
+Your core setup is done. Open a new `cskip` session and try something ambitious. Ask Claude to build something, research something, or refactor something complex. You'll see ClaudeFlow kick in automatically when the task calls for it.
 
-Open a new `cskip` session and try something ambitious. Ask Claude to build something, research something, or refactor something complex. You'll see ClaudeFlow kick in automatically when the task calls for it.
+More steps are being added below. Check back or run the update command to stay current.
 
-Welcome to being an AI Super User.
+---
+
+## Step 4 - Context Hub *(coming soon)*
+
+[Back to top](#quick-nav)
+
+Details coming soon.
+
+---
+
+## Step 5 - Coming Soon
+
+[Back to top](#quick-nav)
+
+Details coming soon.
+
+---
+
+## Staying Up to Date
+
+[Back to top](#quick-nav)
+
+New steps and updates get added to this repo over time. If you've already completed the steps above and want to make sure you have everything current, run this command in Warp. It will re-run all steps, skip anything already installed, and pick up anything new.
+
+**macOS / Linux:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.sh | bash
+```
+
+**Windows:**
+```powershell
+irm https://raw.githubusercontent.com/lorecraft-io/ai-super-user-setup/main/update.ps1 | iex
+```
+
+---
+
+## More Coming Soon
+
+This setup is a living project. New steps, tools, and workflows will be added as they're ready. If you have the update command above, you'll always be able to catch up with one paste.

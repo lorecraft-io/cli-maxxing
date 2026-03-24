@@ -235,7 +235,7 @@ print_summary() {
     fi
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo -e "${GREEN}  Setup complete. You're an AI Super User now.${NC}"
+    echo "  Check the README for more steps as they're added."
     echo ""
 }
 
