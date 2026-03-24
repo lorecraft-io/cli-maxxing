@@ -594,6 +594,10 @@ What Claude will do:
 
 After this runs, open Obsidian and click the **graph view** icon (it looks like a network of dots, in the left sidebar). You'll see your entire knowledge base visualized as connected nodes. The more you add and link over time, the more powerful this becomes.
 
+**Connecting to GitHub (optional but recommended):**
+
+If you have GitHub repos, Claude can connect them to your vault. This means if information isn't in your notes, Claude can fall back to checking your actual code repos. Tell Claude your GitHub username or org name and it will map your repos to project folders. You need to be logged into GitHub CLI first (run `gh auth login` if you haven't).
+
 **Claude does the heavy lifting here.** The whole point of this setup is that you don't have to manually organize, link, or categorize anything. You dump things into the Inbox, and Claude (or you working with Claude) processes them into the right places. The system gets smarter as it grows.
 
 > **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 15-30+ minutes. Let Claude work. You can watch it go or come back when it's done.
