@@ -76,30 +76,30 @@ echo ""
 # Auto-link orphan files to their parent project
 info "Linking orphan files to parent projects..."
 LINK_COUNT=0
-find "$VAULT_PATH/07-Projects" -name '*.md' | while read f; do
+while IFS= read -r f; do
     if ! grep -q '\[\[' "$f" 2>/dev/null; then
         project=$(echo "$f" | sed "s|$VAULT_PATH/07-Projects/||" | cut -d'/' -f1)
         if [ -n "$project" ]; then
-            printf "\n\n---\n[[${project}]]\n" >> "$f"
+            printf "\n\n---\n[[%s]]\n" "$project" >> "$f"
             LINK_COUNT=$((LINK_COUNT + 1))
         fi
     fi
-done
+done < <(find "$VAULT_PATH/07-Projects" -name '*.md')
 success "Linked orphan files to parent projects"
 
 # Embed unlinked media files in project index notes
 info "Embedding unlinked media files..."
-find "$VAULT_PATH/07-Projects" -type f -not -name '*.md' | while read f; do
+while IFS= read -r f; do
     name=$(basename "$f")
     # Check if already embedded anywhere
-    if ! grep -rq "!\\[\\[${name}\\]\\]" "$VAULT_PATH" --include='*.md' 2>/dev/null; then
+    if ! grep -rq --include='*.md' "!\\[\\[${name}\\]\\]" "$VAULT_PATH" 2>/dev/null; then
         project=$(echo "$f" | sed "s|$VAULT_PATH/07-Projects/||" | cut -d'/' -f1)
         index="$VAULT_PATH/07-Projects/${project}/${project}.md"
         if [ -f "$index" ]; then
-            printf "\n![[${name}]]\n" >> "$index"
+            printf "\n![[%s]]\n" "$name" >> "$index"
         fi
     fi
-done
+done < <(find "$VAULT_PATH/07-Projects" -type f -not -name '*.md')
 success "Media files embedded"
 
 echo ""
