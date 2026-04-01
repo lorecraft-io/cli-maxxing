@@ -132,6 +132,10 @@ claude --version
 
 If you see a version number, you're good. If not, repeat steps 1 and 2.
 
+**4. Exit and switch to auto-approve mode:**
+
+Press **Ctrl+C** to exit Claude, then run `cskip` to continue with auto-approve mode (Claude runs without asking permission for each action). This is the recommended way to work through the remaining setup steps.
+
 ### After the Script Finishes
 
 #### 1a. Set Up Your Claude Account
@@ -373,7 +377,7 @@ While the UI/UX Pro Max Skill handles the design thinking, 21st.dev Magic handle
 **Setting up 21st.dev requires a free account.** The script will install the MCP connection, but you'll also need to do this:
 
 1. Go to [21st.dev](https://21st.dev) and create a free account. No payment needed to start.
-2. Once logged in, go to the MCP setup page and follow their instructions. They'll give you a command to run.
+2. Once logged in, go to the [Magic MCP setup page](https://21st.dev/magic-chat?mcp_section=true) and follow their instructions. They'll give you a command to run.
 3. If the auto-install didn't connect it, the setup page will walk you through it.
 
 ### Run Step 4
@@ -395,7 +399,7 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 
 1. Go to [21st.dev](https://21st.dev)
 2. Sign up for free (no payment required)
-3. Follow their MCP setup instructions. They'll give you a command to paste in your terminal.
+3. Go to the [Magic MCP setup page](https://21st.dev/magic-chat?mcp_section=true) and follow their instructions. They'll give you a command to paste in your terminal.
 4. Once connected, Claude will automatically use their component library when building UI.
 
 ### What This Step Installs

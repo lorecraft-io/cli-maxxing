@@ -125,7 +125,12 @@ install_homebrew() {
     else
         info "Installing Homebrew..."
         info "You may be prompted for your password."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        # Re-cache sudo in case Xcode CLT install took a long time (5 min timeout)
+        sudo -v 2>/dev/null || true
+        # NONINTERACTIVE=1 skips the "Press RETURN" prompt — the installer auto-sets
+        # this when stdin isn't a TTY, but being explicit is safer. sudo -v above
+        # ensures the cached credential is fresh so sudo -n succeeds.
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -380,6 +385,7 @@ show_next_steps() {
     echo -e "     ${GREEN}claude --version${NC}"
     echo ""
     echo "     If you see a version number, you're good to go."
+    echo -e "     You can press ${GREEN}Ctrl+C${NC} to exit, then type ${GREEN}cskip${NC} to continue with auto-approve mode."
     echo ""
     echo "  4. Set up your Claude account at claude.ai"
     echo "     (you need a paid subscription, see the README)."
