@@ -10,8 +10,8 @@ Everything you need to start working with AI-powered development tools, installe
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
 | [Keyboard + Command Cheat Sheet](CHEATSHEET.md) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
-| [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
+| [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts | ~3 min |
@@ -45,9 +45,9 @@ There are seven steps. Run them in order. Each one builds on the last.
 
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
-**[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
+**[Bonus: Ghostty](#bonus---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
 
-**[Bonus: Ghostty](#bonus---ghostty-terminal)** is an optional step right after Step 2 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
+**[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
 **[Step 3](#step-3---ruflo--context-hub)** is where you set up Ruflo and Context Hub. Ruflo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
 
@@ -186,78 +186,7 @@ Claude Code requires a paid plan. The software itself is free to install, but to
 
 **Our recommendation:** Start with **Pro** ($20/month). If you find yourself getting rate-limited or waiting for usage to reset, upgrade to Max. You'll know pretty quickly which tier fits your workflow.
 
-That's it for Step 1. Continue to Step 2.
-
----
-
-## Step 2 - Dev Tools
-
-[Back to top](#quick-nav)
-
-This step installs the development tools that Claude uses when working on your projects. Things like file converters, search tools, and other utilities that make Claude more capable.
-
-#### 2a. Open Your Terminal
-
-If you haven't already, open a fresh terminal window (press **Ctrl+C** first if something is still running in the old one, then close it).
-
-#### 2b. Launch Claude
-
-> [!IMPORTANT]
-> **Type this in your terminal and hit Enter:**
-> ```bash
-> cskip
-> ```
-
-If this is your first time, Claude will automatically open a browser and ask you to log in. Sign in with your Anthropic account.
-
-Once you're in a Claude session, you can ask it questions, and it will help you through the rest of the process. This is where it stops being manual and starts being a conversation.
-
-> **Reminder:** You can press **Shift+Tab** at any time to toggle auto-approve permissions on or off without restarting Claude.
-
-#### Why auto-approve mode?
-
-When Claude runs in normal mode, it asks your permission before every single action. Every file it reads, every command it runs. During a setup that installs 10+ tools, that means dozens of approval prompts. There's no sound or notification when Claude is waiting for you, so if you look away for a moment, the whole process just sits there frozen until you come back and type "y".
-
-**Auto-approve mode (`cskip`) lets Claude run without stopping to ask.** It will install everything in one smooth pass. You can watch it work in real time, you just don't have to babysit it.
-
-You can always switch back to normal mode later for regular work. This is just for setup.
-
-#### 2c. Run the install
-
-Once you're inside the Claude session, paste this and hit Enter:
-
-> [!IMPORTANT]
-> **Paste this into your Claude session:**
-> ```
-> run this command to install my dev tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-2/step-2-install.sh | bash
-> ```
-
-
-Claude will run the install for you. You can watch it work. If Claude tells you to restart your terminal at any point, just close the window, reopen your terminal, type `cskip` again, and let Claude know where you left off. It'll pick right back up.
-
-### What This Step Installs
-
-These are the tools that Claude will install for you:
-
-| Tool | What it does |
-|------|-------------|
-| Python 3 + pip | This runs Python scripts and tools. |
-| Pandoc | This converts documents like Word and PowerPoint files into text. |
-| xlsx2csv | This converts spreadsheets into a readable format. |
-| pdftotext | This extracts text from PDF files. |
-| jq | This reads and edits config files. |
-| ripgrep | This searches through code fast. Claude Code uses it internally. |
-| GitHub CLI | This lets you manage GitHub from your terminal. |
-| tree | This shows your folder structure visually. |
-| fzf | This helps you find files and commands quickly. |
-| wget | This downloads files from the web. |
-| Memory auto-save hook | This makes Claude automatically save important notes from your conversation when you end a session. You don't have to do anything. It just works in the background. |
-
-### What's the memory hook?
-
-Step 2 also sets up something called a "stop hook." Every time you end a Claude session (by pressing Ctrl+C or typing `/exit`), Claude will automatically review the conversation and save anything important to memory. Things like decisions you made, preferences you mentioned, or context about what you were working on. Next time you start a session, Claude already knows that stuff. You don't have to repeat yourself.
-
-You don't need to do anything to make this work. It's already configured. Just keep using Claude normally and it'll build up memory over time.
+That's it for Step 1. Continue to the [Ghostty bonus](#bonus---ghostty-terminal) or jump straight to [Step 2](#step-2---dev-tools).
 
 ---
 
@@ -332,6 +261,77 @@ Edit it with any text editor. Changes take effect the next time you open a Ghost
 | `macos-titlebar-style` | Window style: `native`, `tabs`, or `transparent` | `tabs` |
 
 Full docs: [ghostty.org/docs](https://ghostty.org/docs)
+
+---
+
+## Step 2 - Dev Tools
+
+[Back to top](#quick-nav)
+
+This step installs the development tools that Claude uses when working on your projects. Things like file converters, search tools, and other utilities that make Claude more capable.
+
+#### 2a. Open Your Terminal
+
+If you haven't already, open a fresh terminal window (press **Ctrl+C** first if something is still running in the old one, then close it).
+
+#### 2b. Launch Claude
+
+> [!IMPORTANT]
+> **Type this in your terminal and hit Enter:**
+> ```bash
+> cskip
+> ```
+
+If this is your first time, Claude will automatically open a browser and ask you to log in. Sign in with your Anthropic account.
+
+Once you're in a Claude session, you can ask it questions, and it will help you through the rest of the process. This is where it stops being manual and starts being a conversation.
+
+> **Reminder:** You can press **Shift+Tab** at any time to toggle auto-approve permissions on or off without restarting Claude.
+
+#### Why auto-approve mode?
+
+When Claude runs in normal mode, it asks your permission before every single action. Every file it reads, every command it runs. During a setup that installs 10+ tools, that means dozens of approval prompts. There's no sound or notification when Claude is waiting for you, so if you look away for a moment, the whole process just sits there frozen until you come back and type "y".
+
+**Auto-approve mode (`cskip`) lets Claude run without stopping to ask.** It will install everything in one smooth pass. You can watch it work in real time, you just don't have to babysit it.
+
+You can always switch back to normal mode later for regular work. This is just for setup.
+
+#### 2c. Run the install
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to install my dev tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-2/step-2-install.sh | bash
+> ```
+
+
+Claude will run the install for you. You can watch it work. If Claude tells you to restart your terminal at any point, just close the window, reopen your terminal, type `cskip` again, and let Claude know where you left off. It'll pick right back up.
+
+### What This Step Installs
+
+These are the tools that Claude will install for you:
+
+| Tool | What it does |
+|------|-------------|
+| Python 3 + pip | This runs Python scripts and tools. |
+| Pandoc | This converts documents like Word and PowerPoint files into text. |
+| xlsx2csv | This converts spreadsheets into a readable format. |
+| pdftotext | This extracts text from PDF files. |
+| jq | This reads and edits config files. |
+| ripgrep | This searches through code fast. Claude Code uses it internally. |
+| GitHub CLI | This lets you manage GitHub from your terminal. |
+| tree | This shows your folder structure visually. |
+| fzf | This helps you find files and commands quickly. |
+| wget | This downloads files from the web. |
+| Memory auto-save hook | This makes Claude automatically save important notes from your conversation when you end a session. You don't have to do anything. It just works in the background. |
+
+### What's the memory hook?
+
+Step 2 also sets up something called a "stop hook." Every time you end a Claude session (by pressing Ctrl+C or typing `/exit`), Claude will automatically review the conversation and save anything important to memory. Things like decisions you made, preferences you mentioned, or context about what you were working on. Next time you start a session, Claude already knows that stuff. You don't have to repeat yourself.
+
+You don't need to do anything to make this work. It's already configured. Just keep using Claude normally and it'll build up memory over time.
 
 ---
 
@@ -839,8 +839,8 @@ Run the steps in this order:
 | Step | Name | What it does |
 |------|------|-------------|
 | 1 | CLI Basics | Git, Node.js, Claude Code, shell aliases |
-| 2 | Dev Tools | Python, Pandoc, jq, ripgrep, etc. |
 | Bonus | Ghostty Terminal | GPU-accelerated terminal (optional) |
+| 2 | Dev Tools | Python, Pandoc, jq, ripgrep, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
 | 5 | Visual Media | Remotion + YouTube Transcripts + FFmpeg |

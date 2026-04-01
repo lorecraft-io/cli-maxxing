@@ -162,6 +162,29 @@ else
 fi
 
 # -----------------------------------------------------------------------------
+# Step 2 — Dev Tools (brew packages)
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Step 2: Dev Tools ---${NC}"
+
+for tool in pandoc poppler jq ripgrep gh tree fzf wget; do
+    if command -v "$tool" &>/dev/null || brew list "$tool" &>/dev/null 2>&1; then
+        brew uninstall "$tool" 2>/dev/null || true
+        success "brew: $tool"
+    else
+        skip "brew: $tool (not found)"
+    fi
+done
+
+# xlsx2csv (pip)
+if python3 -c "import xlsx2csv" 2>/dev/null; then
+    python3 -m pip uninstall xlsx2csv -y 2>/dev/null || true
+    success "pip: xlsx2csv"
+else
+    skip "pip: xlsx2csv (not found)"
+fi
+
+# -----------------------------------------------------------------------------
 # Bonus — Ghostty Config (remove config only, keep the app)
 # -----------------------------------------------------------------------------
 echo ""
@@ -188,29 +211,6 @@ if brew list duti &>/dev/null 2>&1; then
     success "brew: duti"
 else
     skip "brew: duti (not found)"
-fi
-
-# -----------------------------------------------------------------------------
-# Step 2 — Dev Tools (brew packages)
-# -----------------------------------------------------------------------------
-echo ""
-echo -e "${BLUE}--- Step 2: Dev Tools ---${NC}"
-
-for tool in pandoc poppler jq ripgrep gh tree fzf wget; do
-    if command -v "$tool" &>/dev/null || brew list "$tool" &>/dev/null 2>&1; then
-        brew uninstall "$tool" 2>/dev/null || true
-        success "brew: $tool"
-    else
-        skip "brew: $tool (not found)"
-    fi
-done
-
-# xlsx2csv (pip)
-if python3 -c "import xlsx2csv" 2>/dev/null; then
-    python3 -m pip uninstall xlsx2csv -y 2>/dev/null || true
-    success "pip: xlsx2csv"
-else
-    skip "pip: xlsx2csv (not found)"
 fi
 
 # -----------------------------------------------------------------------------

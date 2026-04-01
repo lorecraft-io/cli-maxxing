@@ -28,16 +28,16 @@ echo ""
 curl -fsSL "$BASE_URL/step-1/step-1-install.sh" | bash
 echo ""
 
-# Step 2
-echo -e "${YELLOW}>>> Running Step 2 — Dev Tools${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-2/step-2-install.sh" | bash
-echo ""
-
 # Bonus — Ghostty Terminal (optional, won't reinstall if already present)
 echo -e "${YELLOW}>>> Running Bonus — Ghostty Terminal${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-2/bonus-ghostty.sh" | bash
+echo ""
+
+# Step 2
+echo -e "${YELLOW}>>> Running Step 2 — Dev Tools${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-2/step-2-install.sh" | bash
 echo ""
 
 # Step 3
