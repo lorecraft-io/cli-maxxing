@@ -278,7 +278,7 @@ CBRAIN_EOF
     chmod +x "$HOME/.local/bin/cbrain"
     success "cbrain command installed to ~/.local/bin/cbrain"
 
-    # Install cbraintg command (c2danger + Telegram channel)
+    # Install cbraintg command (cbrain + Telegram channel, auto mode)
     info "Installing cbraintg command to ~/.local/bin..."
     cat > "$HOME/.local/bin/cbraintg" << 'CBRAINTG_EOF'
 #!/usr/bin/env bash
@@ -287,10 +287,24 @@ if [ ! -d "$VAULT" ]; then
   echo "Error: 2ndBrain vault not found at $VAULT"
   exit 1
 fi
-cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"
+cd "$VAULT" && exec claude --permission-mode auto --channels plugin:telegram@claude-plugins-official "$@"
 CBRAINTG_EOF
     chmod +x "$HOME/.local/bin/cbraintg"
     success "cbraintg command installed to ~/.local/bin/cbraintg"
+
+    # Install c2tgdanger command (c2danger + Telegram channel, skip-permissions)
+    info "Installing c2tgdanger command to ~/.local/bin..."
+    cat > "$HOME/.local/bin/c2tgdanger" << 'C2TGDANGER_EOF'
+#!/usr/bin/env bash
+VAULT="$HOME/Desktop/2ndBrain"
+if [ ! -d "$VAULT" ]; then
+  echo "Error: 2ndBrain vault not found at $VAULT"
+  exit 1
+fi
+cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"
+C2TGDANGER_EOF
+    chmod +x "$HOME/.local/bin/c2tgdanger"
+    success "c2tgdanger command installed to ~/.local/bin/c2tgdanger"
 }
 
 # -----------------------------------------------------------------------------
@@ -388,6 +402,15 @@ run_self_test() {
         TEST_PASS=$((TEST_PASS + 1))
     else
         soft_fail "TEST: cbraintg command — not found or not executable"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
+    # c2tgdanger command
+    if [ -x "$HOME/.local/bin/c2tgdanger" ]; then
+        success "TEST: c2tgdanger command — installed at ~/.local/bin/c2tgdanger"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: c2tgdanger command — not found or not executable"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 

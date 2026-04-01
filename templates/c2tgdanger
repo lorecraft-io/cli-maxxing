@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# c2tgdanger — Launch Claude Code in 2ndBrain vault with skip-permissions + Telegram channel
+
+VAULT="$HOME/Desktop/2ndBrain"
+
+if [ ! -d "$VAULT" ]; then
+  echo "Error: 2ndBrain vault not found at $VAULT"
+  exit 1
+fi
+
+cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"

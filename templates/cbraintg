@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# cbraintg — Launch Claude Code in 2ndBrain vault with Telegram channel
+# cbraintg — Launch Claude Code in 2ndBrain vault with auto mode + Telegram channel
 
 VAULT="$HOME/Desktop/2ndBrain"
 
@@ -8,4 +8,4 @@ if [ ! -d "$VAULT" ]; then
   exit 1
 fi
 
-cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"
+cd "$VAULT" && exec claude --permission-mode auto --channels plugin:telegram@claude-plugins-official "$@"
