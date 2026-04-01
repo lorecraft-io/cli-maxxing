@@ -13,7 +13,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
-| [Step 5](#step-5---visual-media) | Visual Media | Programmatic video creation with Remotion | ~3 min |
+| [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts | ~3 min |
 | [Step 6](#step-6---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 15-30+ min |
 | [Step 7](#step-7---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
 | [Quick Reference](#quick-reference--commands--shortcuts) | Commands & Shortcuts | Every command and shortcut from all steps in one place | |
@@ -49,7 +49,7 @@ There are seven steps. Run them in order. Each one builds on the last.
 
 **[Step 4](#step-4---design-tools)** gives Claude professional design skills and a library of production-ready UI components.
 
-**[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React. Animations, captions, transitions, data visualizations — all generated from code.
+**[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, and pull transcripts from any YouTube video. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link.
 
 **[Step 6](#step-6---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
@@ -418,7 +418,7 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 
 [Back to top](#quick-nav)
 
-This step gives Claude the ability to create videos programmatically using React. Instead of editing video in a timeline tool, you describe what you want and Claude writes code that generates the video. Animations, captions, transitions, data visualizations, 3D content — all from code.
+This step gives Claude the ability to create videos programmatically using React, and pull transcripts from any YouTube video. Instead of editing video in a timeline tool, you describe what you want and Claude writes code that generates the video. Animations, captions, transitions, data visualizations, 3D content — all from code. Need a transcript? Just paste a YouTube link.
 
 ### Remotion
 
@@ -438,6 +438,18 @@ This is not screen recording or template filling. It's real programmatic video c
 
 The Remotion skill teaches Claude best practices, patterns, and techniques for all of these. Claude doesn't just know about Remotion — it knows the right way to use it.
 
+### YouTube Transcripts
+
+Built by [@kimtaeyoon83](https://github.com/kimtaeyoon83/mcp-server-youtube-transcript). This MCP server pulls transcripts from any YouTube video — no API key, no paid service, completely free.
+
+- **Just paste a link.** Give Claude a YouTube URL and ask for the transcript. That's it.
+- **Language support.** Request transcripts in any available language with automatic fallback.
+- **Timestamps.** Include or exclude timestamps in the output.
+- **Ad filtering.** Sponsorship and ad segments are stripped out automatically.
+- **Works with Shorts.** YouTube Shorts URLs and bare video IDs work too.
+
+This is useful for research, content repurposing, note-taking, summarizing videos, or feeding video content into your Second Brain.
+
 ### Run Step 5
 
 You should still be in Warp. If you closed it, open Warp and type `cskip` to start a new Claude session.
@@ -456,11 +468,12 @@ Once you're inside the Claude session, paste this and hit Enter:
 | Component | What it does |
 |-----------|-------------|
 | Remotion Skills | Teaches Claude best practices for programmatic video creation with React — animations, transitions, captions, audio, 3D, charts, and more. |
+| YouTube Transcript MCP | Pulls transcripts from any YouTube video. Free, no API key needed. Supports language selection, timestamps, and ad filtering. |
 | FFmpeg | Powerful command-line tool for video and audio processing. Used by Remotion for rendering and by Claude for media operations. |
 
 ### After Step 5
 
-You're now set up for visual media creation. Ask Claude to create a Remotion project and describe the video you want. Claude will scaffold the project, write the components, and you can render the output.
+You're now set up for visual media creation. Ask Claude to create a Remotion project and describe the video you want. Claude will scaffold the project, write the components, and you can render the output. You can also paste any YouTube link and ask Claude for the transcript — it'll pull it automatically.
 
 ---
 
@@ -726,7 +739,7 @@ Run the steps in this order:
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
-| 5 | Visual Media | Remotion + FFmpeg |
+| 5 | Visual Media | Remotion + YouTube Transcripts + FFmpeg |
 | 6 | Second Brain | Obsidian vault setup + data import (6a-6d) |
 | **7** | **Status Line** | **Final config — status indicators, system health check** |
 
@@ -810,6 +823,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 | 21st.dev Magic | Step 4 | Natural language — building components, pulls from 21st.dev library | "Create a hero section with a CTA" |
 | Context Hub | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
+| YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.

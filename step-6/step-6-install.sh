@@ -78,6 +78,27 @@ install_remotion_skills() {
 }
 
 # -----------------------------------------------------------------------------
+# Install YouTube Transcript MCP (free transcript extraction from YouTube)
+# -----------------------------------------------------------------------------
+install_youtube_transcript() {
+    info "Installing YouTube Transcript MCP server..."
+
+    # Check if already registered
+    if claude mcp list 2>/dev/null | grep -q "youtube-transcript"; then
+        success "YouTube Transcript MCP already installed"
+        return
+    fi
+
+    claude mcp add --scope user youtube-transcript -- npx -y @kimtaeyoon83/mcp-server-youtube-transcript 2>/dev/null
+
+    if claude mcp list 2>/dev/null | grep -q "youtube-transcript"; then
+        success "YouTube Transcript MCP installed"
+    else
+        soft_fail "YouTube Transcript MCP installation could not be verified"
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # Install FFmpeg (needed for video processing features)
 # -----------------------------------------------------------------------------
 install_ffmpeg() {
@@ -125,6 +146,15 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
+    # YouTube Transcript MCP registered
+    if claude mcp list 2>/dev/null | grep -q "youtube-transcript"; then
+        success "TEST: YouTube Transcript MCP registered"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: YouTube Transcript MCP not registered"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
     # FFmpeg available
     if command -v ffmpeg &>/dev/null; then
         success "TEST: FFmpeg available"
@@ -163,15 +193,17 @@ print_summary() {
     echo -e "${GREEN}  Step 6 Complete — Visual Media Tools are Ready${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo "  Remotion is now available in Claude Code."
+    echo "  Remotion and YouTube Transcripts are now available in Claude Code."
     echo ""
     echo "  What you can do now:"
     echo "    - Create videos programmatically with React"
     echo "    - Add animations, transitions, captions, and 3D content"
     echo "    - Process audio and video with FFmpeg"
     echo "    - Generate data visualizations as video"
+    echo "    - Pull transcripts from any YouTube video"
     echo ""
-    echo "  Try it: ask Claude to create a Remotion video project."
+    echo "  Try it: ask Claude to create a Remotion video project,"
+    echo "  or paste a YouTube link and ask for the transcript."
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
         echo -e "  ${YELLOW}Warnings: $ERRORS issue(s) detected.${NC}"
@@ -198,6 +230,7 @@ main() {
     detect_os
     verify_prerequisites
     install_remotion_skills
+    install_youtube_transcript
     install_ffmpeg
     run_self_test
     print_summary
