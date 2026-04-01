@@ -220,8 +220,8 @@ else
     skip "Shell aliases (not found in $SHELL_RC)"
 fi
 
-# cbrain and cbraintg commands
-for cmd in cbrain cbraintg; do
+# c2danger and cbraintg commands
+for cmd in c2danger cbraintg; do
     if [ -f "$HOME/.local/bin/$cmd" ]; then
         rm -f "$HOME/.local/bin/$cmd"
         success "$cmd command"

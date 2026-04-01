@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# cbrain — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
+# c2danger — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
 
 VAULT="$HOME/Desktop/2ndBrain"
 

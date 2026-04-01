@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# cbrain installer — adds cbrain command to ~/.local/bin
+# c2danger installer — adds c2danger command to ~/.local/bin
 
-install_cbrain() {
+install_c2danger() {
   local BIN_DIR="$HOME/.local/bin"
   mkdir -p "$BIN_DIR"
 
-  cat > "$BIN_DIR/cbrain" << 'EOF'
+  cat > "$BIN_DIR/c2danger" << 'EOF'
 #!/usr/bin/env bash
-# cbrain — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
+# c2danger — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
 VAULT="$HOME/Desktop/2ndBrain"
 if [ ! -d "$VAULT" ]; then
   echo "Error: 2ndBrain vault not found at $VAULT"
@@ -16,7 +16,7 @@ fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions "$@"
 EOF
 
-  chmod +x "$BIN_DIR/cbrain"
+  chmod +x "$BIN_DIR/c2danger"
 
   # Ensure ~/.local/bin is in PATH
   local SHELL_RC="$HOME/.zshrc"
@@ -26,7 +26,7 @@ EOF
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
   fi
 
-  echo "[OK] cbrain installed at $BIN_DIR/cbrain"
+  echo "[OK] c2danger installed at $BIN_DIR/c2danger"
 }
 
-install_cbrain
+install_c2danger

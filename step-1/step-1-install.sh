@@ -250,9 +250,9 @@ install_claude_code() {
         success "All shortcuts already configured (cskip, cauto, cc, ccr, ccc)"
     fi
 
-    # Install cbrain command
-    info "Installing cbrain command to ~/.local/bin..."
-    cat > "$HOME/.local/bin/cbrain" << 'CBRAIN_EOF'
+    # Install c2danger command
+    info "Installing c2danger command to ~/.local/bin..."
+    cat > "$HOME/.local/bin/c2danger" << 'C2DANGER_EOF'
 #!/usr/bin/env bash
 VAULT="$HOME/Desktop/2ndBrain"
 if [ ! -d "$VAULT" ]; then
@@ -260,11 +260,11 @@ if [ ! -d "$VAULT" ]; then
   exit 1
 fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions "$@"
-CBRAIN_EOF
-    chmod +x "$HOME/.local/bin/cbrain"
-    success "cbrain command installed to ~/.local/bin/cbrain"
+C2DANGER_EOF
+    chmod +x "$HOME/.local/bin/c2danger"
+    success "c2danger command installed to ~/.local/bin/c2danger"
 
-    # Install cbraintg command (cbrain + Telegram channel)
+    # Install cbraintg command (c2danger + Telegram channel)
     info "Installing cbraintg command to ~/.local/bin..."
     cat > "$HOME/.local/bin/cbraintg" << 'CBRAINTG_EOF'
 #!/usr/bin/env bash
@@ -350,12 +350,12 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # cbrain command
-    if [ -x "$HOME/.local/bin/cbrain" ]; then
-        success "TEST: cbrain command — installed at ~/.local/bin/cbrain"
+    # c2danger command
+    if [ -x "$HOME/.local/bin/c2danger" ]; then
+        success "TEST: c2danger command — installed at ~/.local/bin/c2danger"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: cbrain command — not found or not executable"
+        soft_fail "TEST: c2danger command — not found or not executable"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
