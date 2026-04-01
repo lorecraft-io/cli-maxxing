@@ -90,7 +90,7 @@ Here are the six commands you'll use most:
 | `cskip` | Start with all permissions skipped (fastest, no prompts at all) |
 | `cbrain` | Jump straight into your 2ndBrain vault with auto mode *(requires Obsidian — set up in [Step 6](#step-6---second-brain-obsidian))* |
 | `Shift+Tab` | Toggle permissions on/off mid-session without restarting |
-| `/rswarm do the thing` | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
+| `/rswarm *write task here*` | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
 | `Ctrl+C` | Stop whatever is running or exit Claude |
 
 Everything else — aliases, slash commands, natural-language tools, troubleshooting — is in the **[full Cheat Sheet](CHEATSHEET.md)**.
