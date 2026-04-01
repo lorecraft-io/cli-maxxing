@@ -85,7 +85,7 @@ This is a quick reference for terminal hotkeys, typing basics, launching Claude,
 
 **[Open the full Cheat Sheet →](CHEATSHEET.md)**
 
-Here are the six commands you'll use most:
+Here are the seven commands you'll use most:
 
 | Command | What it does |
 |---------|-------------|
@@ -95,6 +95,7 @@ Here are the six commands you'll use most:
 | `/rswarm *write task here*` | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
 | `Ctrl+C` | Stop whatever is running or exit Claude |
 | `ccr` | Resume your last Claude conversation right where you left off |
+| `/resume` | Pick up right where you left off — reloads your last session's context |
 
 Everything else — aliases, slash commands, natural-language tools, troubleshooting — is in the **[full Cheat Sheet](CHEATSHEET.md)**.
 
