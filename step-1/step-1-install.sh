@@ -234,6 +234,7 @@ install_claude_code() {
     fi
     for alias_line in \
         "alias cskip='claude --dangerously-skip-permissions'" \
+        "alias ctg='claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official'" \
         "alias cc='claude'" \
         "alias ccr='claude --resume'" \
         "alias ccc='claude --continue'"; do
@@ -246,14 +247,14 @@ install_claude_code() {
     if [ "$ALIASES_ADDED" -gt 0 ]; then
         success "Added $ALIASES_ADDED new shortcut(s) to $SHELL_RC"
     else
-        success "All shortcuts already configured (cskip, cc, ccr, ccc)"
+        success "All shortcuts already configured (cskip, ctg, cc, ccr, ccc)"
     fi
 
     # Install cbrain command (2ndBrain + skip-permissions)
     info "Installing cbrain command to ~/.local/bin..."
     cat > "$HOME/.local/bin/cbrain" << 'CBRAIN_EOF'
 #!/usr/bin/env bash
-VAULT="$HOME/Desktop/2ndBrain"
+VAULT="$HOME/Desktop/WORK/OBSIDIAN/2ndBrain"
 if [ ! -d "$VAULT" ]; then
   echo "Error: 2ndBrain vault not found at $VAULT"
   exit 1
@@ -267,7 +268,7 @@ CBRAIN_EOF
     info "Installing cbraintg command to ~/.local/bin..."
     cat > "$HOME/.local/bin/cbraintg" << 'CBRAINTG_EOF'
 #!/usr/bin/env bash
-VAULT="$HOME/Desktop/2ndBrain"
+VAULT="$HOME/Desktop/WORK/OBSIDIAN/2ndBrain"
 if [ ! -d "$VAULT" ]; then
   echo "Error: 2ndBrain vault not found at $VAULT"
   exit 1
@@ -335,14 +336,14 @@ run_self_test() {
 
     # Shell aliases
     ALIAS_PASS=0
-    ALIAS_TOTAL=4
-    for alias_name in cskip cc ccr ccc; do
+    ALIAS_TOTAL=5
+    for alias_name in cskip ctg cc ccr ccc; do
         if grep -q "alias ${alias_name}=" "$SHELL_RC" 2>/dev/null; then
             ALIAS_PASS=$((ALIAS_PASS + 1))
         fi
     done
     if [ "$ALIAS_PASS" -eq "$ALIAS_TOTAL" ]; then
-        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, cc, ccr, ccc)"
+        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, ctg, cc, ccr, ccc)"
         TEST_PASS=$((TEST_PASS + 1))
     else
         soft_fail "TEST: shell aliases — only $ALIAS_PASS/$ALIAS_TOTAL found in $SHELL_RC"

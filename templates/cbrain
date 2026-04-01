@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # cbrain — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
 
-VAULT="$HOME/Desktop/2ndBrain"
+VAULT="$HOME/Desktop/WORK/OBSIDIAN/2ndBrain"
 
 if [ ! -d "$VAULT" ]; then
   echo "Error: 2ndBrain vault not found at $VAULT"

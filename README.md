@@ -968,7 +968,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 > ```
 
 **What it removes:**
-- Claude Code + shell aliases (cskip, cc, ccr, ccc, cbrain, cbraintg)
+- Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
 - All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript)
 - All skills (rswarm, rhive, get-api-docs, UI/UX Pro Max, Remotion)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, ffmpeg, xlsx2csv, poppler)

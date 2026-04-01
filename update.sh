@@ -88,14 +88,14 @@ echo -e "${GREEN}  Update complete. Steps 1 through 7 are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-# Reload shell config so new aliases (cskip, cc, ccr, ccc, cbrain, cbraintg) are active
+# Reload shell config so new aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg) are active
 if [ -f "$HOME/.zshrc" ]; then
     source "$HOME/.zshrc" 2>/dev/null || true
 elif [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc" 2>/dev/null || true
 fi
 
-echo "  Available commands: cskip, cc, ccr, ccc, cbrain, cbraintg"
+echo "  Available commands: cskip, ctg, cc, ccr, ccc, cbrain, cbraintg"
 echo "  Available skills:   /rswarm, /rhive, /pretext"
 echo ""
 echo "  Note: Steps 6b, 6c, and 6d are interactive. If you've"

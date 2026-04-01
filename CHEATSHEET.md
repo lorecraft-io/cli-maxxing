@@ -35,7 +35,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | Command | What it does |
 |---------|-------------|
 | `claude` | Normal mode — asks permission before each action |
-| `cskip` | Auto-approve mode — runs without asking (faster) |
+| `cskip` | Launch Claude Code with all permissions skipped (`claude --dangerously-skip-permissions`) |
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |

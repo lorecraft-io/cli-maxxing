@@ -18,6 +18,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
 | `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions |
 | `cbraintg` | Same as `cbrain` but with Telegram channel connected |
+| `ctg` | Skip-permissions + Telegram channel connected (any directory) |
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 
