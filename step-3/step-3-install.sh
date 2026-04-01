@@ -4,7 +4,7 @@ set -uo pipefail
 # =============================================================================
 # Step 3 — Ruflo Setup
 # Installs and configures Ruflo multi-agent swarming orchestration
-# Run this in Warp after completing Steps 1 and 2
+# Run this in your terminal after completing Steps 1 and 2
 # =============================================================================
 
 RED='\033[0;31m'

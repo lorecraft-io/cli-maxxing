@@ -4,7 +4,7 @@ set -uo pipefail
 # =============================================================================
 # Step 6 — Visual Media Tools
 # Installs Remotion skills for programmatic video creation with React
-# Run this in Warp after completing Steps 1-5
+# Run this in your terminal after completing Steps 1-5
 # =============================================================================
 
 RED='\033[0;31m'

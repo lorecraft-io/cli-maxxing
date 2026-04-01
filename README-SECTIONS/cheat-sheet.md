@@ -22,9 +22,9 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 
 ---
 
-### Warp Terminal Hotkeys
+### Terminal Hotkeys
 
-These work inside Warp when a Claude session is active.
+These work in your terminal when a Claude session is active.
 
 | Hotkey | What it does |
 |--------|-------------|
@@ -125,7 +125,7 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 |---------|-----|
 | `cskip` not recognized | Run `source ~/.zshrc` to reload your shell config |
 | Claude asks for login | Run `claude` once normally and complete the browser login flow |
-| Shift+Tab does nothing | Make sure you are in Warp Terminal, not another terminal app |
+| Shift+Tab does nothing | Make sure you are inside an active Claude session, not at a normal shell prompt |
 | Swarm not responding | Run `npx @claude-flow/cli@latest doctor --fix` to diagnose |
 | MCP tools not connecting | Exit Claude, run `claude mcp list` to check connections, then relaunch |
 | Obsidian vault not found | Tell Claude the full path to your vault (e.g., `~/Desktop/2ndBrain`) |
@@ -137,5 +137,5 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 - Say "yes" when Claude asks for permission, or use the `!` prefix to run commands directly without leaving the session.
 - Voice commands work in Claude Code — use `/voice` to enable microphone input.
 - If Claude seems confused or slow, run `/compact` to summarize the conversation and free up context.
-- You can drag and drop files into Warp to paste their full file path.
+- You can drag and drop files into your terminal to paste their full file path.
 - Press **Up Arrow** to recall and re-run previous commands without retyping them.

@@ -41,9 +41,9 @@ Everything you need to start working with AI-powered development tools, installe
 
 There are seven steps. Run them in order. Each one builds on the last.
 
-**[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) and Warp (your new terminal) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like setting up your Warp account and logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
+**[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
-**[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from inside Warp after Step 1 is done. Much more straightforward.
+**[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
 **[Step 3](#step-3---ruflo--context-hub)** is where you set up Ruflo and Context Hub. Ruflo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
 
@@ -63,7 +63,7 @@ Already done with everything? Use the **[Staying Up to Date](#staying-up-to-date
 
 ### Already have Claude Code installed?
 
-If you already have Claude Code working on your machine, you can skip Step 1 entirely. Just make sure you have [Warp](https://www.warp.dev) installed (we use it for the Shift+Tab permissions toggle), then jump straight to [Step 2](#step-2---dev-tools). Everything will work the same. You can paste the install commands directly in Warp, or if you prefer, download this repo as a ZIP from GitHub, unzip it, and tell Claude to run the scripts from whatever folder they landed in.
+If you already have Claude Code working on your machine, you can skip Step 1 entirely. Just jump straight to [Step 2](#step-2---dev-tools). Everything will work the same. You can paste the install commands directly in your terminal, or if you prefer, download this repo as a ZIP from GitHub, unzip it, and tell Claude to run the scripts from whatever folder they landed in.
 
 ### Bonus
 
@@ -85,7 +85,7 @@ This is a quick reference for terminal hotkeys, typing basics, launching Claude,
 
 This step is the foundation. It installs the minimum needed to get Claude Code working on your machine.
 
-**Heads up:** This is the most manual part of the setup. The script itself runs automatically, but afterwards you'll need to set up Warp and your Claude account yourself. Don't worry, it's all spelled out below. Once you're past this, Claude is there to help you with everything else.
+**Heads up:** This is the most manual part of the setup. The script itself runs automatically, but afterwards you'll need to set up your Claude account yourself. Don't worry, it's all spelled out below. Once you're past this, Claude is there to help you with everything else.
 
 ### macOS / Linux
 
@@ -106,42 +106,29 @@ These are the tools that get installed automatically when you run the command ab
 | Homebrew (Mac) / apt or dnf (Linux) | This is a package manager. It installs other software for you. |
 | Git | This tracks and manages code changes. |
 | Node.js (v18+) | This runs JavaScript. Claude Code needs it to work. |
-| Warp Terminal | This is your new terminal. More on this below. |
 | Claude Code | This is your AI coding assistant. The main tool you'll be using. |
 
-### Why Warp Terminal?
+### Shift+Tab — Toggle Permissions
 
-This step installs [Warp](https://www.warp.dev) as your terminal. Here's why we use it:
+When Claude is running in any terminal, you can press **Shift+Tab** to switch between normal mode (where Claude asks before doing anything) and auto-approve mode (where Claude just does it). No need to exit and relaunch. This works in any terminal app — Terminal.app, iTerm2, Warp, or whatever you prefer.
 
-- **Shift+Tab to toggle permissions.** When Claude is running, you can press Shift+Tab to switch between normal mode (where Claude asks before doing anything) and auto-approve mode (where Claude just does it). No need to exit and relaunch.
-- **Built for AI workflows.** Warp handles long-running output, code blocks, and multi-step processes better than a standard terminal.
-- **Works on Mac and Linux.** Same experience on both.
+After the script finishes, you need to refresh your terminal so it can find the tools that were just installed. **Copy and paste this command, then hit Enter:**
 
-After the script finishes, press **Ctrl+C** if anything is still running, close your old terminal, and open Warp. Everything from here on happens in Warp.
+```bash
+source ~/.zshrc
+```
+
+> On Linux or if you use bash, run `source ~/.bashrc` instead.
+
+This activates Claude and the other tools in your current terminal session. You only need to do this once — any new terminal window you open later will pick them up automatically.
 
 ### After the Script Finishes
 
-#### 1a. Open Warp
+#### 1a. Open Your Terminal
 
-Open **Warp** (it was just installed by the script above).
+Open a fresh terminal window. On Mac, press **Cmd+Space**, type **Terminal**, and hit Enter. On Linux, look for "Terminal" in your applications menu, or press **Ctrl+Alt+T**. You can use any terminal app you prefer (Terminal.app, iTerm2, Warp, etc.).
 
-**How to find Warp:** On Mac, press **Cmd+Space**, type **Warp**, and hit Enter. On Linux, look for "Warp" in your applications menu.
-
-Warp will ask you to create an account. Go ahead and sign up. **The free plan is all you need.** No payment required for Warp.
-
-#### 1b. Configure Warp
-
-Before doing anything else, you need to change one setting:
-
-1. Open Warp settings (**Cmd+Comma** on Mac, **Ctrl+Comma** on Linux)
-2. Go to **Features**
-3. The very first setting is **Default Mode**. Make sure it's set to **Terminal**, not Agent
-
-This keeps Warp acting as a normal terminal so Claude Code runs properly.
-
-> **If you see "Agent Oz" instead of a terminal:** Press the **Esc** key. This switches you back to the normal terminal view. That's why we changed the default to Terminal, so this doesn't keep happening.
-
-#### 1c. Set Up Your Claude Account
+#### 1b. Set Up Your Claude Account
 
 You'll need a Claude account with an active subscription before you can use Claude Code. **Do this now if you haven't already.** You won't be able to log in during Step 2 without it.
 
@@ -179,16 +166,14 @@ That's it for Step 1. Continue to Step 2.
 
 This step installs the development tools that Claude uses when working on your projects. Things like file converters, search tools, and other utilities that make Claude more capable.
 
-#### 2a. Open Warp
+#### 2a. Open Your Terminal
 
-If you haven't already, close your old terminal (press **Ctrl+C** if something is still running, then close the window) and open **Warp**.
-
-> If you see "Agent Oz" instead of a terminal, press **Esc**.
+If you haven't already, open a fresh terminal window (press **Ctrl+C** first if something is still running in the old one, then close it).
 
 #### 2b. Launch Claude
 
 > [!IMPORTANT]
-> **Type this in Warp and hit Enter:**
+> **Type this in your terminal and hit Enter:**
 > ```bash
 > cskip
 > ```
@@ -197,7 +182,7 @@ If this is your first time, Claude will automatically open a browser and ask you
 
 Once you're in a Claude session, you can ask it questions, and it will help you through the rest of the process. This is where it stops being manual and starts being a conversation.
 
-> **Reminder:** You can press **Shift+Tab** in Warp at any time to toggle auto-approve permissions on or off without restarting Claude.
+> **Reminder:** You can press **Shift+Tab** at any time to toggle auto-approve permissions on or off without restarting Claude.
 
 #### Why auto-approve mode?
 
@@ -218,7 +203,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > ```
 
 
-Claude will run the install for you. You can watch it work. If Claude tells you to restart your terminal at any point, just close the window, reopen Warp, type `cskip` again, and let Claude know where you left off. It'll pick right back up.
+Claude will run the install for you. You can watch it work. If Claude tells you to restart your terminal at any point, just close the window, reopen your terminal, type `cskip` again, and let Claude know where you left off. It'll pick right back up.
 
 ### What This Step Installs
 
@@ -290,7 +275,7 @@ Both skills signal the statusline so you can see live indicators while agents ar
 
 ### Run Step 3
 
-You should still be in Warp from Step 2. If you closed it, open Warp and type `cskip` to start a new Claude session. Remember, you can press **Shift+Tab** at any time to toggle auto-approve on or off.
+You should still have a Claude session open from Step 2. If you closed it, open your terminal and type `cskip` to start a new Claude session. Remember, you can press **Shift+Tab** at any time to toggle auto-approve on or off.
 
 Once you're inside the Claude session, paste this and hit Enter:
 
@@ -301,7 +286,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > ```
 
 
-Claude will run the install for you. Same as Step 2. If Claude tells you to restart your terminal, close the window, reopen Warp, type `cskip`, and let Claude know where you left off.
+Claude will run the install for you. Same as Step 2. If Claude tells you to restart your terminal, close the window, reopen your terminal, type `cskip`, and let Claude know where you left off.
 
 ### Quick note: what's an MCP?
 
@@ -385,7 +370,7 @@ While the UI/UX Pro Max Skill handles the design thinking, 21st.dev Magic handle
 
 ### Run Step 4
 
-You should still be in Warp. If you closed it, open Warp and type `cskip` to start a new Claude session.
+You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
 
 Once you're inside the Claude session, paste this and hit Enter:
 
@@ -452,7 +437,7 @@ This is useful for research, content repurposing, note-taking, summarizing video
 
 ### Run Step 5
 
-You should still be in Warp. If you closed it, open Warp and type `cskip` to start a new Claude session.
+You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
 
 Once you're inside the Claude session, paste this and hit Enter:
 
@@ -534,7 +519,7 @@ This part installs Obsidian on your machine and has Claude set up the full folde
 
 **First, install Obsidian:**
 
-- **Mac:** Press **Cmd+Space**, type **Terminal** (or open **Warp** if you have it), and run: `brew install --cask obsidian`
+- **Mac:** Press **Cmd+Space**, type **Terminal**, and run: `brew install --cask obsidian`
 - **Linux:** `sudo snap install obsidian` or `sudo flatpak install obsidian` or download from [obsidian.md](https://obsidian.md)
 
 Or just go to [obsidian.md/download](https://obsidian.md/download) and download it directly.
@@ -549,7 +534,7 @@ Or just go to [obsidian.md/download](https://obsidian.md/download) and download 
 
 Obsidian will open with an empty vault. That's perfect. Now Claude will set it up for you.
 
-**Open Warp, run cskip, and paste this:**
+**Open your terminal, run cskip, and paste this:**
 
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
@@ -771,9 +756,9 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 
 ---
 
-### Warp Terminal Hotkeys
+### Terminal Hotkeys
 
-These work inside Warp when a Claude session is active.
+These work in any terminal when a Claude session is active.
 
 | Hotkey | What it does |
 |--------|-------------|
@@ -875,11 +860,11 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 |---------|-----|
 | `cskip` not recognized | Run `source ~/.zshrc` to reload your shell config |
 | Claude asks for login | Run `claude` once normally and complete the browser login flow |
-| Shift+Tab does nothing | Make sure you are in Warp Terminal, not another terminal app |
+| Shift+Tab does nothing | Make sure you are inside an active Claude session. Try exiting and relaunching with `cskip` |
 | Swarm not responding | Run `npx @claude-flow/cli@latest doctor --fix` to diagnose |
 | MCP tools not connecting | Exit Claude, run `claude mcp list` to check connections, then relaunch |
 | Obsidian vault not found | Tell Claude the full path to your vault (e.g., `~/Desktop/2ndBrain`) |
-| Shift+Return acts like Enter | In Warp settings, set Default Mode to **Editor** (not Terminal). Or try Option+Enter as alternative. |
+| Shift+Return acts like Enter | Try Option+Enter as an alternative for multi-line input. Behavior may vary by terminal app. |
 
 ---
 
@@ -888,7 +873,7 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 - Say "yes" when Claude asks for permission, or use the `!` prefix to run commands directly without leaving the session.
 - Voice commands work in Claude Code — use `/voice` to enable microphone input.
 - If Claude seems confused or slow, run `/compact` to summarize the conversation and free up context.
-- You can drag and drop files into Warp to paste their full file path.
+- You can drag and drop files into most terminal apps to paste their full file path.
 - Press **Up Arrow** to recall and re-run previous commands without retyping them.
 
 ---
@@ -907,10 +892,10 @@ Video walkthroughs for every step are coming soon. These will show you exactly w
 
 This command re-runs all seven steps (1 through 7), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
 
-Open Warp and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into Warp without Claude.
+Open your terminal and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into your terminal without Claude.
 
 > [!IMPORTANT]
-> **Paste this into your Claude session (or Warp directly):**
+> **Paste this into your Claude session (or your terminal directly):**
 > ```
 > run this update command: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/update.sh | bash
 > ```

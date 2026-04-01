@@ -3,7 +3,7 @@ set -uo pipefail
 
 # =============================================================================
 # Step 1 — Get Claude Running
-# Installs: Xcode CLT/build-essential, Homebrew, Git, Node.js, Warp, Claude Code
+# Installs: Xcode CLT/build-essential, Homebrew, Git, Node.js, Claude Code
 # Usage: curl -fsSL <hosted-url>/step-1/step-1-install.sh | bash
 # =============================================================================
 
@@ -124,7 +124,8 @@ install_homebrew() {
         success "Homebrew already installed"
     else
         info "Installing Homebrew..."
-        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        info "You may be prompted for your password."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -206,64 +207,7 @@ install_node() {
 }
 
 # -----------------------------------------------------------------------------
-# 8. Warp Terminal
-# -----------------------------------------------------------------------------
-install_warp() {
-    if [ "$OS" = "mac" ]; then
-        if [ -d "/Applications/Warp.app" ]; then
-            success "Warp Terminal already installed"
-            return
-        fi
-    else
-        if command -v warp-terminal &>/dev/null; then
-            success "Warp Terminal already installed"
-            return
-        fi
-    fi
-
-    info "Installing Warp Terminal..."
-    if [ "$OS" = "mac" ]; then
-        brew install --cask warp || { soft_fail "Warp Terminal installation failed"; return; }
-    else
-        if command -v apt-get &>/dev/null; then
-            curl -fsSL https://releases.warp.dev/stable/v0.2025.03.18.08.02.stable_05/warp-terminal_0.2025.03.18.08.02.stable.05_amd64.deb -o /tmp/warp.deb 2>/dev/null
-            if [ -f /tmp/warp.deb ]; then
-                sudo apt-get install -y -qq /tmp/warp.deb || { soft_fail "Warp Terminal installation failed — install manually: https://www.warp.dev"; return; }
-                rm -f /tmp/warp.deb
-            else
-                soft_fail "Warp Terminal download failed — install manually: https://www.warp.dev"
-                return
-            fi
-        elif command -v dnf &>/dev/null; then
-            sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc 2>/dev/null
-            sudo dnf install -y https://releases.warp.dev/stable/v0.2025.03.18.08.02.stable_05/warp-terminal-0.2025.03.18.08.02.stable.05-1.x86_64.rpm 2>/dev/null \
-                || { soft_fail "Warp Terminal installation failed — install manually: https://www.warp.dev"; return; }
-        else
-            soft_fail "Could not install Warp Terminal — install manually: https://www.warp.dev"
-            return
-        fi
-    fi
-
-    success "Warp Terminal installed"
-    echo ""
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Why Warp?${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo ""
-    echo "  Warp is your new terminal for working with Claude."
-    echo ""
-    echo "  The key feature: press ${GREEN}Shift+Tab${NC} while Claude is"
-    echo "  running to toggle permissions on and off — no need to"
-    echo "  exit and relaunch."
-    echo ""
-    echo "  After this script finishes, open Warp and run all"
-    echo "  future commands from there."
-    echo ""
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-}
-
-# -----------------------------------------------------------------------------
-# 9. Claude Code
+# 8. Claude Code
 # -----------------------------------------------------------------------------
 install_claude_code() {
     if command -v claude &>/dev/null; then
@@ -369,25 +313,6 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Warp
-    if [ "$OS" = "mac" ]; then
-        if [ -d "/Applications/Warp.app" ]; then
-            success "TEST: Warp Terminal — installed"
-            TEST_PASS=$((TEST_PASS + 1))
-        else
-            soft_fail "TEST: Warp Terminal — not found in /Applications"
-            TEST_FAIL=$((TEST_FAIL + 1))
-        fi
-    else
-        if command -v warp-terminal &>/dev/null; then
-            success "TEST: Warp Terminal — installed"
-            TEST_PASS=$((TEST_PASS + 1))
-        else
-            soft_fail "TEST: Warp Terminal — not found"
-            TEST_FAIL=$((TEST_FAIL + 1))
-        fi
-    fi
-
     # Claude Code
     if command -v claude &>/dev/null; then
         success "TEST: claude — $(claude --version 2>/dev/null || echo 'found')"
@@ -441,27 +366,24 @@ run_self_test() {
 show_next_steps() {
     echo ""
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${YELLOW}  NEXT: Set Up Warp, Then Move to Step 2${NC}"
+    echo -e "${YELLOW}  NEXT: Move to Step 2${NC}"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo -e "  1. Press ${GREEN}Ctrl+C${NC} if anything is still running,"
-    echo "     then close this terminal window."
+    echo -e "  1. Run this command to activate everything that was"
+    echo "     just installed (copy and paste it, then hit Enter):"
     echo ""
-    echo -e "  2. Open ${GREEN}Warp${NC} (it was just installed)."
+    echo -e "     ${GREEN}source $SHELL_RC${NC}"
     echo ""
-    echo "  3. If Warp asks to create an account, sign up."
-    echo "     The free plan is all you need."
+    echo "     This refreshes your terminal so it can find Claude"
+    echo "     and the other tools. You only need to do this once."
     echo ""
-    echo "  4. Go to Warp settings (Cmd+Comma / Ctrl+Comma):"
-    echo -e "     → Features → Default Mode → set to ${GREEN}Terminal${NC}"
-    echo ""
-    echo "     If you see 'Agent Oz' instead of a terminal,"
-    echo -e "     just press ${GREEN}Esc${NC} to switch to the terminal view."
-    echo ""
-    echo "  5. Set up your Claude account at claude.ai"
+    echo "  2. Set up your Claude account at claude.ai"
     echo "     (you need a paid subscription, see the README)."
     echo ""
-    echo "  6. Continue to Step 2 in the README."
+    echo "  3. Continue to Step 2 in the README."
+    echo ""
+    echo -e "  ${BLUE}Tip:${NC} Press ${GREEN}Shift+Tab${NC} while Claude is running to"
+    echo "  toggle permissions on and off — works in any terminal."
     echo ""
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }
@@ -482,11 +404,6 @@ print_summary() {
     echo "    Git            $(git --version 2>/dev/null || echo '—')"
     echo "    Node.js        $(node -v 2>/dev/null || echo '—')"
     echo "    npm            v$(npm -v 2>/dev/null || echo '—')"
-    if [ "$OS" = "mac" ]; then
-    echo "    Warp Terminal  $([ -d '/Applications/Warp.app' ] && echo 'installed' || echo '—')"
-    else
-    echo "    Warp Terminal  $(command -v warp-terminal &>/dev/null && echo 'installed' || echo '—')"
-    fi
     echo "    Claude Code    $(claude --version 2>/dev/null || echo '—')"
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
@@ -504,11 +421,11 @@ main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 1 — Get Claude Running${NC}"
-    echo -e "${BLUE}  5 tools • macOS + Linux${NC}"
+    echo -e "${BLUE}  4 tools • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo -e "  ${YELLOW}Note: This script installs everything automatically, but${NC}"
-    echo -e "  ${YELLOW}the steps AFTER it finishes (Warp setup, Claude login) are${NC}"
+    echo -e "  ${YELLOW}the steps AFTER it finishes (Claude login) are${NC}"
     echo -e "  ${YELLOW}manual. Claude won't be helping in your terminal yet —${NC}"
     echo -e "  ${YELLOW}that starts after you complete the setup steps below.${NC}"
     echo -e "  ${YELLOW}It should be smooth, but if something goes wrong, check${NC}"
@@ -522,7 +439,6 @@ main() {
     install_homebrew
     install_git
     install_node
-    install_warp
 
     # Ensure base directories exist (tools assume these)
     mkdir -p "$HOME/.local/bin"

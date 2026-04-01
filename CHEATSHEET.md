@@ -6,7 +6,7 @@ The terminal works differently from a normal text editor or document. Here's wha
 
 **Typing and editing:**
 - You type commands at the blinking cursor and press **Enter** to run them
-- You **can't click** to place your cursor in the middle of a line (Warp lets you do this, but most terminals don't)
+- You **can't click** to place your cursor in the middle of a line — the terminal isn't a text editor
 - **Highlight and delete doesn't work** — forget what you know from Google Docs or Excel
 - **Backspace** deletes one character at a time (that still works normally)
 - **Ctrl+U** clears the entire line — this is your best friend when you mess up a command
@@ -47,13 +47,13 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 
 `cskip` runs `claude --dangerously-skip-permissions`. This tells Claude to execute commands, edit files, and make changes without asking you first. It's faster for setup scripts and guided sessions. Use normal mode (`claude`) when you want to review each action before it happens.
 
-**Warp Terminal bonus:** If you use Warp, press `Shift+Tab` inside a Claude session to toggle permissions on/off without restarting.
+**Tip:** Press `Shift+Tab` inside a Claude session to toggle permissions on/off without restarting.
 
 ---
 
-## Warp Terminal Hotkeys
+## Terminal Hotkeys
 
-These work inside Warp when a Claude session is active.
+These work inside your terminal when a Claude session is active.
 
 | Hotkey | What it does |
 |--------|-------------|
@@ -103,6 +103,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 | 21st.dev Magic | Step 4 | Natural language — building components, pulls from 21st.dev library | "Create a hero section with a CTA" |
 | Context Hub | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
+| YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
@@ -125,7 +126,7 @@ When these tools are active, you may see indicators in your Claude session:
 
 ## When Claude Asks for Permission
 
-In normal mode, Claude will ask before doing things like editing a file or running a command. You'll see a prompt — type **y** and hit Enter to approve, or **n** to deny. In `cskip` mode or with Shift+Tab on in Warp, this is skipped entirely.
+In normal mode, Claude will ask before doing things like editing a file or running a command. You'll see a prompt — type **y** and hit Enter to approve, or **n** to deny. In `cskip` mode or with Shift+Tab toggled on, this is skipped entirely.
 
 ---
 
@@ -160,11 +161,11 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 |---------|-----|
 | `cskip` not recognized | Run `source ~/.zshrc` to reload your shell config |
 | Claude asks for login | Run `claude` once normally and complete the browser login flow |
-| Shift+Tab does nothing | Make sure you are in Warp Terminal, not another terminal app |
+| Shift+Tab does nothing | Make sure you are inside an active Claude session (not at a normal shell prompt) |
 | Swarm not responding | Run `npx @claude-flow/cli@latest doctor --fix` to diagnose |
 | MCP tools not connecting | Exit Claude, run `claude mcp list` to check connections, then relaunch |
 | Obsidian vault not found | Tell Claude the full path to your vault (e.g., `~/Desktop/2ndBrain`) |
-| Shift+Return acts like Enter | In Warp settings, set Default Mode to **Editor** (not Terminal). Or try Option+Enter as alternative. |
+| Shift+Return acts like Enter | Try Option+Enter as an alternative for multi-line input |
 
 ---
 
@@ -175,6 +176,6 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 - Say "yes" when Claude asks for permission, or use the `!` prefix to run commands directly without leaving the session.
 - Voice commands work in Claude Code — use `/voice` to enable microphone input.
 - If Claude seems confused or slow, run `/compact` to summarize the conversation and free up context.
-- You can drag and drop files into Warp to paste their full file path.
+- You can drag and drop files into your terminal to paste their full file path.
 - Press **Up Arrow** to recall and re-run previous commands without retyping them.
 - To start fresh, just exit and relaunch.

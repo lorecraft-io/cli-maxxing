@@ -4,7 +4,7 @@ set -uo pipefail
 # =============================================================================
 # Step 4 — UI/UX Pro Max Skill + 21st.dev Magic MCP
 # Installs design intelligence and component generation tools
-# Run this in Warp after completing Steps 1-3
+# Run this in your terminal after completing Steps 1-3
 # =============================================================================
 
 RED='\033[0;31m'
