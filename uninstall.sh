@@ -199,7 +199,7 @@ else
     skip "Claude Code (not found)"
 fi
 
-# Shell aliases (cskip, cc, ccr, ccc)
+# Shell aliases (cskip, cauto, cc, ccr, ccc)
 ALIAS_REMOVED=0
 # Remove the header comment if present
 if grep -q '# Claude Code shortcuts' "$SHELL_RC" 2>/dev/null; then
@@ -207,7 +207,7 @@ if grep -q '# Claude Code shortcuts' "$SHELL_RC" 2>/dev/null; then
     rm -f "${SHELL_RC}.bak"
 fi
 # Remove each alias individually (handles both block and standalone installs)
-for alias_name in cskip cc ccr ccc; do
+for alias_name in cskip cauto cc ccr ccc; do
     if grep -q "alias ${alias_name}=" "$SHELL_RC" 2>/dev/null; then
         sed -i.bak "/alias ${alias_name}=/d" "$SHELL_RC" 2>/dev/null || true
         rm -f "${SHELL_RC}.bak"
@@ -215,7 +215,7 @@ for alias_name in cskip cc ccr ccc; do
     fi
 done
 if [ "$ALIAS_REMOVED" -gt 0 ]; then
-    success "Shell aliases ($ALIAS_REMOVED removed: cskip, cc, ccr, ccc)"
+    success "Shell aliases ($ALIAS_REMOVED removed: cskip, cauto, cc, ccr, ccc)"
 else
     skip "Shell aliases (not found in $SHELL_RC)"
 fi

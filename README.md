@@ -787,6 +787,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | Command | What it does |
 |---------|-------------|
 | `cskip` | Launch Claude Code with all permissions skipped (`claude --dangerously-skip-permissions`) |
+| `cauto` | Auto mode — smart classifier approves safe ops, prompts on risky ones (`claude --permission-mode auto`) |
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
@@ -968,7 +969,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 > ```
 
 **What it removes:**
-- Claude Code + shell aliases (cskip, cc, ccr, ccc, cbrain, cbraintg)
+- Claude Code + shell aliases (cskip, cauto, cc, ccr, ccc, cbrain, cbraintg)
 - All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript)
 - All skills (rswarm, rhive, get-api-docs, UI/UX Pro Max, Remotion)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, ffmpeg, xlsx2csv, poppler)

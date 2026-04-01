@@ -95,7 +95,7 @@ elif [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc" 2>/dev/null || true
 fi
 
-echo "  Available commands: cskip, cc, ccr, ccc, cbrain"
+echo "  Available commands: cskip, cauto, cc, ccr, ccc, cbrain"
 echo "  Available skills:   /rswarm, /rhive, /pretext"
 echo ""
 echo "  Note: Steps 6b, 6c, and 6d are interactive. If you've"

@@ -234,6 +234,7 @@ install_claude_code() {
     fi
     for alias_line in \
         "alias cskip='claude --dangerously-skip-permissions'" \
+        "alias cauto='claude --permission-mode auto'" \
         "alias cc='claude'" \
         "alias ccr='claude --resume'" \
         "alias ccc='claude --continue'"; do
@@ -246,7 +247,7 @@ install_claude_code() {
     if [ "$ALIASES_ADDED" -gt 0 ]; then
         success "Added $ALIASES_ADDED new shortcut(s) to $SHELL_RC"
     else
-        success "All shortcuts already configured (cskip, cc, ccr, ccc)"
+        success "All shortcuts already configured (cskip, cauto, cc, ccr, ccc)"
     fi
 
     # Install cbrain command
@@ -335,14 +336,14 @@ run_self_test() {
 
     # Shell aliases
     ALIAS_PASS=0
-    ALIAS_TOTAL=4
-    for alias_name in cskip cc ccr ccc; do
+    ALIAS_TOTAL=5
+    for alias_name in cskip cauto cc ccr ccc; do
         if grep -q "alias ${alias_name}=" "$SHELL_RC" 2>/dev/null; then
             ALIAS_PASS=$((ALIAS_PASS + 1))
         fi
     done
     if [ "$ALIAS_PASS" -eq "$ALIAS_TOTAL" ]; then
-        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, cc, ccr, ccc)"
+        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, cauto, cc, ccr, ccc)"
         TEST_PASS=$((TEST_PASS + 1))
     else
         soft_fail "TEST: shell aliases — only $ALIAS_PASS/$ALIAS_TOTAL found in $SHELL_RC"
