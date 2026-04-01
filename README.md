@@ -654,6 +654,20 @@ If you have GitHub repos, Claude can connect them to your vault. This means if i
 
 > **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 15-30+ minutes. Let Claude work. You can watch it go or come back when it's done.
 
+### Step 6e - Connect Google Calendar
+
+One last thing before you move on. Claude can read and manage your Google Calendar — check your schedule, create events, find conflicts, and help you plan your day. This is a built-in Claude integration, no install needed. You just need to authorize it once.
+
+In your Claude session, type:
+
+```
+/mcp
+```
+
+A menu will appear. Select **claude.ai Google Calendar** and complete the Google login in your browser. Once you approve the connection, come back to your terminal — Claude will automatically have access to your calendar from that point on.
+
+This is a one-time setup. The connection persists across sessions. You can verify it's connected anytime by running `/mcp` again and checking the status.
+
 ### Step 6 Troubleshooting
 
 If things don't look right, here are the most common issues and how to fix them. You can ask Claude to fix any of these for you.
