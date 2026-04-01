@@ -436,10 +436,8 @@ main() {
     preflight_checks
 
     # Prompt for sudo password upfront so it doesn't interrupt mid-install
-    if [ "$OS" = "linux" ]; then
-        info "Some tools require sudo. You may be prompted for your password."
-        sudo -v 2>/dev/null || true
-    fi
+    info "Some tools require sudo. You may be prompted for your password."
+    sudo -v 2>/dev/null || true
 
     update_package_index
     install_build_tools
