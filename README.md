@@ -82,16 +82,16 @@ This is a quick reference for terminal hotkeys, typing basics, launching Claude,
 
 **[Open the full Cheat Sheet →](CHEATSHEET.md)**
 
-Here are the five commands you'll use most:
+Here are the six commands you'll use most:
 
 | Command | What it does |
 |---------|-------------|
-| `claude` | Start a normal session — Claude asks before doing anything |
-| `cskip` | Start a session with all permissions skipped (faster, no prompts) |
+| `cauto` | Start with auto mode — smart approvals, prompts only on risky ops |
+| `cskip` | Start with all permissions skipped (fastest, no prompts at all) |
+| `cbrain` | Jump straight into your 2ndBrain vault with auto mode *(requires Obsidian — set up in [Step 6](#step-6---second-brain-obsidian))* |
 | `Shift+Tab` | Toggle permissions on/off mid-session without restarting |
 | `/rswarm do the thing` | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
-| `Ctrl+C` | Stop whatever is running, exit Claude, or clear everything you've typed in the input box |
-| `cbrain` | Jump straight into your 2ndBrain vault with auto mode *(requires Obsidian — set up in [Step 6](#step-6---second-brain-obsidian))* |
+| `Ctrl+C` | Stop whatever is running or exit Claude |
 
 Everything else — aliases, slash commands, natural-language tools, troubleshooting — is in the **[full Cheat Sheet](CHEATSHEET.md)**.
 
