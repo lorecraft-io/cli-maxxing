@@ -8,7 +8,7 @@ Everything you need to start working with AI-powered development tools, installe
 |---|------|-------------|------|
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
-| [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
+| [Keyboard + Command Cheat Sheet](CHEATSHEET.md) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
@@ -79,6 +79,21 @@ Want to get better at using the terminal in general? Check out [Terminal Academy
 [Back to top](#quick-nav)
 
 This is a quick reference for terminal hotkeys, typing basics, launching Claude, and useful commands. **Read this before starting the steps**, especially if you're new to working in a terminal.
+
+**[Open the full Cheat Sheet →](CHEATSHEET.md)**
+
+Here are the five commands you'll use most:
+
+| Command | What it does |
+|---------|-------------|
+| `claude` | Start a normal session — Claude asks before doing anything |
+| `cskip` | Start a session with all permissions skipped (faster, no prompts) |
+| `Shift+Tab` | Toggle permissions on/off mid-session without restarting |
+| `/rswarm <task>` | Launch a 15-agent swarm to parallelize a big task |
+| `Ctrl+C` | Stop whatever is running, or press twice to exit Claude entirely |
+| `cbrain` | Jump straight into your 2ndBrain vault with permissions skipped *(requires Obsidian — set up in [Step 6](#step-6---second-brain-obsidian))* |
+
+Everything else — aliases, slash commands, natural-language tools, troubleshooting — is in the **[full Cheat Sheet](CHEATSHEET.md)**.
 
 ---
 
@@ -775,7 +790,9 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
-| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions |
+| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires Obsidian — Step 6)* |
+| `cbraintg` | Same as `cbrain` but with Telegram channel connected |
+| `ctg` | Auto-approve mode + Telegram channel connected (any directory) |
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 
@@ -835,8 +852,18 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
+| Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
+| Motion | Add-on | Natural language — tasks, scheduling, projects, deadlines | "What's on my schedule today?" |
+| Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
+| Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
+| Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
+| Gamma | Add-on | Natural language — presentations, documents, webpages | "Create a pitch deck for my startup" |
+| Google Calendar | Add-on | Natural language — calendar events, meeting times, availability | "Find a free slot for a meeting tomorrow" |
+| Telegram | Add-on | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
+>
+> **Add-on tools** are not part of the 7-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 
 ---
 

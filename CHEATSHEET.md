@@ -39,7 +39,9 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
-| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions |
+| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires Obsidian — Step 6)* |
+| `cbraintg` | Same as `cbrain` but with Telegram channel connected |
+| `ctg` | Auto-approve mode + Telegram channel connected (any directory) |
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 
@@ -105,8 +107,18 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
+| Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
+| Motion | Add-on | Natural language — tasks, scheduling, projects, deadlines | "What's on my schedule today?" |
+| Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
+| Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
+| Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
+| Gamma | Add-on | Natural language — presentations, documents, webpages | "Create a pitch deck for my startup" |
+| Google Calendar | Add-on | Natural language — calendar events, meeting times, availability | "Find a free slot for a meeting tomorrow" |
+| Telegram | Add-on | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
+>
+> **Add-on tools** are not part of the 7-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 
 ---
 
