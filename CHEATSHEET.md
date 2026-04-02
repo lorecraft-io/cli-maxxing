@@ -89,7 +89,7 @@ These are custom skills installed by the setup scripts. Type them inside a Claud
 |---------|-------------|-------------|
 | `/rswarm do the thing` | Step 3 | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
 | `/rhive <goal>` | Step 3 | Launch a queen-led autonomous hive-mind with raft consensus |
-| `/w4wl4l` | Step 3 | Maximum attention to detail — word for word, line for line. No skipping, no summarizing |
+| `/w4w` | Step 3 | Maximum attention to detail — word for word, line for line. No skipping, no summarizing |
 | `/pretext <request>` | Step 4 | Text measurement and layout via @chenglou/pretext |
 
 > These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language.

@@ -389,19 +389,16 @@ The queen MUST:
 RHIVE_EOF
     success "Hive skill (/rhive) installed"
 
-    # --- /w4wl4l skill ---
-    W4WL4L_DIR="$HOME/.claude/skills/w4wl4l"
-    mkdir -p "$W4WL4L_DIR"
-    cat > "$W4WL4L_DIR/SKILL.md" << 'W4WL4L_EOF'
----
-name: w4wl4l
-description: "Word for word, line for line — maximum attention to detail protocol"
+    # --- /w4w skill (also /w4wl4l) ---
+    W4W_CONTENT='---
+name: w4w
+description: "Word for word, line for line — maximum attention to detail protocol. Also triggers on w4wl4l."
 user_invocable: true
 ---
 
-# w4wl4l — Word For Word, Line For Line
+# w4w — Word For Word, Line For Line
 
-When this skill is invoked (user types `w4wl4l` or `/w4wl4l`), immediately switch to maximum attention to detail mode for everything that follows in this conversation.
+When this skill is invoked (user types `/w4w`, `/w4wl4l`, `w4w`, or `w4wl4l`), immediately switch to maximum attention to detail mode for everything that follows in this conversation.
 
 ## Rules — Non-Negotiable
 
@@ -418,9 +415,19 @@ When this skill is invoked (user types `w4wl4l` or `/w4wl4l`), immediately switc
 
 ## When Active
 
-This mode stays active for the remainder of the current task or conversation unless the user explicitly deactivates it. Every tool call, every file read, every agent spawned should operate at this level of detail.
-W4WL4L_EOF
-    success "Attention skill (/w4wl4l) installed"
+This mode stays active for the remainder of the current task or conversation unless the user explicitly deactivates it. Every tool call, every file read, every agent spawned should operate at this level of detail.'
+
+    # Install as /w4w (primary)
+    W4W_DIR="$HOME/.claude/skills/w4w"
+    mkdir -p "$W4W_DIR"
+    echo "$W4W_CONTENT" > "$W4W_DIR/SKILL.md"
+
+    # Install as /w4wl4l (alias — same content)
+    W4WL4L_DIR="$HOME/.claude/skills/w4wl4l"
+    mkdir -p "$W4WL4L_DIR"
+    echo "$W4W_CONTENT" > "$W4WL4L_DIR/SKILL.md"
+
+    success "Attention skill (/w4w + /w4wl4l) installed"
 
     # --- Statusline script ---
     # Writes a statusline.sh that uses /tmp lock files to detect swarm/hive activity.
