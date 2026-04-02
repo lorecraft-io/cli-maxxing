@@ -9,7 +9,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
 | [Install Everything](#install-everything) | One-shot | Run all steps at once | ~20 min |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
-| [Keyboard + Command Cheat Sheet](CHEATSHEET.md) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
+| [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
