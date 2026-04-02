@@ -114,7 +114,7 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 
 | Command | What it does |
 |---------|-------------|
-| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
+| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
 | `source ~/.zshrc` | Reload shell config to activate new aliases |
 | `claude update` | Update Claude Code itself to the latest version |
 | `brew update && brew upgrade` | Update Homebrew and all installed packages (macOS) |

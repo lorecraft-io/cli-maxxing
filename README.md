@@ -944,6 +944,8 @@ You're done. Everything is installed, configured, and wired together. Open a new
 
 ## Installation Order
 
+[Back to top](#quick-nav)
+
 Run the steps in this order:
 
 | Step | Name | What it does |
@@ -1162,8 +1164,8 @@ If you need to remove everything installed by this setup, the uninstall script r
 
 **What it removes:**
 - Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
-- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Motion Calendar, Notion)
-- All skills (rswarm, rhive, get-api-docs, UI/UX Pro Max, Remotion)
+- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Obsidian, Motion Calendar, Notion)
+- All skills (rswarm, rhive, w4wl4l, get-api-docs, UI/UX Pro Max, Remotion, Pretext)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)
@@ -1178,5 +1180,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 ---
 
 ## More Coming Soon
+
+[Back to top](#quick-nav)
 
 This setup is a living project. New steps, tools, and workflows will be added as they're ready. If you have the update command above, you'll always be able to catch up with one paste.
