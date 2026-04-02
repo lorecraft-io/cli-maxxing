@@ -19,12 +19,12 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions |
 | `cbraintg` | Same as `cbrain` but with Telegram channel connected |
 | `ctg` | Skip-permissions + Telegram channel connected (any directory) |
-| `g2` | Tile 2 Ghostty windows side by side *(requires Ghostty — Bonus step, macOS only)* |
+| `g2` | Tile 2 Ghostty windows side by side, filling your screen *(requires Ghostty — Bonus step, macOS only)* |
 | `g4` | Tile 4 Ghostty windows in a 2x2 grid *(requires Ghostty — Bonus step, macOS only)* |
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 >
-> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`.
+> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault to exist — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
 
 ---
 

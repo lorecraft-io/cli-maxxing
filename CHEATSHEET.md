@@ -47,7 +47,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 >
-> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
+> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault to exist — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
 
 ## What is auto-approve mode?
 
