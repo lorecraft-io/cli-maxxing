@@ -34,6 +34,12 @@ echo ""
 curl -fsSL "$BASE_URL/bonus-ghostty/bonus-ghostty.sh" | bash
 echo ""
 
+# Bonus — Arc Browser (optional, macOS-only, won't reinstall if already present)
+echo -e "${YELLOW}>>> Running Bonus — Arc Browser${NC}"
+echo ""
+curl -fsSL "$BASE_URL/bonus-arc/bonus-arc.sh" | bash
+echo ""
+
 # Step 2
 echo -e "${YELLOW}>>> Running Step 2 — Dev Tools${NC}"
 echo ""

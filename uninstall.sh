@@ -230,8 +230,8 @@ for skill in rswarm rhive get-api-docs pretext w4w; do
 done
 
 # Claude-flow config
-if [ -d ".claude-flow" ]; then
-    rm -rf .claude-flow
+if [ -d "$HOME/.claude-flow" ]; then
+    rm -rf "$HOME/.claude-flow"
     success ".claude-flow config directory"
 else
     skip ".claude-flow config (not found)"
@@ -287,6 +287,19 @@ if brew list duti &>/dev/null 2>&1; then
     success "brew: duti"
 else
     skip "brew: duti (not found)"
+fi
+
+# -----------------------------------------------------------------------------
+# Bonus — Arc Browser (remove the app if installed via bonus script)
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Bonus: Arc Browser ---${NC}"
+
+if [ -d "/Applications/Arc.app" ] && brew list --cask arc &>/dev/null 2>&1; then
+    brew uninstall --cask arc 2>/dev/null || true
+    success "Arc Browser (brew cask)"
+else
+    skip "Arc Browser (not found or not installed via Homebrew)"
 fi
 
 # -----------------------------------------------------------------------------

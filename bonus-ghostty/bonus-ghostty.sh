@@ -148,7 +148,7 @@ configure_ghostty() {
 
     cat > "$CONFIG_FILE" << 'CONFIG_EOF'
 # =============================================================================
-# Ghostty Configuration — AI Super Setup
+# Ghostty Configuration — CLI Maxxing
 # GPU-accelerated terminal with polished defaults
 # =============================================================================
 

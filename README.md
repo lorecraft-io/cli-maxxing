@@ -12,6 +12,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
+| [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
@@ -51,7 +52,7 @@ If you already know your way around a terminal and just want everything installe
 > curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh | bash
 > ```
 
-Step 7 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
+This includes both bonuses (Ghostty and Arc Browser). Arc is macOS-only and will be skipped on Linux. Step 7 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
 
 We recommend reading through the steps below first so you understand what each tool does — but the one-shot option is here if you want it.
 
@@ -66,6 +67,8 @@ There are eight steps. Run them in order. Each one builds on the last.
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
 **[Bonus: Ghostty](#bonus---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
+
+**[Bonus: Arc Browser](#bonus---arc-browser)** is another optional step that installs Arc, a browser built from the ground up for people who actually use their computer all day. If you're still on Chrome or Safari, Arc is a massive upgrade — built-in tab management, Spaces for context switching, a sidebar instead of a tab bar, and it just feels faster. It imports everything from Chrome in about 30 seconds, so switching is painless. Highly recommended.
 
 **[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
@@ -208,7 +211,7 @@ Claude Code requires a paid plan. The software itself is free to install, but to
 
 **Our recommendation:** Start with **Pro** ($20/month). If you find yourself getting rate-limited or waiting for usage to reset, upgrade to Max. You'll know pretty quickly which tier fits your workflow.
 
-That's it for Step 1. Continue to the [Ghostty bonus](#bonus---ghostty-terminal) or jump straight to [Step 2](#step-2---dev-tools).
+That's it for Step 1. Continue to the [Ghostty bonus](#bonus---ghostty-terminal), the [Arc Browser bonus](#bonus---arc-browser), or jump straight to [Step 2](#step-2---dev-tools).
 
 ---
 
@@ -283,6 +286,75 @@ Edit it with any text editor. Changes take effect the next time you open a Ghost
 | `macos-titlebar-style` | Window style: `native`, `tabs`, or `transparent` | `tabs` |
 
 Full docs: [ghostty.org/docs](https://ghostty.org/docs)
+
+---
+
+## Bonus - Arc Browser
+
+[Back to top](#quick-nav)
+
+This is optional, but if you're still using Chrome, Safari, or Firefox as your daily driver — do yourself a favor and switch to Arc. It's not just another Chromium reskin. Arc was built from scratch for people who live in their browser, and once you use it for a week you genuinely won't want to go back.
+
+### Why Arc?
+
+Chrome is fine. It works. But it was designed in 2008 and it still feels like it. You've got 47 tabs open, you can't find anything, your browser is eating 8GB of RAM, and the tab bar is a graveyard of things you meant to read three weeks ago. Arc fixes all of that.
+
+- **No tab bar.** Tabs live in a collapsible sidebar. Your screen is the website, not a row of tiny rectangles you can't read. It's immediately cleaner and you actually use more of your screen.
+- **Spaces.** Group tabs by context — one Space for work, one for personal, one for a project. Swipe between them. It's like virtual desktops but for your browser. No more mixing your Jira tickets with your YouTube rabbit holes.
+- **Pinned tabs that actually work.** Pin the sites you use every day (Gmail, Notion, calendar) to the top of your sidebar. They stay open, they stay fresh, and they don't get lost in a sea of other tabs.
+- **Split view.** Open two pages side by side without a window manager. Drag a tab to the right and it snaps into place. Great for referencing docs while writing code, or comparing two pages.
+- **Built-in ad blocking and tracker blocking.** No extensions needed. Pages load faster and you're not being surveilled by every ad network on the internet.
+- **Command bar (Cmd+T).** This replaces the traditional URL bar with something closer to Spotlight. Search your open tabs, bookmarks, history, and the web from one place. It's fast and it learns your habits.
+- **Little Arc.** Press a hotkey and get a tiny floating browser window for a quick search or link preview without leaving what you're doing. Dismiss it and you're right back.
+- **Profile switching by scrolling.** If you have multiple profiles (work, personal, client accounts), you can scroll between them instantly from the sidebar. No logging out, no "Choose a profile" screen, no waiting. You just flick between identities like switching Spaces. It's the fastest multi-account workflow in any browser.
+- **Automatic tab archiving.** Tabs you haven't looked at in 12 hours get archived automatically. They're not gone — you can find them — but they're not cluttering your sidebar. Your browser stays clean without you doing anything.
+- **It's Chromium under the hood.** All your Chrome extensions work. 1Password, React DevTools, Vimium, whatever you use — it all carries over.
+
+Arc is free. There's no premium tier or paywall. It's just a better browser.
+
+### Switching from Chrome
+
+This is the part that stops most people, and it shouldn't. Arc makes migration dead simple:
+
+1. **Open Arc for the first time** and it asks if you want to import from Chrome.
+2. **Say yes.** It pulls over your bookmarks, saved passwords, history, autofill data, and extensions. All of it. Takes about 30 seconds.
+3. **Set Arc as your default browser** when it asks (or do it later in System Settings > Desktop & Dock > Default web browser).
+4. That's it. You're done. Everything you had in Chrome is now in Arc.
+
+You don't lose anything. Your Chrome profile stays untouched — you can always go back if you want. But you probably won't want to.
+
+### Install Arc
+
+You can run this from your terminal directly — no Claude session needed:
+
+> [!IMPORTANT]
+> **Paste this into your terminal:**
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-arc/bonus-arc.sh | bash
+> ```
+
+Or if you're already in a Claude session, paste this:
+
+> **Paste this into your Claude session:**
+> ```
+> run this command to install Arc: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-arc/bonus-arc.sh | bash
+> ```
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| Arc Browser | Chromium-based browser with sidebar tabs, Spaces, split view, built-in ad blocking, and automatic tab management. |
+
+### After Installing
+
+1. Open Arc — press **Cmd+Space**, type **Arc**, hit Enter.
+2. Import your Chrome data when prompted (bookmarks, passwords, history, extensions).
+3. Set it as your default browser when asked.
+4. Press **Cmd+T** to open the command bar — this replaces the URL bar and it's way faster.
+5. Try **Cmd+S** to pin a tab to your sidebar.
+
+> **Note:** Arc is currently macOS-only. If you're on Linux, this step will be skipped automatically.
 
 ---
 
@@ -952,6 +1024,7 @@ Run the steps in this order:
 |------|------|-------------|
 | 1 | CLI Basics | Git, Node.js, Claude Code, shell aliases |
 | Bonus | Ghostty Terminal | GPU-accelerated terminal (optional) |
+| Bonus | Arc Browser | Power-user browser with sidebar tabs (optional, macOS) |
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
@@ -1169,6 +1242,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)
+- Arc Browser (if installed via the bonus script)
 - Ghostty config (the app itself is kept — only the config file installed by this setup is removed)
 - Status line config
 
