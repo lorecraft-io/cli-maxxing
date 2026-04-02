@@ -3,7 +3,8 @@ set -uo pipefail
 
 # =============================================================================
 # Step 5 — Visual Media Tools
-# Installs Remotion skills for programmatic video creation with React
+# Installs Remotion skills, YouTube transcripts, Instagram/social transcription
+# (yt-dlp + Whisper), and FFmpeg for programmatic video/audio workflows
 # Run this in your terminal after completing Steps 1-4
 # =============================================================================
 
@@ -99,6 +100,74 @@ install_youtube_transcript() {
 }
 
 # -----------------------------------------------------------------------------
+# Install yt-dlp MCP (download audio/video from Instagram, TikTok, etc.)
+# -----------------------------------------------------------------------------
+install_ytdlp_mcp() {
+    info "Installing yt-dlp MCP server..."
+
+    # Check if already registered
+    if claude mcp list 2>/dev/null | grep -q "yt-dlp"; then
+        success "yt-dlp MCP already installed"
+        return
+    fi
+
+    claude mcp add --scope user yt-dlp -- npx -y @kevinwatt/yt-dlp-mcp@latest 2>/dev/null
+
+    if claude mcp list 2>/dev/null | grep -q "yt-dlp"; then
+        success "yt-dlp MCP installed"
+    else
+        soft_fail "yt-dlp MCP installation could not be verified"
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# Install yt-dlp CLI (needed by yt-dlp MCP for actual downloads)
+# -----------------------------------------------------------------------------
+install_ytdlp_cli() {
+    if command -v yt-dlp &>/dev/null; then
+        success "yt-dlp CLI already installed ($(yt-dlp --version 2>/dev/null))"
+        return
+    fi
+
+    info "Installing yt-dlp CLI..."
+    if [ "$OS" = "mac" ]; then
+        brew install yt-dlp 2>/dev/null || true
+    else
+        sudo apt-get install -y yt-dlp 2>/dev/null \
+            || sudo dnf install -y yt-dlp 2>/dev/null \
+            || python3 -m pip install yt-dlp 2>/dev/null \
+            || true
+    fi
+
+    if command -v yt-dlp &>/dev/null; then
+        success "yt-dlp CLI installed"
+    else
+        soft_fail "yt-dlp CLI installation failed (install manually: brew install yt-dlp)"
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# Install Whisper MCP (local speech-to-text transcription)
+# -----------------------------------------------------------------------------
+install_whisper_mcp() {
+    info "Installing Whisper MCP server..."
+
+    # Check if already registered
+    if claude mcp list 2>/dev/null | grep -q "whisper-mcp"; then
+        success "Whisper MCP already installed"
+        return
+    fi
+
+    claude mcp add --scope user whisper-mcp -- npx -y whisper-mcp 2>/dev/null
+
+    if claude mcp list 2>/dev/null | grep -q "whisper-mcp"; then
+        success "Whisper MCP installed"
+    else
+        soft_fail "Whisper MCP installation could not be verified"
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # Install FFmpeg (needed for video processing features)
 # -----------------------------------------------------------------------------
 install_ffmpeg() {
@@ -155,6 +224,33 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
+    # yt-dlp MCP registered
+    if claude mcp list 2>/dev/null | grep -q "yt-dlp"; then
+        success "TEST: yt-dlp MCP registered"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: yt-dlp MCP not registered"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
+    # yt-dlp CLI available
+    if command -v yt-dlp &>/dev/null; then
+        success "TEST: yt-dlp CLI available"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: yt-dlp CLI not available"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
+    # Whisper MCP registered
+    if claude mcp list 2>/dev/null | grep -q "whisper-mcp"; then
+        success "TEST: Whisper MCP registered"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: Whisper MCP not registered"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
     # FFmpeg available
     if command -v ffmpeg &>/dev/null; then
         success "TEST: FFmpeg available"
@@ -193,7 +289,8 @@ print_summary() {
     echo -e "${GREEN}  Step 5 Complete — Visual Media Tools are Ready${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo "  Remotion and YouTube Transcripts are now available in Claude Code."
+    echo "  Remotion, YouTube Transcripts, and Instagram/Social"
+    echo "  Transcription are now available in Claude Code."
     echo ""
     echo "  What you can do now:"
     echo "    - Create videos programmatically with React"
@@ -201,9 +298,11 @@ print_summary() {
     echo "    - Process audio and video with FFmpeg"
     echo "    - Generate data visualizations as video"
     echo "    - Pull transcripts from any YouTube video"
+    echo "    - Transcribe Instagram Reels, TikToks, and other social media"
     echo ""
     echo "  Try it: ask Claude to create a Remotion video project,"
-    echo "  or paste a YouTube link and ask for the transcript."
+    echo "  paste a YouTube link for a transcript, or paste an Instagram"
+    echo "  Reel link and ask Claude to transcribe it."
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
         echo -e "  ${YELLOW}Warnings: $ERRORS issue(s) detected.${NC}"
@@ -223,7 +322,7 @@ main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 5 — Visual Media${NC}"
-    echo -e "${BLUE}  Programmatic video creation • macOS + Linux${NC}"
+    echo -e "${BLUE}  Video creation + social media transcription • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
@@ -231,6 +330,9 @@ main() {
     verify_prerequisites
     install_remotion_skills
     install_youtube_transcript
+    install_ytdlp_cli
+    install_ytdlp_mcp
+    install_whisper_mcp
     install_ffmpeg
     run_self_test
     print_summary

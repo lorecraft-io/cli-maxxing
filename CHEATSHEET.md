@@ -106,9 +106,11 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Context Hub | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
+| IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
+| Motion Calendar | Step 7 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
+| Notion | Step 7 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 | Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
-| Motion | Add-on | Natural language — tasks, scheduling, projects, deadlines | "What's on my schedule today?" |
 | Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
 | Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
@@ -118,7 +120,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 >
-> **Add-on tools** are not part of the 7-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
+> **Add-on tools** are not part of the 8-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 
 ---
 
@@ -160,7 +162,7 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 
 | Command | What it does |
 |---------|-------------|
-| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
+| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
 | `source ~/.zshrc` | Reload shell config to activate new aliases |
 | `claude update` | Update Claude Code itself to the latest version |
 | `brew update && brew upgrade` | Update Homebrew and all installed packages (macOS) |

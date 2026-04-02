@@ -52,6 +52,23 @@ fi
 
 success "Vault found at: $VAULT_PATH"
 
+# -----------------------------------------------------------------------------
+# Install Obsidian MCP (connects Claude to the vault)
+# -----------------------------------------------------------------------------
+if claude mcp list 2>/dev/null | grep -q "obsidian"; then
+    success "Obsidian MCP already installed"
+else
+    info "Installing Obsidian MCP server..."
+    claude mcp add --scope user obsidian -- npx -y obsidian-mcp "$VAULT_PATH" 2>/dev/null
+
+    if claude mcp list 2>/dev/null | grep -q "obsidian"; then
+        success "Obsidian MCP installed (connected to $VAULT_PATH)"
+    else
+        warn "Obsidian MCP installation could not be verified. You can add it manually:"
+        echo "    claude mcp add --scope user obsidian -- npx -y obsidian-mcp \"$VAULT_PATH\""
+    fi
+fi
+
 # Count current state
 INBOX_COUNT=$(find "$VAULT_PATH/00-Inbox" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 FLEETING_COUNT=$(find "$VAULT_PATH/01-Fleeting" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')

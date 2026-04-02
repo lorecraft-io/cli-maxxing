@@ -1,4 +1,4 @@
-# AI Super Setup
+# CLI Maxxing
 
 Everything you need to start working with AI-powered development tools, installed in the right order with one command per step.
 
@@ -7,6 +7,7 @@ Everything you need to start working with AI-powered development tools, installe
 | | Section | What it does | Time |
 |---|------|-------------|------|
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
+| [Install Everything](#install-everything) | One-shot | Run all steps at once | ~20 min |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
 | [Keyboard + Command Cheat Sheet](CHEATSHEET.md) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
@@ -14,9 +15,10 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, and utilities | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
-| [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts | ~3 min |
+| [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
 | [Step 6](#step-6---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 15-30+ min |
-| [Step 7](#step-7---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
+| [Step 7](#step-7---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
+| [Step 8](#step-8---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
 | [Quick Reference](#quick-reference--commands--shortcuts) | Commands & Shortcuts | Every command and shortcut from all steps in one place | |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
@@ -37,11 +39,29 @@ Everything you need to start working with AI-powered development tools, installe
 
 ---
 
+## Install Everything
+
+[Back to top](#quick-nav)
+
+If you already know your way around a terminal and just want everything installed at once, you can run the full setup in one shot. This runs all eight steps in order, skips anything already installed, and picks up anything new.
+
+> [!IMPORTANT]
+> **Paste this into your terminal:**
+> ```
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh | bash
+> ```
+
+Step 7 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
+
+We recommend reading through the steps below first so you understand what each tool does — but the one-shot option is here if you want it.
+
+---
+
 ## How It Works
 
 [Back to top](#quick-nav)
 
-There are seven steps. Run them in order. Each one builds on the last.
+There are eight steps. Run them in order. Each one builds on the last.
 
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
@@ -53,11 +73,13 @@ There are seven steps. Run them in order. Each one builds on the last.
 
 **[Step 4](#step-4---design-tools)** gives Claude professional design skills and a library of production-ready UI components.
 
-**[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, and pull transcripts from any YouTube video. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link.
+**[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, pull transcripts from any YouTube video, and download + transcribe content from Instagram Reels and other social platforms. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link. Instagram Reels — paste a link and Claude downloads the audio and transcribes it locally.
 
 **[Step 6](#step-6---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
-**[Step 7](#step-7---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms or hive-minds. After this, you're done.
+**[Step 7](#step-7---productivity-tools)** connects Claude to your productivity tools — your calendar and your notes. Pick the ones you use: Motion Calendar for seeing and managing your schedule, or Notion for your knowledge base. All optional, install only what you need.
+
+**[Step 8](#step-8---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms or hive-minds. After this, you're done.
 
 Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
 
@@ -65,7 +87,7 @@ Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](
 
 Already done with everything? Use the **[Staying Up to Date](#staying-up-to-date)** command to catch any new steps or updates that have been added since your last visit.
 
-If you ever want to start fresh or remove everything this setup installed, there's a one-command **[Uninstall](#uninstall)** that reverses all seven steps. It won't touch your Obsidian vault or notes.
+If you ever want to start fresh or remove everything this setup installed, there's a one-command **[Uninstall](#uninstall)** that reverses all eight steps. It won't touch your Obsidian vault or notes.
 
 ### Already have Claude Code installed?
 
@@ -116,7 +138,7 @@ This step is the foundation. It installs the minimum needed to get Claude Code w
 > [!IMPORTANT]
 > **Copy and paste this into Terminal, then hit Enter:**
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-1/step-1-install.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-1/step-1-install.sh | bash
 > ```
 
 ### What This Step Installs
@@ -217,14 +239,14 @@ You can run this from your terminal directly — no Claude session needed:
 > [!IMPORTANT]
 > **Paste this into your terminal:**
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-2/bonus-ghostty.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/bonus-ghostty.sh | bash
 > ```
 
 Or if you're already in a Claude session, paste this:
 
 > **Paste this into your Claude session:**
 > ```
-> run this command to install Ghostty: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-2/bonus-ghostty.sh | bash
+> run this command to install Ghostty: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/bonus-ghostty.sh | bash
 > ```
 
 ### What This Step Installs
@@ -303,7 +325,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to install my dev tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-2/step-2-install.sh | bash
+> run this command to install my dev tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/step-2-install.sh | bash
 > ```
 
 
@@ -386,7 +408,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to set up Ruflo and Context Hub: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-3/step-3-install.sh | bash
+> run this command to set up Ruflo and Context Hub: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-3/step-3-install.sh | bash
 > ```
 
 
@@ -481,7 +503,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to install design tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-4/step-4-install.sh | bash
+> run this command to install design tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-4/step-4-install.sh | bash
 > ```
 
 
@@ -507,7 +529,7 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 
 [Back to top](#quick-nav)
 
-This step gives Claude the ability to create videos programmatically using React, and pull transcripts from any YouTube video. Instead of editing video in a timeline tool, you describe what you want and Claude writes code that generates the video. Animations, captions, transitions, data visualizations, 3D content — all from code. Need a transcript? Just paste a YouTube link.
+This step gives Claude the ability to create videos programmatically using React, pull transcripts from any YouTube video, and download + transcribe audio from Instagram Reels and other social platforms — all locally on your machine. Instead of editing video in a timeline tool, you describe what you want and Claude writes code that generates the video. Animations, captions, transitions, data visualizations, 3D content — all from code. Need a transcript? Just paste a YouTube or Instagram link.
 
 ### Remotion
 
@@ -539,6 +561,18 @@ Built by [@kimtaeyoon83](https://github.com/kimtaeyoon83/mcp-server-youtube-tran
 
 This is useful for research, content repurposing, note-taking, summarizing videos, or feeding video content into your Second Brain.
 
+### Instagram + Social Media Transcription
+
+This gives Claude the ability to transcribe audio from Instagram Reels, TikToks, Twitter/X videos, and other social platforms — completely locally on your machine. It works by combining two tools behind the scenes: [yt-dlp](https://github.com/yt-dlp/yt-dlp) (a widely-used open-source media downloader) handles the downloading, and [Whisper](https://github.com/jwulff/whisper-mcp) (OpenAI's speech-to-text model) handles the transcription. No API keys, no cloud services.
+
+- **Paste any link.** Instagram Reels, TikToks, Twitter/X posts, Facebook videos — if the platform is supported, Claude can download it.
+- **Local transcription.** Audio is transcribed on your machine using OpenAI's Whisper model. Nothing leaves your computer.
+- **Multiple models.** The default is base, which is a good balance of speed and accuracy. You can also use tiny (fastest), small, medium, or large (most accurate) if you need to.
+- **First run downloads the model.** The first time you transcribe, Claude downloads the Whisper model (~148 MB for base). After that, there's no download wait.
+- **Output formats.** Plain text, timestamped, or structured JSON.
+
+The flow is simple: paste a link → Claude downloads the audio → Whisper transcribes it → you get the text. Works great for capturing ideas from Reels, transcribing interviews, pulling quotes, or feeding social content into your Second Brain.
+
 ### Run Step 5
 
 You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
@@ -548,7 +582,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to install visual media tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-5/step-5-install.sh | bash
+> run this command to install visual media tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-5/step-5-install.sh | bash
 > ```
 
 
@@ -558,11 +592,14 @@ Once you're inside the Claude session, paste this and hit Enter:
 |-----------|-------------|
 | Remotion Skills | Teaches Claude best practices for programmatic video creation with React — animations, transitions, captions, audio, 3D, charts, and more. |
 | YouTube Transcript MCP | Pulls transcripts from any YouTube video. Free, no API key needed. Supports language selection, timestamps, and ad filtering. |
+| yt-dlp MCP | Downloads audio/video from Instagram Reels, TikTok, Twitter/X, and many other platforms. Used to grab audio for local transcription. |
+| yt-dlp CLI | The command-line downloader that powers the yt-dlp MCP. Installed via Homebrew (macOS) or your system package manager (Linux). |
+| Whisper MCP | Local speech-to-text transcription using OpenAI's Whisper. Runs entirely on your machine — no API keys, no cloud. Multiple model sizes available. |
 | FFmpeg | Powerful command-line tool for video and audio processing. Used by Remotion for rendering and by Claude for media operations. |
 
 ### After Step 5
 
-You're now set up for visual media creation. Ask Claude to create a Remotion project and describe the video you want. Claude will scaffold the project, write the components, and you can render the output. You can also paste any YouTube link and ask Claude for the transcript — it'll pull it automatically.
+You're now set up for visual media creation. Ask Claude to create a Remotion project and describe the video you want. Claude will scaffold the project, write the components, and you can render the output. You can also paste any YouTube link and ask Claude for the transcript — it'll pull it automatically. For Instagram Reels, TikToks, or other social media, just paste the link and ask Claude to transcribe it. The first time, it'll download the Whisper model (~148 MB), then there's no download wait after that.
 
 ---
 
@@ -643,7 +680,7 @@ Obsidian will open with an empty vault. That's perfect. Now Claude will set it u
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to set up my Second Brain vault structure: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-6/step-6a-setup-vault.sh | bash
+> run this command to set up my Second Brain vault structure: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6a-setup-vault.sh | bash
 > ```
 
 
@@ -675,7 +712,7 @@ Before importing your other notes, let's get your Claude conversation history in
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to import my Claude history into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-6/step-6b-import-claude.sh | bash
+> run this command to import my Claude history into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6b-import-claude.sh | bash
 > ```
 
 
@@ -707,7 +744,7 @@ Now let's get the rest of your notes in. If you have notes in Apple Notes, Googl
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to import my notes into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-6/step-6c-import-notes.sh | bash
+> run this command to import my notes into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6c-import-notes.sh | bash
 > ```
 
 
@@ -736,7 +773,7 @@ What Claude will do:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to wire up my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-6/step-6d-wire-vault.sh | bash
+> run this command to wire up my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6d-wire-vault.sh | bash
 > ```
 
 
@@ -795,7 +832,62 @@ If things don't look right, here are the most common issues and how to fix them.
 
 ---
 
-## Step 7 - Status Line
+## Step 7 - Productivity Tools
+
+[Back to top](#quick-nav)
+
+This step connects Claude to the productivity tools you already use. Everything here is optional — install only the tools that match your workflow. Skip what you don't use.
+
+### Motion Calendar
+
+Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-calendar-mcp). This is a custom MCP that gives Claude full access to your Motion calendar — something Motion's own public API doesn't support. While other Motion integrations are limited to tasks and projects, this one reads, creates, updates, and deletes calendar events directly.
+
+- **See your schedule.** Ask Claude what's on your calendar today, this week, or any date range.
+- **Check availability.** Ask when you're free and Claude will find open slots across all your calendars.
+- **Create and manage events.** Schedule meetings, rename events, move them around, or delete them — all from your terminal.
+- **Search events.** Find that meeting you forgot the name of by searching titles and descriptions.
+- **Teammate visibility.** See when teammates are busy or out of office.
+- **All your calendars.** Motion aggregates Google Calendar, Outlook, and others into one place. This MCP sees all of them.
+
+> **Requires:** A Motion account and ~5 minutes to extract your API credentials. The setup script walks you through it.
+
+### Notion
+
+Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the official MCP server from Notion's own team. Gives Claude full access to your Notion workspace.
+
+- **Read and search.** Search across all your pages and databases.
+- **Create and edit.** Create new pages, append content, update existing pages — all in Markdown.
+- **Databases.** Query, create, and update Notion databases.
+- **22 tools** covering pages, databases, comments, and templates.
+
+> **Requires:** A free Notion account and an integration token. Go to [notion.so/profile/integrations](https://www.notion.so/profile/integrations), create a new integration named "Claude Code", select your workspace, and copy the token (starts with `ntn_`). Then share any pages you want Claude to access: on each page, click the `...` menu > **Connections** > add your integration. Claude can only see pages you explicitly share.
+
+### Run Step 7
+
+You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to install productivity tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7-install.sh | bash
+> ```
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| Motion Calendar MCP | Full calendar access — events, availability, scheduling. Uses Motion's internal API for features the public API doesn't have. |
+| Notion MCP | Official Notion integration — pages, databases, search, content management. 22 tools. |
+
+### After Step 7
+
+You now have your productivity stack connected to Claude. Ask about your schedule, create tasks, search your Notion — all from your terminal. If you skipped any tools, you can always come back and re-run Step 7 to add them.
+
+---
+
+## Step 8 - Status Line
 
 This is the wrap-up step. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms or hive-minds.
 
@@ -811,9 +903,9 @@ This is the wrap-up step. It installs a custom status line that shows you what's
 
 The status line also shows your current model, session duration, and context window usage.
 
-### Install
+### Run Step 8
 
-> run this command to set up your status line: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/step-7/step-7-install.sh | bash
+> run this command to set up your status line: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh | bash
 
 Or manually:
 1. Copy `statusline.sh` to `~/.claude/statusline.sh`
@@ -826,7 +918,7 @@ Or manually:
 ```
 3. Restart Claude Code
 
-### After Step 7
+### After Step 8
 
 You're done. Everything is installed, configured, and wired together. Open a new `cskip` or `cbrain` session and your status line will show exactly what's active.
 
@@ -843,11 +935,12 @@ Run the steps in this order:
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
-| 5 | Visual Media | Remotion + YouTube Transcripts + FFmpeg |
+| 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Second Brain | Obsidian vault setup + data import (6a-6d) |
-| **7** | **Status Line** | **Final config — status indicators, system health check** |
+| 7 | Productivity Tools | Motion Calendar + Notion (optional) |
+| **8** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Second Brain) is the biggest step with four sub-parts (6a-6d). Step 7 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
+> **Note:** Step 6 (Second Brain) is the biggest step with four sub-parts (6a-6d). Step 7 (Productivity Tools) is all optional — install only the tools you use. Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
 
 ---
 
@@ -930,9 +1023,11 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Context Hub | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
+| IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
+| Motion Calendar | Step 7 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
+| Notion | Step 7 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 | Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
-| Motion | Add-on | Natural language — tasks, scheduling, projects, deadlines | "What's on my schedule today?" |
 | Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
 | Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
@@ -942,7 +1037,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 >
-> **Add-on tools** are not part of the 7-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
+> **Add-on tools** are not part of the 8-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 
 ---
 
@@ -978,7 +1073,7 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 
 | Command | What it does |
 |---------|-------------|
-| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
+| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
 | `source ~/.zshrc` | Reload shell config to activate new aliases |
 | `claude update` | Update Claude Code itself to the latest version |
 | `brew update && brew upgrade` | Update Homebrew and all installed packages (macOS) |
@@ -1021,14 +1116,14 @@ Video walkthroughs for every step are coming soon. These will show you exactly w
 
 [Back to top](#quick-nav)
 
-This command re-runs all seven steps (1 through 7), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
+This command re-runs all eight steps (1 through 8), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
 
 Open your terminal and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into your terminal without Claude.
 
 > [!IMPORTANT]
 > **Paste this into your Claude session (or your terminal directly):**
 > ```
-> run this update command: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/update.sh | bash
+> run this update command: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh | bash
 > ```
 
 
@@ -1038,19 +1133,21 @@ Open your terminal and run `cskip` to start a Claude session, then paste the upd
 
 [Back to top](#quick-nav)
 
-If you need to remove everything installed by this setup, the uninstall script reverses all seven steps. It removes Claude Code, MCP servers, skills, shell aliases, dev tools, and brew packages. Your Obsidian vault and notes are never touched.
+If you need to remove everything installed by this setup, the uninstall script reverses all eight steps. It removes Claude Code, MCP servers, skills, shell aliases, dev tools, and brew packages. Your Obsidian vault and notes are never touched.
 
 > [!IMPORTANT]
 > **Paste this into your terminal:**
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main/uninstall.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/uninstall.sh | bash
 > ```
 
 **What it removes:**
 - Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
-- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript)
+- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Motion Calendar, Notion)
 - All skills (rswarm, rhive, get-api-docs, UI/UX Pro Max, Remotion)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, ffmpeg, xlsx2csv, poppler)
+- Whisper models (~/.whisper/)
+- Motion Calendar config (~/.motion-calendar-mcp/)
 - Ghostty config (the app itself is kept — only the config file installed by this setup is removed)
 - Status line config
 

@@ -2,8 +2,8 @@
 set -uo pipefail
 
 # =============================================================================
-# Uninstall — Remove everything installed by AI Super Setup
-# Reverses Steps 1-7. Does NOT remove Homebrew, Git, or Node.js since
+# Uninstall — Remove everything installed by CLI Maxxing
+# Reverses Steps 1-8. Does NOT remove Homebrew, Git, or Node.js since
 # other tools may depend on them. Offers to remove those separately.
 # Usage: curl -fsSL <hosted-url>/uninstall.sh | bash
 # =============================================================================
@@ -31,18 +31,18 @@ esac
 
 echo ""
 echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${RED}  Uninstall — AI Super Setup${NC}"
+echo -e "${RED}  Uninstall — CLI Maxxing${NC}"
 echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  This will remove tools and configurations installed by"
-echo "  AI Super Setup (Steps 1-7). Your Obsidian vault and"
+echo "  CLI Maxxing (Steps 1-8). Your Obsidian vault and"
 echo "  notes will NOT be deleted."
 echo ""
 
 # -----------------------------------------------------------------------------
-# Step 7 — Status Line
+# Step 8 — Status Line
 # -----------------------------------------------------------------------------
-echo -e "${BLUE}--- Step 7: Status Line ---${NC}"
+echo -e "${BLUE}--- Step 8: Status Line ---${NC}"
 
 if [ -f "$HOME/.claude/statusline.sh" ]; then
     rm -f "$HOME/.claude/statusline.sh"
@@ -59,7 +59,37 @@ if [ -f "$HOME/.claude/settings.json" ]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Step 5 — Visual Media (Remotion, YouTube Transcript, FFmpeg)
+# Step 7 — Productivity Tools (Motion Calendar, Notion)
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Step 7: Productivity Tools ---${NC}"
+
+# Motion Calendar MCP
+if claude mcp list 2>/dev/null | grep -qi "motion-calendar" 2>/dev/null; then
+    claude mcp remove motion-calendar 2>/dev/null || true
+    success "Motion Calendar MCP"
+else
+    skip "Motion Calendar MCP (not found)"
+fi
+
+# Motion Calendar config
+if [ -d "$HOME/.motion-calendar-mcp" ]; then
+    rm -rf "$HOME/.motion-calendar-mcp"
+    success "Motion Calendar config (~/.motion-calendar-mcp)"
+else
+    skip "Motion Calendar config (not found)"
+fi
+
+# Notion MCP
+if claude mcp list 2>/dev/null | grep -qi "notion" 2>/dev/null; then
+    claude mcp remove notion 2>/dev/null || true
+    success "Notion MCP"
+else
+    skip "Notion MCP (not found)"
+fi
+
+# -----------------------------------------------------------------------------
+# Step 5 — Visual Media (Remotion, YouTube Transcript, yt-dlp, Whisper, FFmpeg)
 # -----------------------------------------------------------------------------
 echo ""
 echo -e "${BLUE}--- Step 5: Visual Media ---${NC}"
@@ -78,6 +108,38 @@ if claude mcp list 2>/dev/null | grep -qi "youtube-transcript" 2>/dev/null; then
     success "YouTube Transcript MCP"
 else
     skip "YouTube Transcript MCP (not found)"
+fi
+
+# yt-dlp MCP
+if claude mcp list 2>/dev/null | grep -qi "yt-dlp" 2>/dev/null; then
+    claude mcp remove yt-dlp 2>/dev/null || true
+    success "yt-dlp MCP"
+else
+    skip "yt-dlp MCP (not found)"
+fi
+
+# yt-dlp CLI (brew)
+if command -v yt-dlp &>/dev/null; then
+    brew uninstall yt-dlp 2>/dev/null || true
+    success "yt-dlp CLI"
+else
+    skip "yt-dlp CLI (not found)"
+fi
+
+# Whisper MCP
+if claude mcp list 2>/dev/null | grep -qi "whisper-mcp" 2>/dev/null; then
+    claude mcp remove whisper-mcp 2>/dev/null || true
+    success "Whisper MCP"
+else
+    skip "Whisper MCP (not found)"
+fi
+
+# Whisper models
+if [ -d "$HOME/.whisper" ]; then
+    rm -rf "$HOME/.whisper"
+    success "Whisper models (~/.whisper)"
+else
+    skip "Whisper models (not found)"
 fi
 
 # FFmpeg (brew)

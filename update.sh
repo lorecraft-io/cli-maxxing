@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# AI Super Setup — Update
+# CLI Maxxing — Update
 # Re-runs all steps, skips anything already installed, picks up anything new.
 # Usage: curl -fsSL <hosted-url>/update.sh | bash
 # =============================================================================
@@ -13,11 +13,11 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-BASE_URL="https://raw.githubusercontent.com/lorecraft-io/ai-super-setup/main"
+BASE_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main"
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}  AI Super Setup — Update${NC}"
+echo -e "${BLUE}  CLI Maxxing — Update${NC}"
 echo -e "${BLUE}  Running all steps, skipping what's already installed${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
@@ -82,15 +82,21 @@ echo ""
 curl -fsSL "$BASE_URL/step-6/step-6d-wire-vault.sh" | bash
 echo ""
 
-# Step 7 (Status Line — wrap-up)
-echo -e "${YELLOW}>>> Running Step 7 — Status Line${NC}"
+# Step 7 (Productivity Tools)
+echo -e "${YELLOW}>>> Running Step 7 — Productivity Tools${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-7/step-7-install.sh" | bash
 echo ""
 
+# Step 8 (Status Line — wrap-up)
+echo -e "${YELLOW}>>> Running Step 8 — Status Line${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-8/step-8-install.sh" | bash
+echo ""
+
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Update complete. Steps 1 through 7 are current.${NC}"
+echo -e "${GREEN}  Update complete. Steps 1 through 8 are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
