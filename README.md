@@ -240,14 +240,14 @@ You can run this from your terminal directly — no Claude session needed:
 > [!IMPORTANT]
 > **Paste this into your terminal:**
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/bonus-ghostty.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-ghostty/bonus-ghostty.sh | bash
 > ```
 
 Or if you're already in a Claude session, paste this:
 
 > **Paste this into your Claude session:**
 > ```
-> run this command to install Ghostty: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/bonus-ghostty.sh | bash
+> run this command to install Ghostty: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-ghostty/bonus-ghostty.sh | bash
 > ```
 
 ### What This Step Installs

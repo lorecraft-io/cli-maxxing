@@ -31,7 +31,7 @@ echo ""
 # Bonus — Ghostty Terminal (optional, won't reinstall if already present)
 echo -e "${YELLOW}>>> Running Bonus — Ghostty Terminal${NC}"
 echo ""
-curl -fsSL "$BASE_URL/step-2/bonus-ghostty.sh" | bash
+curl -fsSL "$BASE_URL/bonus-ghostty/bonus-ghostty.sh" | bash
 echo ""
 
 # Step 2
