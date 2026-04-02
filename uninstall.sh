@@ -89,6 +89,20 @@ else
 fi
 
 # -----------------------------------------------------------------------------
+# Step 6 — Obsidian MCP
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Step 6: Obsidian ---${NC}"
+
+# Obsidian MCP
+if claude mcp list 2>/dev/null | grep -qi "obsidian" 2>/dev/null; then
+    claude mcp remove obsidian 2>/dev/null || true
+    success "Obsidian MCP"
+else
+    skip "Obsidian MCP (not found)"
+fi
+
+# -----------------------------------------------------------------------------
 # Step 5 — Visual Media (Remotion, YouTube Transcript, yt-dlp, Whisper, FFmpeg)
 # -----------------------------------------------------------------------------
 echo ""
@@ -206,7 +220,7 @@ for pkg in ruflo@latest agentic-flow@latest @aisuite/chub typescript; do
 done
 
 # Swarm skills
-for skill in rswarm rhive get-api-docs; do
+for skill in rswarm rhive get-api-docs pretext; do
     if [ -d "$HOME/.claude/skills/$skill" ]; then
         rm -rf "$HOME/.claude/skills/$skill"
         success "Skill: /$skill"
