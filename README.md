@@ -1047,7 +1047,9 @@ This tells Claude to cross-reference the cheatsheet against your actual system a
 
 ### After Step 8
 
-You're done. Everything is installed, configured, and wired together. Open a new `cskip` session and your status line will show exactly what's active.
+You're done. Everything is installed, configured, and wired together.
+
+From here on out, use `cbrain` as your main command — it drops you straight into your 2ndBrain vault with all permissions skipped. If you ever need to work outside the vault, `cskip` still works from any directory. But for day-to-day use, `cbrain` is your home base.
 
 ---
 
