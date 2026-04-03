@@ -150,7 +150,7 @@ install_ytdlp_cli() {
 # Install whisper-cpp (local speech-to-text engine)
 # -----------------------------------------------------------------------------
 install_whisper_cpp() {
-    if command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
+    if command -v whisper-cli &>/dev/null || command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
         success "whisper-cpp already installed"
         return
     fi
@@ -179,7 +179,7 @@ install_whisper_cpp() {
         fi
     fi
 
-    if command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
+    if command -v whisper-cli &>/dev/null || command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
         success "whisper-cpp installed"
     else
         soft_fail "whisper-cpp installation could not be verified"
@@ -283,7 +283,7 @@ run_self_test() {
     fi
 
     # whisper-cpp binary
-    if command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
+    if command -v whisper-cli &>/dev/null || command -v whisper-cpp &>/dev/null || command -v whisper &>/dev/null; then
         success "TEST: whisper-cpp installed"
         TEST_PASS=$((TEST_PASS + 1))
     else

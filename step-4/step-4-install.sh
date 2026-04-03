@@ -100,34 +100,6 @@ install_21st_magic() {
 }
 
 # -----------------------------------------------------------------------------
-# Install Pretext Skill
-# -----------------------------------------------------------------------------
-install_pretext_skill() {
-    SKILL_DIR="$HOME/.claude/skills/pretext"
-
-    if [ -d "$SKILL_DIR" ] || [ -L "$SKILL_DIR" ]; then
-        success "Pretext skill already installed"
-        return
-    fi
-
-    info "Installing Pretext skill..."
-    npx skills add chenglou/pretext --yes --global 2>/dev/null
-
-    if [ -d "$SKILL_DIR" ] || [ -L "$SKILL_DIR" ]; then
-        success "Pretext skill installed"
-    else
-        # Try project-level install as fallback
-        npx skills add chenglou/pretext --yes 2>/dev/null
-
-        if [ -d "$SKILL_DIR" ] || [ -L "$SKILL_DIR" ] || [ -d ".agents/skills/pretext" ]; then
-            success "Pretext skill installed"
-        else
-            soft_fail "Pretext skill installation could not be verified"
-        fi
-    fi
-}
-
-# -----------------------------------------------------------------------------
 # Self-test
 # -----------------------------------------------------------------------------
 run_self_test() {
@@ -156,15 +128,6 @@ run_self_test() {
     else
         warn "TEST: 21st.dev Magic MCP may need manual setup (see instructions below)"
         TEST_PASS=$((TEST_PASS + 1))
-    fi
-
-    # Pretext skill
-    if [ -d "$HOME/.claude/skills/pretext" ] || [ -L "$HOME/.claude/skills/pretext" ]; then
-        success "TEST: Pretext skill installed"
-        TEST_PASS=$((TEST_PASS + 1))
-    else
-        soft_fail "TEST: Pretext skill not found"
-        TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
     echo ""
@@ -232,7 +195,6 @@ main() {
     verify_prerequisites
     install_uiux_skill
     install_21st_magic
-    install_pretext_skill
     run_self_test
     print_summary
 }

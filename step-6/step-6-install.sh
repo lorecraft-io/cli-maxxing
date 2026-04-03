@@ -56,6 +56,36 @@ verify_prerequisites() {
 # Interactive menu — let the user pick which tools to install
 # -----------------------------------------------------------------------------
 choose_tools() {
+    # Detect non-interactive mode (stdin is a pipe, not a terminal)
+    if [ ! -t 0 ]; then
+        info "Non-interactive mode detected (running via curl pipe)"
+        CHOICES=""
+
+        # Auto-detect already-installed tools
+        if claude mcp list 2>/dev/null | grep -q "motion-calendar" 2>/dev/null; then
+            CHOICES="1"
+            INSTALLED_MOTION=true
+        fi
+        if claude mcp list 2>/dev/null | grep -q "notion" 2>/dev/null; then
+            CHOICES="$CHOICES 2"
+            INSTALLED_NOTION=true
+        fi
+
+        if [ -n "$CHOICES" ]; then
+            info "Found already-installed tools — verifying configuration"
+            return
+        else
+            echo ""
+            echo -e "${YELLOW}  Step 6 requires interactive input for API credentials.${NC}"
+            echo -e "${YELLOW}  Run it directly in your terminal:${NC}"
+            echo ""
+            echo "    bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6-install.sh)"
+            echo ""
+            print_summary
+            exit 0
+        fi
+    fi
+
     echo ""
     echo -e "${BLUE}  Which productivity tools do you use?${NC}"
     echo -e "${BLUE}  (enter numbers separated by spaces)${NC}"
@@ -318,8 +348,8 @@ main() {
     # Process each selection
     for CHOICE in $CHOICES; do
         case "$CHOICE" in
-            1) install_motion_calendar ;;
-            2) install_notion ;;
+            1) if ! $INSTALLED_MOTION; then install_motion_calendar; else success "Motion Calendar already configured"; fi ;;
+            2) if ! $INSTALLED_NOTION; then install_notion; else success "Notion already configured"; fi ;;
             *) warn "Unknown choice: $CHOICE (skipping)" ;;
         esac
     done

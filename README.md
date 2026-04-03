@@ -465,6 +465,8 @@ Built by [@ruvnet](https://github.com/ruvnet) ([repo](https://github.com/ruvnet/
 
 > **Note:** We made one change from the default Ruflo setup. Out of the box, Ruflo uses a model routing system that can silently send some of your tasks to cheaper, weaker models like Haiku instead of Opus. If you're paying for Opus, you should always get Opus. Our install locks everything to Opus and disables the auto-downgrading. You can always turn routing back on later if you want to save on costs, but we default to giving you the best answers every time.
 
+> This applies to all agents in the swarm — every agent spawned by `/rswarm`, `/rhive`, or `/rmini` runs on Opus. No agent is silently downgraded to a cheaper model.
+
 Claude Code is already powerful on its own. But Ruflo takes it to another level by adding coordinated multi-agent workflows, persistent memory, and smart cost optimization on top:
 
 - **Multiple agents working in parallel.** Claude can spin up several agents at once, each focused on a different part of your task. A researcher, a coder, a reviewer, all working simultaneously instead of one after the other.
@@ -621,7 +623,6 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 |-----------|-------------|
 | UI/UX Pro Max Skill | This gives Claude professional design intelligence. 161 design rules, 67 styles, 161 palettes, 57 font pairings, 99 UX guidelines. |
 | 21st.dev Magic MCP | This connects Claude to a library of production-ready UI components it can use when building interfaces. |
-| Pretext Skill | Text measurement and layout tool via @chenglou/pretext. Use the `/pretext` command for shrinkwrap, profiling, and variable-width flow. |
 
 ---
 
@@ -694,7 +695,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 | YouTube Transcript MCP | Pulls transcripts from any YouTube video. Free, no API key needed. Supports language selection, timestamps, and ad filtering. |
 | yt-dlp MCP | Downloads audio/video from Instagram Reels, TikTok, Twitter/X, and many other platforms. Used to grab audio for local transcription. |
 | yt-dlp CLI | The command-line downloader that powers the yt-dlp MCP. Installed via Homebrew (macOS) or your system package manager (Linux). |
-| whisper-cpp | The transcription engine that actually converts speech to text. Installed via Homebrew on Mac, built from source on Linux. |
+| whisper-cpp | The transcription engine that actually converts speech to text. Installed via Homebrew on Mac (binary: `whisper-cli`), built from source on Linux. |
 | Whisper MCP | Connects whisper-cpp to Claude so it can transcribe audio files on demand. Runs entirely on your machine — no API keys, no cloud. |
 | FFmpeg | Powerful command-line tool for video and audio processing. Used by Remotion for rendering and by Claude for media operations. |
 
@@ -1086,7 +1087,7 @@ Run the steps in this order:
 | Bonus | Arc Browser | Power-user browser with sidebar tabs (optional, macOS) |
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
-| 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
+| 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic |
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Productivity Tools | Motion Calendar + Notion (optional) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
@@ -1136,7 +1137,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 **What it removes:**
 - Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
 - All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Obsidian, Motion Calendar, Notion)
-- All skills (rswarm, rmini, rhive, w4w, get-api-docs, UI/UX Pro Max, Remotion, Pretext)
+- All skills (rswarm, rmini, rhive, w4w, get-api-docs, UI/UX Pro Max, Remotion)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)

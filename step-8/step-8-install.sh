@@ -78,29 +78,33 @@ fi
 UIPRO="🎨 UIPro"
 
 # --- SWARM CHECK (only shows when actively running) ---
+# Lock file is written by /rswarm skill, removed on completion.
+# Agents run as Claude Code subprocesses (not CLI), so pgrep won't find them.
+# Auto-clean lock files older than 30 min as stale.
 SWARM=""
 SWARM_LOCK="/tmp/ruflo-swarm-active"
 if [ -f "$SWARM_LOCK" ] 2>/dev/null; then
-  if pgrep -f "swarm.*init|claude-flow.*swarm|ruflo.*swarm" >/dev/null 2>&1; then
+  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-swarm-active' -mmin +30 2>/dev/null)" ]; then
+    rm -f "$SWARM_LOCK" 2>/dev/null
+  else
     AGENT_COUNT=$(cat "$SWARM_LOCK" 2>/dev/null || echo "")
     if [ -n "$AGENT_COUNT" ]; then
       SWARM="🐝 ${AGENT_COUNT}"
     else
       SWARM="🐝"
     fi
-  else
-    rm -f "$SWARM_LOCK" 2>/dev/null
   fi
 fi
 
 # --- HIVE CHECK (only shows when actively running) ---
+# Same approach — trust lock file, auto-clean after 30 min.
 HIVE=""
 HIVE_LOCK="/tmp/ruflo-hive-active"
 if [ -f "$HIVE_LOCK" ] 2>/dev/null; then
-  if pgrep -f "hive-mind|claude-flow.*hive|ruflo.*hive" >/dev/null 2>&1; then
-    HIVE="👑 Hive"
-  else
+  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-hive-active' -mmin +30 2>/dev/null)" ]; then
     rm -f "$HIVE_LOCK" 2>/dev/null
+  else
+    HIVE="👑 Hive"
   fi
 fi
 

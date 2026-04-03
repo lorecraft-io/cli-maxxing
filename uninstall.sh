@@ -220,7 +220,7 @@ for pkg in ruflo@latest agentic-flow@latest @aisuite/chub typescript; do
 done
 
 # Swarm skills
-for skill in rswarm rmini rhive get-api-docs pretext w4w; do
+for skill in rswarm rmini rhive get-api-docs w4w; do
     if [ -d "$HOME/.claude/skills/$skill" ]; then
         rm -rf "$HOME/.claude/skills/$skill"
         success "Skill: /$skill"

@@ -114,7 +114,7 @@ elif [ -f "$HOME/.bashrc" ]; then
 fi
 
 echo "  Available commands: cskip, ctg, cc, ccr, ccc, cbrain, cbraintg"
-echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /pretext"
+echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w"
 echo ""
 echo "  Note: Steps 7b, 7c, 7d, and 6 are interactive. If you've"
 echo "  already completed them before, they just verify your setup."
