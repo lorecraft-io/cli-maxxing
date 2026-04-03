@@ -2,10 +2,10 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 7 — Productivity Tools
+# Step 6 — Productivity Tools
 # Installs Motion Calendar and Notion MCP servers
 # Interactive — pick the tools you actually use
-# Run this in your terminal after completing Steps 1-6
+# Run this in your terminal after completing Steps 1-5
 # =============================================================================
 
 RED='\033[0;31m'
@@ -251,7 +251,7 @@ run_self_test() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Step 7 Complete — Productivity Tools${NC}"
+    echo -e "${GREEN}  Step 6 Complete — Productivity Tools${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
@@ -306,7 +306,7 @@ print_summary() {
 main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Step 7 — Productivity Tools${NC}"
+    echo -e "${BLUE}  Step 6 — Productivity Tools${NC}"
     echo -e "${BLUE}  Calendar, tasks, and notes — pick what you use • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""

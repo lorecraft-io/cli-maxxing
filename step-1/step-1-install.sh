@@ -280,7 +280,7 @@ done
 
 if [ -z "${VAULT:-}" ]; then
   echo "Error: Could not find your 2ndBrain vault."
-  echo "Run Step 6 first, or set VAULT env var: VAULT=~/path/to/vault cbrain"
+  echo "Run Step 7 first, or set VAULT env var: VAULT=~/path/to/vault cbrain"
   exit 1
 fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions "$@"
@@ -308,7 +308,7 @@ done
 
 if [ -z "${VAULT:-}" ]; then
   echo "Error: Could not find your 2ndBrain vault."
-  echo "Run Step 6 first, or set VAULT env var: VAULT=~/path/to/vault cbraintg"
+  echo "Run Step 7 first, or set VAULT env var: VAULT=~/path/to/vault cbraintg"
   exit 1
 fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"

@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 6a — Set up Second Brain vault structure
+# Step 7a — Set up Second Brain vault structure
 # Creates Zettelkasten folders, templates, CLAUDE.md, and sync script
 # Run inside a cskip session after installing Obsidian
 # =============================================================================
@@ -47,7 +47,7 @@ install_obsidian() {
 find_vault() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Step 6a — Set Up Your Second Brain Vault${NC}"
+    echo -e "${BLUE}  Step 7a — Set Up Your Second Brain Vault${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo "  Looking for your Obsidian vault..."
@@ -534,7 +534,7 @@ run_self_test() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Step 6a Complete — Vault Structure Ready${NC}"
+    echo -e "${GREEN}  Step 7a Complete — Vault Structure Ready${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo "  Vault: $VAULT_PATH"
@@ -547,7 +547,7 @@ print_summary() {
     echo "    sync.sh (automation script)"
     echo "    Vault registered in Obsidian config"
     echo ""
-    echo "  Next: Run Step 6b to import your Claude history."
+    echo "  Next: Run Step 7b to import your Claude history."
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }

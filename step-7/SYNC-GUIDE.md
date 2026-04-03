@@ -1,6 +1,6 @@
 # Claude Projects to Obsidian Vault Sync Guide
 
-This document tells Claude how to sync Claude Project data into your Obsidian vault. Claude references this when running Step 6b.
+This document tells Claude how to sync Claude Project data into your Obsidian vault. Claude references this when running Step 7b.
 
 ## Vault Structure Per Project
 

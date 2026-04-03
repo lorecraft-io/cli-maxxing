@@ -9,7 +9,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Before You Start](#before-you-start) | Requirements | What you need before running anything | |
 | [Install Everything](#install-everything) | One-shot | Run all steps at once | ~20 min |
 | [How It Works](#how-it-works) | Overview | How the steps fit together | |
-| [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Terminal reference | Hotkeys, typing, and commands for your terminal | |
+| [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Commands & Shortcuts | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
 | [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
 | [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
@@ -17,10 +17,9 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
-| [Step 6](#step-6---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | 15-30+ min |
-| [Step 7](#step-7---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
+| [Step 6](#step-6---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
+| [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
 | [Step 8](#step-8---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
-| [Quick Reference](#quick-reference--commands--shortcuts) | Commands & Shortcuts | Every command and shortcut from all steps in one place | |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 | [Uninstall](#uninstall) | Remove everything | Reverses all steps, cleans up tools and config | |
@@ -52,7 +51,7 @@ If you already know your way around a terminal and just want everything installe
 > curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh | bash
 > ```
 
-This includes both bonuses (Ghostty and Arc Browser). Arc is macOS-only and will be skipped on Linux. Step 7 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
+This includes both bonuses (Ghostty and Arc Browser). Arc is macOS-only and will be skipped on Linux. Step 6 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
 
 We recommend reading through the steps below first so you understand what each tool does — but the one-shot option is here if you want it.
 
@@ -78,11 +77,11 @@ There are eight steps. Run them in order. Each one builds on the last.
 
 **[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, pull transcripts from any YouTube video, and download + transcribe content from Instagram Reels and other social platforms. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link. Instagram Reels — paste a link and Claude downloads the audio and transcribes it locally.
 
-**[Step 6](#step-6---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
+**[Step 6](#step-6---productivity-tools)** connects Claude to your productivity tools — your calendar and your notes. Pick the ones you use: Motion Calendar for seeing and managing your schedule, or Notion for your knowledge base. All optional, install only what you need.
 
-**[Step 7](#step-7---productivity-tools)** connects Claude to your productivity tools — your calendar and your notes. Pick the ones you use: Motion Calendar for seeing and managing your schedule, or Notion for your knowledge base. All optional, install only what you need.
+**[Step 7](#step-7---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
-**[Step 8](#step-8---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms or hive-minds. After this, you're done.
+**[Step 8](#step-8---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. After this, you're done.
 
 Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
 
@@ -115,9 +114,10 @@ Here are the seven commands you'll use most:
 | Command | What it does |
 |---------|-------------|
 | `cskip` | Start with all permissions skipped (fastest, no prompts) |
-| `cbrain` | Jump straight into your 2ndBrain vault with permissions skipped *(requires Obsidian — set up in [Step 6](#step-6---second-brain-obsidian))* |
+| `cbrain` | Jump straight into your 2ndBrain vault with permissions skipped *(requires Obsidian — set up in [Step 7](#step-7---second-brain-obsidian))* |
 | `Shift+Tab` | Toggle permissions on/off mid-session without restarting |
 | `/rswarm *write task here*` | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
+| `/rmini *write task here*` | Launch a compact 5-agent swarm — same power, tighter team. Describe your task after `/rmini` |
 | `/w4w` | Maximum attention to detail mode — word for word, line for line. No skipping, no summarizing, zero regard for credit burn |
 | `Ctrl+C` | Stop whatever is running or exit Claude |
 | `/resume` | Pick up right where you left off — reloads your last session's context |
@@ -482,9 +482,11 @@ Together, Ruflo and Context Hub are what take you from "using AI" to actually be
 
 ### Swarm Skills
 
-Step 3 also installs two slash commands that let you launch multi-agent swarms on demand:
+Step 3 also installs three slash commands that let you launch multi-agent swarms on demand:
 
 - **`/rswarm <task>`** — Launches 15 agents immediately. You describe the task, Claude assigns roles (architect, coders, testers, security auditor, etc.) and they all work in parallel. Use this when you know what you want done and want brute-force execution.
+
+- **`/rmini <task>`** — Launches 5 agents immediately. Same architecture as `/rswarm` but with a tighter team: architect, developer, tester, reviewer, and researcher. Use this for focused tasks where you don't need the full battalion.
 
 - **`/rhive <goal>`** — Launches a queen agent that autonomously manages everything. You describe the goal, the queen decides how to break it down, what workers to spawn, and how to coordinate them. Use this when you want to set a direction and step back.
 
@@ -522,12 +524,13 @@ You'll see "MCP" mentioned here and in future steps. MCP stands for Model Contex
 | Context Hub | This gives Claude access to curated, up-to-date API documentation so it stops hallucinating function names. |
 | Context Hub Skill | This teaches Claude when and how to look up API docs automatically before writing integration code. |
 | Swarm Skill (`/rswarm`) | Type `/rswarm` followed by any task and Claude immediately launches 15 parallel agents to tackle it. A lead architect coordinates backend devs, testers, security auditors, and more — all working simultaneously. |
+| Mini Swarm Skill (`/rmini`) | Type `/rmini` followed by any task and Claude launches 5 focused agents — architect, developer, tester, reviewer, and researcher. Same parallel execution as `/rswarm`, just a tighter team for focused work. |
 | Hive Skill (`/rhive`) | Type `/rhive` followed by a goal and a queen agent takes full control. She decides what workers to spawn, how to coordinate them, and when the work is done. You set the goal and step back. |
 | Statusline | A real-time status bar that shows your active tools, model, session time, and context usage. When a swarm or hive is running, you'll see live indicators so you always know what's happening. |
 
 ### After Step 3
 
-Your core tools are installed. Continue to Step 4 for design tools, Step 5 for visual media, and Step 6 for your Second Brain. Or open a new `cskip` session and try something ambitious. Ruflo kicks in automatically when the task calls for it.
+Your core tools are installed. Continue to Step 4 for design tools, Step 5 for visual media, and Step 6 for your productivity tools. Or open a new `cskip` session and try something ambitious. Ruflo kicks in automatically when the task calls for it.
 
 ### MCP Server Setup
 
@@ -696,13 +699,78 @@ You're now set up for visual media creation. Ask Claude to create a Remotion pro
 
 ---
 
-## Step 6 - Second Brain (Obsidian)
+## Step 6 - Productivity Tools
+
+[Back to top](#quick-nav)
+
+This step connects Claude to the productivity tools you already use. Everything here is optional — install only the tools that match your workflow. Skip what you don't use.
+
+Once installed, these tools work through natural language. No commands to memorize, no special syntax — you just talk to Claude the way you'd talk to a person:
+
+- *"What's on my calendar today?"*
+- *"Am I free Thursday afternoon?"*
+- *"Schedule a meeting called Team Sync tomorrow at 2pm"*
+- *"Search my Notion for the meeting notes from last week"*
+- *"Create a new page in Notion called Project Roadmap"*
+
+Claude picks the right tool automatically based on what you ask. You never need to think about which MCP is handling it.
+
+### Motion Calendar
+
+Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-calendar-mcp). This is a custom MCP that gives Claude full access to your Motion calendar — something Motion's own public API doesn't support. While other Motion integrations are limited to tasks and projects, this one reads, creates, updates, and deletes calendar events directly.
+
+- **See your schedule.** Ask Claude what's on your calendar today, this week, or any date range.
+- **Check availability.** Ask when you're free and Claude will find open slots across all your calendars.
+- **Create and manage events.** Schedule meetings, rename events, move them around, or delete them — all from your terminal.
+- **Search events.** Find that meeting you forgot the name of by searching titles and descriptions.
+- **Teammate visibility.** See when teammates are busy or out of office.
+- **All your calendars.** Motion aggregates Google Calendar, Outlook, and others into one place. This MCP sees all of them.
+
+> **Requires:** A Motion account and ~5 minutes to extract your API credentials. The setup script walks you through it.
+
+### Notion
+
+Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the official MCP server from Notion's own team. Gives Claude full access to your Notion workspace.
+
+- **Read and search.** Search across all your pages and databases.
+- **Create and edit.** Create new pages, append content, update existing pages — all in Markdown.
+- **Databases.** Query, create, and update Notion databases.
+- **22 tools** covering pages, databases, comments, and templates.
+
+> **Requires:** A free Notion account and an integration token. Go to [notion.so/profile/integrations](https://www.notion.so/profile/integrations), create a new integration named "Claude Code", select your workspace, and copy the token (starts with `ntn_`). Then share any pages you want Claude to access: on each page, click the `...` menu > **Connections** > add your integration. Claude can only see pages you explicitly share.
+
+### Run Step 6
+
+You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to install productivity tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6-install.sh | bash
+> ```
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| Motion Calendar MCP | Full calendar access — events, availability, scheduling. Uses Motion's internal API for features the public API doesn't have. |
+| Notion MCP | Official Notion integration — pages, databases, search, content management. 22 tools. |
+
+### After Step 6
+
+You now have your productivity stack connected to Claude. Ask about your schedule, create tasks, search your Notion — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them.
+
+---
+
+## Step 7 - Second Brain (Obsidian)
 
 [Back to top](#quick-nav)
 
 This is the biggest step. It sets up your personal knowledge management system, a "Second Brain" that captures, connects, and retrieves everything you know and everything you're working on. This step takes real time. Don't rush it.
 
-> **Heads up:** This step has multiple parts (6a through 6d). Each one is its own script. Take them one at a time.
+> **Heads up:** This step has multiple parts (7a through 7d). Each one is its own script. Take them one at a time.
 
 ### What is a Second Brain?
 
@@ -747,7 +815,7 @@ The folder structure we use is based on Zettelkasten principles:
 | **06-Assets** | Images, PDFs, attachments. Anything that isn't a text note. |
 | **07-Projects** | Active projects. Each one gets its own folder with an index note. If you use Claude Projects, you can mirror your Claude project names here. |
 
-### Step 6a - Install Obsidian + Create Your Vault
+### Step 7a - Install Obsidian + Create Your Vault
 
 This part installs Obsidian on your machine and has Claude set up the full folder structure for you.
 
@@ -773,7 +841,7 @@ Obsidian will open with an empty vault. That's perfect. Now Claude will set it u
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to set up my Second Brain vault structure: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6a-setup-vault.sh | bash
+> run this command to set up my Second Brain vault structure: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7a-setup-vault.sh | bash
 > ```
 
 
@@ -785,7 +853,7 @@ Claude will ask you where your vault is located, then:
 - Set up the **WebFetch workflow** so Claude knows how to capture content from URLs into your vault (it pulls the page, creates a Literature Note, extracts permanent notes, and links everything)
 - Set up a **sync automation script** you can run later to keep things tidy
 
-### Step 6b - Import Your Claude History
+### Step 7b - Import Your Claude History
 
 Before importing your other notes, let's get your Claude conversation history in first. This helps because some people name their vault project folders after their Claude Projects, and having that data available makes the whole organization process smoother.
 
@@ -805,7 +873,7 @@ Before importing your other notes, let's get your Claude conversation history in
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to import my Claude history into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6b-import-claude.sh | bash
+> run this command to import my Claude history into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7b-import-claude.sh | bash
 > ```
 
 
@@ -818,7 +886,7 @@ Claude will ask you where the zip file is, then:
 - Extract key concepts into **permanent notes** in `03-Permanent/`
 - Start building **bidirectional links** between related projects and notes
 
-### Step 6c - Import Your Existing Notes
+### Step 7c - Import Your Existing Notes
 
 Now let's get the rest of your notes in. If you have notes in Apple Notes, Google Keep, Notion, Evernote, or any other app, this step helps you export them and bring them into your vault.
 
@@ -837,7 +905,7 @@ Now let's get the rest of your notes in. If you have notes in Apple Notes, Googl
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to import my notes into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6c-import-notes.sh | bash
+> run this command to import my notes into my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7c-import-notes.sh | bash
 > ```
 
 
@@ -845,10 +913,10 @@ Claude will ask you where your exported notes are, what format they're in, and t
 
 - **Convert files to markdown** using Pandoc (installed in Step 2). This handles Word docs (.docx), PowerPoint (.pptx), Excel spreadsheets (.xlsx), and HTML files. Everything becomes clean, linkable markdown.
 - **Validate every file.** Claude checks for corrupt, empty, or fake files (like a .pdf that's actually an empty text file) and flags them.
-- **Move everything into the Inbox** for processing in Step 6d.
+- **Move everything into the Inbox** for processing in Step 7d.
 - **Ask you how you want to organize things.** Claude will have a conversation with you about what folders make sense for your notes, what categories you care about, and how you want things grouped. This isn't one-size-fits-all. Your vault should reflect how your brain works.
 
-### Step 6d - Wire It All Up
+### Step 7d - Wire It All Up
 
 This is where the magic happens. Claude goes through everything in your vault and connects it all together. This is the stuff that would take you hours to do manually. Claude does it in minutes.
 
@@ -866,7 +934,7 @@ What Claude will do:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to wire up my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6d-wire-vault.sh | bash
+> run this command to wire up my vault: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7d-wire-vault.sh | bash
 > ```
 
 
@@ -878,9 +946,9 @@ If you have GitHub repos, Claude can connect them to your vault. This means if i
 
 **Claude does the heavy lifting here.** The whole point of this setup is that you don't have to manually organize, link, or categorize anything. You dump things into the Inbox, and Claude (or you working with Claude) processes them into the right places. The system gets smarter as it grows.
 
-> **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 15-30+ minutes. Let Claude work. You can watch it go or come back when it's done.
+> **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 30+ minutes. Let Claude work. You can watch it go or come back when it's done.
 
-### Step 6e - Connect Google Calendar
+### Step 7e - Connect Google Calendar
 
 One last thing before you move on. Claude can read and manage your Google Calendar — check your schedule, create events, find conflicts, and help you plan your day. This is a built-in Claude integration, no install needed. You just need to authorize it once.
 
@@ -894,7 +962,7 @@ A menu will appear. Select **claude.ai Google Calendar** and complete the Google
 
 This is a one-time setup. The connection persists across sessions. You can verify it's connected anytime by running `/mcp` again and checking the status.
 
-### Step 6 Troubleshooting
+### Step 7 Troubleshooting
 
 If things don't look right, here are the most common issues and how to fix them. You can ask Claude to fix any of these for you.
 
@@ -915,7 +983,7 @@ If things don't look right, here are the most common issues and how to fix them.
 **Frontmatter is missing on some notes:**
 - If notes don't have the YAML frontmatter block at the top, Obsidian can't filter or categorize them properly. Tell Claude: "Add proper frontmatter to any notes in my vault that are missing it."
 
-**The Inbox is still full after running 6d:**
+**The Inbox is still full after running 7d:**
 - Claude might have been conservative about categorizing some notes. Tell Claude: "Process everything remaining in my Inbox. Sort each note into the appropriate folder and create links."
 
 **You want to reorganize folders or rename projects:**
@@ -925,76 +993,11 @@ If things don't look right, here are the most common issues and how to fix them.
 
 ---
 
-## Step 7 - Productivity Tools
-
-[Back to top](#quick-nav)
-
-This step connects Claude to the productivity tools you already use. Everything here is optional — install only the tools that match your workflow. Skip what you don't use.
-
-Once installed, these tools work through natural language. No commands to memorize, no special syntax — you just talk to Claude the way you'd talk to a person:
-
-- *"What's on my calendar today?"*
-- *"Am I free Thursday afternoon?"*
-- *"Schedule a meeting called Team Sync tomorrow at 2pm"*
-- *"Search my Notion for the meeting notes from last week"*
-- *"Create a new page in Notion called Project Roadmap"*
-
-Claude picks the right tool automatically based on what you ask. You never need to think about which MCP is handling it.
-
-### Motion Calendar
-
-Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-calendar-mcp). This is a custom MCP that gives Claude full access to your Motion calendar — something Motion's own public API doesn't support. While other Motion integrations are limited to tasks and projects, this one reads, creates, updates, and deletes calendar events directly.
-
-- **See your schedule.** Ask Claude what's on your calendar today, this week, or any date range.
-- **Check availability.** Ask when you're free and Claude will find open slots across all your calendars.
-- **Create and manage events.** Schedule meetings, rename events, move them around, or delete them — all from your terminal.
-- **Search events.** Find that meeting you forgot the name of by searching titles and descriptions.
-- **Teammate visibility.** See when teammates are busy or out of office.
-- **All your calendars.** Motion aggregates Google Calendar, Outlook, and others into one place. This MCP sees all of them.
-
-> **Requires:** A Motion account and ~5 minutes to extract your API credentials. The setup script walks you through it.
-
-### Notion
-
-Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the official MCP server from Notion's own team. Gives Claude full access to your Notion workspace.
-
-- **Read and search.** Search across all your pages and databases.
-- **Create and edit.** Create new pages, append content, update existing pages — all in Markdown.
-- **Databases.** Query, create, and update Notion databases.
-- **22 tools** covering pages, databases, comments, and templates.
-
-> **Requires:** A free Notion account and an integration token. Go to [notion.so/profile/integrations](https://www.notion.so/profile/integrations), create a new integration named "Claude Code", select your workspace, and copy the token (starts with `ntn_`). Then share any pages you want Claude to access: on each page, click the `...` menu > **Connections** > add your integration. Claude can only see pages you explicitly share.
-
-### Run Step 7
-
-You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
-
-Once you're inside the Claude session, paste this and hit Enter:
-
-> [!IMPORTANT]
-> **Paste this into your Claude session:**
-> ```
-> run this command to install productivity tools: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-7/step-7-install.sh | bash
-> ```
-
-### What This Step Installs
-
-| Component | What it does |
-|-----------|-------------|
-| Motion Calendar MCP | Full calendar access — events, availability, scheduling. Uses Motion's internal API for features the public API doesn't have. |
-| Notion MCP | Official Notion integration — pages, databases, search, content management. 22 tools. |
-
-### After Step 7
-
-You now have your productivity stack connected to Claude. Ask about your schedule, create tasks, search your Notion — all from your terminal. If you skipped any tools, you can always come back and re-run Step 7 to add them.
-
----
-
 ## Step 8 - Status Line
 
 [Back to top](#quick-nav)
 
-This is the wrap-up step. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms or hive-minds.
+This is the wrap-up step. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds.
 
 ### What It Sets Up
 
@@ -1004,7 +1007,8 @@ This is the wrap-up step. It installs a custom status line that shows you what's
 | ⚡ Ruflo | The Ruflo MCP server is connected |
 | 🎨 UIPro | Design skill is loaded (always on after Step 4) |
 | 🐝 Swarm | A swarm is active (shows agent count during `/rswarm`) |
-| 🍯 Hive | A hive-mind is active (during `/rhive`) |
+| 🍯 Mini | A mini swarm is active (shows agent count during `/rmini`) |
+| 👑 Hive | A hive-mind is active (during `/rhive`) |
 
 The status line also shows your current model, session duration, and context window usage.
 
@@ -1029,7 +1033,7 @@ Or manually:
 
 ### After Step 8
 
-You're done. Everything is installed, configured, and wired together. Open a new `cskip` or `cbrain` session and your status line will show exactly what's active.
+You're done. Everything is installed, configured, and wired together. Open a new `cskip` session and your status line will show exactly what's active.
 
 ---
 
@@ -1048,178 +1052,11 @@ Run the steps in this order:
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
-| 6 | Second Brain | Obsidian vault setup + data import (6a-6e) |
-| 7 | Productivity Tools | Motion Calendar + Notion (optional) |
+| 6 | Productivity Tools | Motion Calendar + Notion (optional) |
+| 7 | Second Brain | Obsidian vault setup + data import (7a-7e) |
 | **8** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Second Brain) is the biggest step with five sub-parts (6a-6e). Step 7 (Productivity Tools) is all optional — install only the tools you use. Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
-
----
-
-## Quick Reference — Commands & Shortcuts
-
-[Back to top](#quick-nav)
-
-Everything installed by this setup, in one place. Print this, bookmark it, or just ask Claude "what commands do I have?"
-
----
-
-### Shell Commands (installed by Step 1)
-
-These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any terminal session.
-
-| Command | What it does |
-|---------|-------------|
-| `cskip` | Launch Claude Code with all permissions skipped (`claude --dangerously-skip-permissions`) |
-| `cc` | Short alias for `claude` |
-| `ccr` | Resume last Claude conversation (`claude --resume`) |
-| `ccc` | Continue last Claude conversation (`claude --continue`) |
-| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires Obsidian — Step 6)* |
-| `cbraintg` | Same as `cbrain` but with Telegram channel connected |
-| `ctg` | Skip-permissions + Telegram channel connected (any directory) |
-| `g2` | Tile 2 Ghostty windows side by side, filling your screen *(requires Ghostty — Bonus step, macOS only)* |
-| `g4` | Tile 4 Ghostty windows in a 2x2 grid *(requires Ghostty — Bonus step, macOS only)* |
-
-> **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
->
-> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault to exist — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
-
----
-
-### Terminal Hotkeys
-
-These work in any terminal when a Claude session is active.
-
-| Hotkey | What it does |
-|--------|-------------|
-| **Shift+Tab** | Toggle auto-approve permissions on/off without restarting Claude |
-| **Ctrl+C** | Stop whatever is running, exit Claude, or clear everything you've typed in the input box |
-| **Ctrl+U** | Clear the entire line you are typing |
-| **Up Arrow** | Recall previous command from history |
-| **Tab** | Auto-complete file names and commands |
-
----
-
-### Claude Code Built-In Commands (inside a session)
-
-| Command | What it does |
-|---------|-------------|
-| `/exit` | Quit Claude |
-| `/help` | Show all available commands |
-| `/permissions` | Check current permission settings |
-| `/clear` | Clear the conversation |
-| `/compact` | Summarize conversation to save context window |
-| `/voice` | Enable voice input mode |
-| `!command` | Run a shell command without leaving Claude (e.g., `!ls`) |
-
----
-
-### Claude Code Skills (slash commands)
-
-These are custom skills installed by the setup scripts. Type them inside a Claude session.
-
-| Command | Installed in | What it does |
-|---------|-------------|-------------|
-| `/rswarm do the thing` | Step 3 | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
-| `/rhive <goal>` | Step 3 | Launch a queen-led autonomous hive-mind with raft consensus |
-| `/w4w` | Step 3 | Maximum attention to detail — word for word, line for line. No skipping, no summarizing. Also works without the slash — just type `w4w` |
-| `/pretext <request>` | Step 4 | Text measurement and layout via @chenglou/pretext |
-
-> These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language. Exception: `/w4w` also works without the slash — just type `w4w` anywhere in your message.
-
----
-
-### Auto-Triggered Tools (natural language — no command needed)
-
-These activate on their own when Claude detects a relevant task via natural language. You never type a command — just describe what you want and Claude picks up the right tool.
-
-| Tool | Installed in | How it activates | Example prompt |
-|------|-------------|-----------------|----------------|
-| UI/UX Pro Max | Step 4 | Natural language — asks about UI, design, layouts, interfaces | "Build me a dashboard with a sidebar" |
-| 21st.dev Magic | Step 4 | Natural language — building components, pulls from 21st.dev library | "Create a hero section with a CTA" |
-| Context Hub | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
-| Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
-| YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
-| IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
-| Motion Calendar | Step 7 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
-| Notion | Step 7 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
-| No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
-| Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
-| Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
-| Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
-| Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
-| Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
-| Gamma | Add-on | Natural language — presentations, documents, webpages | "Create a pitch deck for my startup" |
-| Google Calendar | Add-on | Natural language — calendar events, meeting times, availability | "Find a free slot for a meeting tomorrow" |
-| Telegram | Add-on | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
-
-> **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
->
-> **Add-on tools** are not part of the 8-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
-
----
-
-### Status Line Indicators
-
-When these tools are active, you may see indicators in your Claude session:
-
-| Indicator | Meaning |
-|-----------|---------|
-| 2ndBrain | Working inside your Obsidian vault |
-| Ruflo | Ruflo MCP server is connected |
-| UIPro | Design skill is loaded (always on after Step 4) |
-| 15 agents | Swarm is active with 15 agents (after `/rswarm`) |
-| Hive | Hive-mind is active (after `/rhive`) |
-
----
-
-### Ruflo Commands (Step 3)
-
-These are available in your terminal after Step 3 installs the Ruflo CLI.
-
-| Command | What it does |
-|---------|-------------|
-| `npx @claude-flow/cli@latest doctor --fix` | Diagnose and fix Ruflo installation issues |
-| `npx @claude-flow/cli@latest daemon start` | Start the Ruflo background daemon |
-| `npx @claude-flow/cli@latest swarm status` | Check the status of any running swarm |
-| `npx @claude-flow/cli@latest memory search --query "..."` | Search your agent memory for past context |
-| `npx @claude-flow/cli@latest memory list` | List all stored memory entries |
-
----
-
-### Update & Maintenance
-
-| Command | What it does |
-|---------|-------------|
-| `curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh \| bash` | Re-run all steps, skip what is installed, pick up anything new |
-| `source ~/.zshrc` | Reload shell config to activate new aliases |
-| `claude update` | Update Claude Code itself to the latest version |
-| `brew update && brew upgrade` | Update Homebrew and all installed packages (macOS) |
-
----
-
-### Quick Troubleshooting
-
-| Problem | Fix |
-|---------|-----|
-| `cskip` not recognized | Run `source ~/.zshrc` to reload your shell config |
-| Claude asks for login | Run `claude` once normally and complete the browser login flow |
-| Shift+Tab does nothing | Make sure you are inside an active Claude session. Try exiting and relaunching with `cskip` |
-| Swarm not responding | Run `npx @claude-flow/cli@latest doctor --fix` to diagnose |
-| MCP tools not connecting | Exit Claude, run `claude mcp list` to check connections, then relaunch |
-| `cbrain` not working | Run `cskip` instead, then tell Claude: "cbrain isn't working — can you figure out why and fix it?" Claude will find the problem, fix it, and get it working for future sessions. |
-| Obsidian vault not found | Tell Claude the full path to your vault (e.g., `~/Desktop/2ndBrain`) |
-| Shift+Return acts like Enter | Try Option+Enter as an alternative for multi-line input. Behavior may vary by terminal app. |
-
----
-
-### Tips
-
-- Say "yes" when Claude asks for permission, or use the `!` prefix to run commands directly without leaving the session.
-- Voice commands work in Claude Code — use `/voice` to enable microphone input.
-- If Claude seems confused or slow, run `/compact` to summarize the conversation and free up context.
-- You can drag and drop files into most terminal apps to paste their full file path.
-- Press **Up Arrow** to recall and re-run previous commands without retyping them.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with five sub-parts (7a-7e). Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
 
 ---
 
@@ -1263,7 +1100,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 **What it removes:**
 - Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
 - All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Obsidian, Motion Calendar, Notion)
-- All skills (rswarm, rhive, w4w, get-api-docs, UI/UX Pro Max, Remotion, Pretext)
+- All skills (rswarm, rmini, rhive, w4w, get-api-docs, UI/UX Pro Max, Remotion, Pretext)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)

@@ -59,10 +59,24 @@ if [ -f "$HOME/.claude/settings.json" ]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Step 7 — Productivity Tools (Motion Calendar, Notion)
+# Step 7 — Obsidian MCP
 # -----------------------------------------------------------------------------
 echo ""
-echo -e "${BLUE}--- Step 7: Productivity Tools ---${NC}"
+echo -e "${BLUE}--- Step 7: Obsidian ---${NC}"
+
+# Obsidian MCP
+if claude mcp list 2>/dev/null | grep -qi "obsidian" 2>/dev/null; then
+    claude mcp remove obsidian 2>/dev/null || true
+    success "Obsidian MCP"
+else
+    skip "Obsidian MCP (not found)"
+fi
+
+# -----------------------------------------------------------------------------
+# Step 6 — Productivity Tools (Motion Calendar, Notion)
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Step 6: Productivity Tools ---${NC}"
 
 # Motion Calendar MCP
 if claude mcp list 2>/dev/null | grep -qi "motion-calendar" 2>/dev/null; then
@@ -86,20 +100,6 @@ if claude mcp list 2>/dev/null | grep -qi "notion" 2>/dev/null; then
     success "Notion MCP"
 else
     skip "Notion MCP (not found)"
-fi
-
-# -----------------------------------------------------------------------------
-# Step 6 — Obsidian MCP
-# -----------------------------------------------------------------------------
-echo ""
-echo -e "${BLUE}--- Step 6: Obsidian ---${NC}"
-
-# Obsidian MCP
-if claude mcp list 2>/dev/null | grep -qi "obsidian" 2>/dev/null; then
-    claude mcp remove obsidian 2>/dev/null || true
-    success "Obsidian MCP"
-else
-    skip "Obsidian MCP (not found)"
 fi
 
 # -----------------------------------------------------------------------------
@@ -220,7 +220,7 @@ for pkg in ruflo@latest agentic-flow@latest @aisuite/chub typescript; do
 done
 
 # Swarm skills
-for skill in rswarm rhive get-api-docs pretext w4w; do
+for skill in rswarm rmini rhive get-api-docs pretext w4w; do
     if [ -d "$HOME/.claude/skills/$skill" ]; then
         rm -rf "$HOME/.claude/skills/$skill"
         success "Skill: /$skill"

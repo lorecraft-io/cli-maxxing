@@ -39,7 +39,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
-| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires Obsidian — Step 6)* |
+| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires Obsidian — Step 7)* |
 | `cbraintg` | Same as `cbrain` but with Telegram channel connected |
 | `ctg` | Skip-permissions + Telegram channel connected (any directory) |
 | `g2` | Tile 2 Ghostty windows side by side, filling your screen *(requires Ghostty — Bonus step, macOS only)* |
@@ -47,7 +47,7 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 
 > **Tip:** After running any setup script, run `source ~/.zshrc` to activate new commands. The scripts do this automatically, but just in case.
 >
-> **Note:** Until you set up Second Brain (Step 6), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault to exist — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
+> **Note:** Until you set up Second Brain (Step 7), use `cskip` instead of `cbrain`. The `cbrain` command requires an Obsidian vault to exist — if you haven't created one yet, it will error. Everything else works right away with `cskip`.
 
 ## What is auto-approve mode?
 
@@ -92,11 +92,12 @@ These are custom skills installed by the setup scripts. Type them inside a Claud
 | Command | Installed in | What it does |
 |---------|-------------|-------------|
 | `/rswarm do the thing` | Step 3 | Launch a 15-agent swarm — just describe what you want in plain English after `/rswarm` |
+| `/rmini do the thing` | Step 3 | Launch a compact 5-agent swarm — same power, tighter team |
 | `/rhive <goal>` | Step 3 | Launch a queen-led autonomous hive-mind with raft consensus |
 | `/w4w` | Step 3 | Maximum attention to detail — word for word, line for line. No skipping, no summarizing. Also works without the slash — just type `w4w` |
 | `/pretext <request>` | Step 4 | Text measurement and layout via @chenglou/pretext |
 
-> These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language. Exception: `/w4w` also works without the slash — just type `w4w` anywhere in your message.
+> These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language. Exception: `/w4w` also works without the slash — just type `w4w` anywhere in your message. `/rmini` is the compact version of `/rswarm` — 5 agents instead of 15.
 
 ---
 
@@ -112,11 +113,11 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
-| Motion Calendar | Step 7 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
-| Notion | Step 7 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
+| Motion Calendar | Step 6 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
+| Notion | Step 6 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
-| Obsidian | Step 6 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
+| Obsidian | Step 7 | Natural language — anything about notes, vault, search, or knowledge management | "Search my vault for notes about machine learning" |
 | Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
 | Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
@@ -136,11 +137,12 @@ When these tools are active, you may see indicators in your Claude session:
 
 | Indicator | Meaning |
 |-----------|---------|
-| 2ndBrain | Working inside your Obsidian vault |
-| Ruflo | Ruflo MCP server is connected |
-| UIPro | Design skill is loaded (always on after Step 4) |
-| 15 agents | Swarm is active with 15 agents (after `/rswarm`) |
-| Hive | Hive-mind is active (after `/rhive`) |
+| 🧠 2ndBrain | Working inside your Obsidian vault |
+| ⚡ Ruflo | Ruflo MCP server is connected |
+| 🎨 UIPro | Design skill is loaded (always on after Step 4) |
+| 🐝 Swarm | Swarm is active — shows agent count (after `/rswarm`) |
+| 🍯 Mini | Mini swarm is active — shows agent count (after `/rmini`) |
+| 👑 Hive | Hive-mind is active (after `/rhive`) |
 
 ---
 

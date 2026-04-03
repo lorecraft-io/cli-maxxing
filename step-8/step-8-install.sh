@@ -98,9 +98,26 @@ HIVE=""
 HIVE_LOCK="/tmp/ruflo-hive-active"
 if [ -f "$HIVE_LOCK" ] 2>/dev/null; then
   if pgrep -f "hive-mind|claude-flow.*hive|ruflo.*hive" >/dev/null 2>&1; then
-    HIVE="🍯 Hive"
+    HIVE="👑 Hive"
   else
     rm -f "$HIVE_LOCK" 2>/dev/null
+  fi
+fi
+
+# --- MINI CHECK (only shows when actively running) ---
+# Same approach — trust lock file, auto-clean after 30 min.
+MINI=""
+MINI_LOCK="/tmp/ruflo-mini-active"
+if [ -f "$MINI_LOCK" ] 2>/dev/null; then
+  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-mini-active' -mmin +30 2>/dev/null)" ]; then
+    rm -f "$MINI_LOCK" 2>/dev/null
+  else
+    MINI_AGENT_COUNT=$(cat "$MINI_LOCK" 2>/dev/null || echo "")
+    if [ -n "$MINI_AGENT_COUNT" ]; then
+      MINI="🍯 ${MINI_AGENT_COUNT}"
+    else
+      MINI="🍯"
+    fi
   fi
 fi
 
@@ -120,12 +137,21 @@ else
   PARTS="${UIPRO}"
 fi
 
-if [ -n "$SWARM" ] && [ -n "$HIVE" ]; then
-  PARTS="${PARTS} [${SWARM} + ${HIVE}]"
-elif [ -n "$SWARM" ]; then
-  PARTS="${PARTS} [${SWARM}]"
-elif [ -n "$HIVE" ]; then
-  PARTS="${PARTS} [${HIVE}]"
+# Swarm, Hive, or Mini activity
+ACTIVITY=""
+if [ -n "$SWARM" ]; then
+  ACTIVITY="${SWARM}"
+fi
+if [ -n "$HIVE" ]; then
+  [ -n "$ACTIVITY" ] && ACTIVITY="${ACTIVITY} + "
+  ACTIVITY="${ACTIVITY}${HIVE}"
+fi
+if [ -n "$MINI" ]; then
+  [ -n "$ACTIVITY" ] && ACTIVITY="${ACTIVITY} + "
+  ACTIVITY="${ACTIVITY}${MINI}"
+fi
+if [ -n "$ACTIVITY" ]; then
+  PARTS="${PARTS} [${ACTIVITY}]"
 fi
 
 echo "${PARTS} • ${MODEL} • ⏱ ${TIME_FMT} • ${CTX}% ctx"
@@ -344,9 +370,10 @@ echo "    🧠 2ndBrain  — in Obsidian vault"
 echo "    ⚡ Ruflo     — MCP server connected"
 echo "    🎨 UIPro     — design skill loaded"
 echo "    🐝 Swarm     — swarm active (during /rswarm)"
-echo "    🍯 Hive      — hive-mind active (during /rhive)"
+echo "    👑 Hive      — hive-mind active (during /rhive)
+    🍯 Mini      — mini swarm active (during /rmini)"
 echo ""
-echo -e "  ${YELLOW}Important: Until you set up Second Brain (Step 6), use cskip${NC}"
+echo -e "  ${YELLOW}Important: Until you set up Second Brain (Step 7), use cskip${NC}"
 echo -e "  ${YELLOW}instead of cbrain. cbrain requires an Obsidian vault to exist.${NC}"
 echo ""
 echo "  Restart Claude Code to see your status line."

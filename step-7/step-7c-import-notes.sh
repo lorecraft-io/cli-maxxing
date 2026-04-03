@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 6c — Import existing notes into your vault
+# Step 7c — Import existing notes into your vault
 # Handles Apple Notes, OneNote, Notion, Evernote, and raw files
 # Converts docx/pptx/xlsx/html to markdown via Pandoc
 # Run inside a cskip session
@@ -21,7 +21,7 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}  Step 6c — Import Your Existing Notes${NC}"
+echo -e "${BLUE}  Step 7c — Import Your Existing Notes${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -76,7 +76,7 @@ if [ -z "$VAULT_PATH" ]; then
 fi
 
 if [ -z "$VAULT_PATH" ] || [ ! -d "$VAULT_PATH/00-Inbox" ]; then
-    fail "Could not find your vault. Run Step 6a first, or set VAULT_PATH manually."
+    fail "Could not find your vault. Run Step 7a first, or set VAULT_PATH manually."
 fi
 
 success "Vault found at: $VAULT_PATH"
@@ -124,7 +124,7 @@ done
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Step 6c — Ready for Claude to Import${NC}"
+echo -e "${GREEN}  Step 7c — Ready for Claude to Import${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  Vault: $VAULT_PATH"

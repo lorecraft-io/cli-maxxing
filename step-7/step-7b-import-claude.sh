@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 6b — Import Claude conversation history into your vault
+# Step 7b — Import Claude conversation history into your vault
 # Parses Claude data export into project folders and notes
 # Run inside a cskip session
 # =============================================================================
@@ -20,7 +20,7 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}  Step 6b — Import Claude History${NC}"
+echo -e "${BLUE}  Step 7b — Import Claude History${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -50,7 +50,7 @@ if [ -z "$VAULT_PATH" ]; then
 fi
 
 if [ -z "$VAULT_PATH" ] || [ ! -d "$VAULT_PATH/00-Inbox" ]; then
-    fail "Could not find your vault. Run Step 6a first, or set VAULT_PATH manually."
+    fail "Could not find your vault. Run Step 7a first, or set VAULT_PATH manually."
 fi
 
 success "Vault found at: $VAULT_PATH"
@@ -106,7 +106,7 @@ if [ -z "$ZIP_PATH" ]; then
   echo ""
   echo -e "  ${YELLOW}Option 1: Set the path directly${NC}"
   echo "    export CLAUDE_ZIP=/path/to/your/data-export.zip"
-  echo "    bash step-6b-import-claude.sh"
+  echo "    bash step-7b-import-claude.sh"
   echo ""
   echo -e "  ${YELLOW}Option 2: Place the zip in ~/Downloads/${NC}"
   echo "    Claude exports are named like: data-<uuid>-batch-1.zip"
@@ -151,7 +151,7 @@ mkdir -p "$VAULT_PATH/07-Projects"
 # =============================================================================
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Step 6b — Ready for Claude to Parse${NC}"
+echo -e "${GREEN}  Step 7b — Ready for Claude to Parse${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  Vault:       $VAULT_PATH"

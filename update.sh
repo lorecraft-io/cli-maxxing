@@ -64,34 +64,34 @@ echo ""
 curl -fsSL "$BASE_URL/step-5/step-5-install.sh" | bash
 echo ""
 
-# Step 6a (vault structure)
-echo -e "${YELLOW}>>> Running Step 6a — Second Brain Vault Structure${NC}"
+# Step 6 (Productivity Tools)
+echo -e "${YELLOW}>>> Running Step 6 — Productivity Tools${NC}"
 echo ""
-curl -fsSL "$BASE_URL/step-6/step-6a-setup-vault.sh" | bash
-echo ""
-
-# Step 6b (Claude history import)
-echo -e "${YELLOW}>>> Running Step 6b — Import Claude History${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-6/step-6b-import-claude.sh" | bash
+curl -fsSL "$BASE_URL/step-6/step-6-install.sh" | bash
 echo ""
 
-# Step 6c (notes import)
-echo -e "${YELLOW}>>> Running Step 6c — Import Existing Notes${NC}"
+# Step 7a (vault structure)
+echo -e "${YELLOW}>>> Running Step 7a — Second Brain Vault Structure${NC}"
 echo ""
-curl -fsSL "$BASE_URL/step-6/step-6c-import-notes.sh" | bash
-echo ""
-
-# Step 6d (wire it up)
-echo -e "${YELLOW}>>> Running Step 6d — Wire Up Vault${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-6/step-6d-wire-vault.sh" | bash
+curl -fsSL "$BASE_URL/step-7/step-7a-setup-vault.sh" | bash
 echo ""
 
-# Step 7 (Productivity Tools)
-echo -e "${YELLOW}>>> Running Step 7 — Productivity Tools${NC}"
+# Step 7b (Claude history import)
+echo -e "${YELLOW}>>> Running Step 7b — Import Claude History${NC}"
 echo ""
-curl -fsSL "$BASE_URL/step-7/step-7-install.sh" | bash
+curl -fsSL "$BASE_URL/step-7/step-7b-import-claude.sh" | bash
+echo ""
+
+# Step 7c (notes import)
+echo -e "${YELLOW}>>> Running Step 7c — Import Existing Notes${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-7/step-7c-import-notes.sh" | bash
+echo ""
+
+# Step 7d (wire it up)
+echo -e "${YELLOW}>>> Running Step 7d — Wire Up Vault${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-7/step-7d-wire-vault.sh" | bash
 echo ""
 
 # Step 8 (Status Line — wrap-up)
@@ -114,9 +114,9 @@ elif [ -f "$HOME/.bashrc" ]; then
 fi
 
 echo "  Available commands: cskip, ctg, cc, ccr, ccc, cbrain, cbraintg"
-echo "  Available skills:   /rswarm, /rhive, /w4w, /pretext"
+echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /pretext"
 echo ""
-echo "  Note: Steps 6b, 6c, 6d, and 7 are interactive. If you've"
+echo "  Note: Steps 7b, 7c, 7d, and 6 are interactive. If you've"
 echo "  already completed them before, they just verify your setup."
 echo "  If you haven't, follow the prompts to import your data"
 echo "  and choose your productivity tools."

@@ -266,7 +266,7 @@ SKILL_EOF
 }
 
 # -----------------------------------------------------------------------------
-# Install Swarm Skills (/rswarm, /rhive) + Statusline
+# Install Swarm Skills (/rswarm, /rhive, /rmini) + Statusline
 # -----------------------------------------------------------------------------
 install_swarm_skills() {
     info "Installing swarm skills and statusline..."
@@ -389,6 +389,53 @@ The queen MUST:
 RHIVE_EOF
     success "Hive skill (/rhive) installed"
 
+    # --- /rmini skill ---
+    RMINI_DIR="$HOME/.claude/skills/rmini"
+    mkdir -p "$RMINI_DIR"
+    cat > "$RMINI_DIR/SKILL.md" << 'RMINI_EOF'
+---
+name: rmini
+description: "Launch a compact 5-agent Ruflo swarm for focused task execution. Smaller than /rswarm but still parallel and powerful."
+---
+
+# Ruflo Mini Swarm — Compact Execution
+
+When this skill is invoked, IMMEDIATELY launch a 5-agent swarm. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
+
+## Execution Steps
+
+1. Read the user's task (everything they typed after `/rmini`)
+2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+3. Initialize the swarm in ONE message:
+   - Call `mcp__claude-flow__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
+4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
+5. When results come back, synthesize and present the combined output.
+6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+
+## The 5 Agents
+
+| # | Agent Type | Role | Task Focus |
+|---|-----------|------|------------|
+| 1 | system-architect | Lead Architect | System design, task decomposition, coordinates all agents |
+| 2 | coder | Primary Dev | Core implementation — frontend or backend depending on task |
+| 3 | tester | Test Engineer | Unit, integration, and edge case tests |
+| 4 | reviewer | Code Reviewer | Quality, patterns, best practices, security check |
+| 5 | researcher | Researcher | Background research, prior art, docs lookup |
+
+Adapt agent assignments to the task — if the task is research-heavy, shift roles accordingly. But ALWAYS spawn 5.
+
+## Rules
+
+- Model: Opus only. Never route to Haiku or Sonnet.
+- Topology: hierarchical-mesh (architect leads, agents coordinate peer-to-peer within their layer)
+- All agents spawned in background in ONE message
+- Each agent gets a clear, specific sub-task with full context — not vague instructions
+- After spawning, STOP and wait
+- When results arrive, review ALL results before presenting final output
+RMINI_EOF
+    success "Mini swarm skill (/rmini) installed"
+
     # --- /w4w skill ---
     W4W_DIR="$HOME/.claude/skills/w4w"
     mkdir -p "$W4W_DIR"
@@ -496,7 +543,24 @@ if [ -f "$HIVE_LOCK" ] 2>/dev/null; then
   if [ "$(find /tmp -maxdepth 1 -name 'ruflo-hive-active' -mmin +30 2>/dev/null)" ]; then
     rm -f "$HIVE_LOCK" 2>/dev/null
   else
-    HIVE="🍯 Hive"
+    HIVE="👑 Hive"
+  fi
+fi
+
+# --- MINI CHECK (only shows when actively running) ---
+# Same approach — trust lock file, auto-clean after 30 min.
+MINI=""
+MINI_LOCK="/tmp/ruflo-mini-active"
+if [ -f "$MINI_LOCK" ] 2>/dev/null; then
+  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-mini-active' -mmin +30 2>/dev/null)" ]; then
+    rm -f "$MINI_LOCK" 2>/dev/null
+  else
+    MINI_AGENT_COUNT=$(cat "$MINI_LOCK" 2>/dev/null || echo "")
+    if [ -n "$MINI_AGENT_COUNT" ]; then
+      MINI="🍯 ${MINI_AGENT_COUNT}"
+    else
+      MINI="🍯"
+    fi
   fi
 fi
 
@@ -519,13 +583,21 @@ else
   PARTS="${UIPRO}"
 fi
 
-# Swarm or Hive activity
-if [ -n "$SWARM" ] && [ -n "$HIVE" ]; then
-  PARTS="${PARTS} [${SWARM} + ${HIVE}]"
-elif [ -n "$SWARM" ]; then
-  PARTS="${PARTS} [${SWARM}]"
-elif [ -n "$HIVE" ]; then
-  PARTS="${PARTS} [${HIVE}]"
+# Swarm, Hive, or Mini activity
+ACTIVITY=""
+if [ -n "$SWARM" ]; then
+  ACTIVITY="${SWARM}"
+fi
+if [ -n "$HIVE" ]; then
+  [ -n "$ACTIVITY" ] && ACTIVITY="${ACTIVITY} + "
+  ACTIVITY="${ACTIVITY}${HIVE}"
+fi
+if [ -n "$MINI" ]; then
+  [ -n "$ACTIVITY" ] && ACTIVITY="${ACTIVITY} + "
+  ACTIVITY="${ACTIVITY}${MINI}"
+fi
+if [ -n "$ACTIVITY" ]; then
+  PARTS="${PARTS} [${ACTIVITY}]"
 fi
 
 echo "${PARTS} • ${MODEL} • ⏱ ${TIME_FMT} • ${CTX}% ctx"
@@ -624,6 +696,15 @@ run_self_test() {
         TEST_PASS=$((TEST_PASS + 1))
     else
         soft_fail "TEST: Hive skill (/rhive) not found"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
+    # Mini swarm skill (/rmini)
+    if [ -f "$HOME/.claude/skills/rmini/SKILL.md" ]; then
+        success "TEST: Mini swarm skill (/rmini) installed"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: Mini swarm skill (/rmini) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
