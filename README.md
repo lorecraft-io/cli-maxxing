@@ -20,6 +20,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
 | [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
 | [Step 8](#step-8---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
+| [You're Ready](#youre-ready) | **Start here after setup** | Your daily command and what to do next | |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 | [Uninstall](#uninstall) | Remove everything | Reverses all steps, cleans up tools and config | |
@@ -1047,9 +1048,36 @@ This tells Claude to cross-reference the cheatsheet against your actual system a
 
 ### After Step 8
 
-You're done. Everything is installed, configured, and wired together.
+Setup is complete. Head to **[You're Ready](#youre-ready)** below for your daily command.
 
-From here on out, use `cbrain` as your main command — it drops you straight into your 2ndBrain vault with all permissions skipped. If you ever need to work outside the vault, `cskip` still works from any directory. But for day-to-day use, `cbrain` is your home base.
+---
+
+## You're Ready
+
+[Back to top](#quick-nav)
+
+Everything is installed, configured, and wired together. From now on, this is the only command you need:
+
+> [!IMPORTANT]
+> **Your daily command:**
+> ```
+> cbrain
+> ```
+
+That's it. `cbrain` opens Claude Code directly inside your 2ndBrain vault with all permissions skipped. Your vault is your home base — every tool, skill, and MCP server you just installed is available the moment you type it.
+
+**What `cbrain` gives you:**
+- Drops you into your Obsidian vault automatically — no `cd`-ing around
+- All permissions skipped — Claude acts immediately, no approval prompts
+- Full access to everything: `/rswarm`, `/rmini`, `/rhive`, `/w4w`, Ruflo, Context Hub, Motion Calendar, Notion, Obsidian, design tools, video tools — all of it
+- Your status line shows what's active at a glance
+
+**When to use something else:**
+- `cskip` — when you need to work outside your vault (a different project, a random folder)
+- `cbraintg` — same as `cbrain` but with your Telegram channel connected
+- `ctg` — skip-permissions + Telegram from any directory
+
+But for day-to-day use? Just type `cbrain` and go.
 
 ---
 
