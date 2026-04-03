@@ -889,6 +889,8 @@ Claude will ask you where the zip file is, then:
 - Extract key concepts into **permanent notes** in `03-Permanent/`
 - Start building **bidirectional links** between related projects and notes
 
+> **Using a different AI?** If you're coming from ChatGPT, Gemini, Copilot, or any other AI tool, you can run the same process with your data. Most AI platforms let you export your conversation history — look for a "Download my data" or "Export" option in your account settings. Save the export to ~/Downloads/, then tell Claude where it is and ask it to parse your conversations into the vault the same way. The script above is built for Claude's export format, but Claude can read and organize conversations from any AI tool once you point it at the files.
+
 ### Step 7c - Import Your Existing Notes
 
 Now let's get the rest of your notes in. If you have notes in Apple Notes, Google Keep, Notion, Evernote, or any other app, this step helps you export them and bring them into your vault.
@@ -950,20 +952,6 @@ If you have GitHub repos, Claude can connect them to your vault. This means if i
 **Claude does the heavy lifting here.** The whole point of this setup is that you don't have to manually organize, link, or categorize anything. You dump things into the Inbox, and Claude (or you working with Claude) processes them into the right places. The system gets smarter as it grows.
 
 > **This step takes the longest.** Depending on how many notes and Claude conversations you have, this could take 30+ minutes. Let Claude work. You can watch it go or come back when it's done.
-
-### Step 7e - Connect Google Calendar
-
-One last thing before you move on. Claude can read and manage your Google Calendar — check your schedule, create events, find conflicts, and help you plan your day. This is a built-in Claude integration, no install needed. You just need to authorize it once.
-
-In your Claude session, type:
-
-```
-/mcp
-```
-
-A menu will appear. Select **claude.ai Google Calendar** and complete the Google login in your browser. Once you approve the connection, come back to your terminal — Claude will automatically have access to your calendar from that point on.
-
-This is a one-time setup. The connection persists across sessions. You can verify it's connected anytime by running `/mcp` again and checking the status.
 
 ### Step 7 Troubleshooting
 
@@ -1099,10 +1087,10 @@ Run the steps in this order:
 | 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic + Pretext |
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Productivity Tools | Motion Calendar + Notion (optional) |
-| 7 | Second Brain | Obsidian vault setup + data import (7a-7e) |
+| 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
 | **8** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with five sub-parts (7a-7e). Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
 
 ---
 
