@@ -146,6 +146,18 @@ init_config() {
     fi
 
     npx ruflo@latest init 2>/dev/null || true
+
+    # Ruflo init may write a verbose statusLine to project-level .claude/settings.json.
+    # Remove it so our clean global statusline (Step 8) isn't overridden.
+    PROJECT_SETTINGS=".claude/settings.json"
+    if [ -f "$PROJECT_SETTINGS" ] && command -v jq &>/dev/null; then
+        if jq -e '.statusLine' "$PROJECT_SETTINGS" &>/dev/null; then
+            jq 'del(.statusLine)' "$PROJECT_SETTINGS" > "${PROJECT_SETTINGS}.tmp" \
+                && mv "${PROJECT_SETTINGS}.tmp" "$PROJECT_SETTINGS"
+            info "Removed Ruflo statusLine override from project settings (global statusline takes priority)"
+        fi
+    fi
+
     success "Ruflo configuration initialized"
 }
 
