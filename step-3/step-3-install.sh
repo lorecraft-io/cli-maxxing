@@ -186,8 +186,18 @@ configure_model_defaults() {
     # Disable automatic model routing (CLI can't pass boolean false, so patch config directly)
     CONFIG_FILE=".claude-flow/config.json"
     if [ -f "$CONFIG_FILE" ] && command -v jq &>/dev/null; then
-        jq '.scopes.project["model.routing.enabled"] = false | .scopes.system["model.routing.enabled"] = false' "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" \
+        jq '.scopes.project["model.default"] = "opus" | .scopes.system["model.default"] = "opus" | .scopes.project["model.routing.enabled"] = false | .scopes.system["model.routing.enabled"] = false' "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" \
             && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
+    fi
+
+    # Also patch config.yaml if it exists (init creates this file)
+    YAML_CONFIG=".claude-flow/config.yaml"
+    if [ -f "$YAML_CONFIG" ]; then
+        if grep -q "default:" "$YAML_CONFIG" 2>/dev/null; then
+            sed -i.bak 's/default:.*/default: opus/' "$YAML_CONFIG" && rm -f "${YAML_CONFIG}.bak"
+        else
+            echo "  default: opus" >> "$YAML_CONFIG"
+        fi
     fi
 
     success "Model locked to Opus (no silent downgrading)"
@@ -717,8 +727,12 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Model set to Opus (check config.yaml since CLI config get uses a separate runtime store)
-    if grep -q "default: opus" ".claude-flow/config.yaml" 2>/dev/null; then
+    # Model set to Opus (check config.json first, then config.yaml, then CLI)
+    CONFIG_JSON=".claude-flow/config.json"
+    if [ -f "$CONFIG_JSON" ] && jq -e '.scopes.project["model.default"] == "opus" or .scopes.system["model.default"] == "opus"' "$CONFIG_JSON" &>/dev/null; then
+        success "TEST: Model locked to Opus"
+        TEST_PASS=$((TEST_PASS + 1))
+    elif grep -q "default: opus" ".claude-flow/config.yaml" 2>/dev/null; then
         success "TEST: Model locked to Opus"
         TEST_PASS=$((TEST_PASS + 1))
     else

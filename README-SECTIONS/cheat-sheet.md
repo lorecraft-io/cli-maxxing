@@ -64,7 +64,7 @@ These are custom skills installed by the setup scripts. Type them inside a Claud
 |---------|-------------|-------------|
 | `/rswarm <task>` | Step 3 | Launch a 15-agent swarm with fixed roles for structured parallel execution |
 | `/rhive <goal>` | Step 3 | Launch a queen-led autonomous hive-mind with raft consensus |
-| `/pretext <request>` | Step 4 | Text measurement and layout via @chenglou/pretext |
+
 
 > These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language.
 
@@ -83,7 +83,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 
-> **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/pretext`) require you to type the command. Everything in this table works by just talking to Claude naturally.
+> **Key distinction:** Slash commands (`/rswarm`, `/rhive`, `/w4w`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 
 ---
 
