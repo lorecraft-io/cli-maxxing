@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 8 — Status Line
+# Final Step — Status Line
 # Installs the custom status line that shows what's active at a glance
 # Run after all other steps are complete
 # =============================================================================
@@ -20,7 +20,7 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}  Step 8 — Status Line${NC}"
+echo -e "${BLUE}  Final Step — Status Line${NC}"
 echo -e "${BLUE}  Final config — status indicators + system health check${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
@@ -387,7 +387,7 @@ echo "  $TEST_PASS tests passed, $TEST_FAIL failed."
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Step 8 Complete — Status Line + Health Check${NC}"
+echo -e "${GREEN}  Final Step Complete — Status Line + Health Check${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  Status line indicators:"

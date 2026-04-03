@@ -94,15 +94,15 @@ echo ""
 curl -fsSL "$BASE_URL/step-7/step-7d-wire-vault.sh" | bash
 echo ""
 
-# Step 8 (Status Line — wrap-up)
-echo -e "${YELLOW}>>> Running Step 8 — Status Line${NC}"
+# Final Step (Status Line — wrap-up)
+echo -e "${YELLOW}>>> Running Final Step — Status Line${NC}"
 echo ""
-curl -fsSL "$BASE_URL/step-8/step-8-install.sh" | bash
+curl -fsSL "$BASE_URL/step-final/step-final-install.sh" | bash
 echo ""
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}  Update complete. Steps 1 through 8 are current.${NC}"
+echo -e "${GREEN}  Update complete. All steps are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 

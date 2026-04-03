@@ -19,7 +19,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
 | [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
-| [Step 8](#step-8---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
+| [Final Step](#final-step---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
 | [You're Ready](#youre-ready) | **Start here after setup** | Your daily command and what to do next | |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
@@ -82,9 +82,9 @@ There are eight steps. Run them in order. Each one builds on the last.
 
 **[Step 7](#step-7---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
-**[Step 8](#step-8---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. It also runs a final verification to make sure every command and tool from the cheat sheet is installed and working.
+**[Final Step](#final-step---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. It also runs a final verification to make sure every command and tool from the cheat sheet is installed and working.
 
-After Step 8, head to **[You're Ready](#youre-ready)** — it tells you the one command you need going forward and what to do next.
+After the Final Step, head to **[You're Ready](#youre-ready)** — it tells you the one command you need going forward and what to do next.
 
 Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
 
@@ -995,7 +995,7 @@ If things don't look right, here are the most common issues and how to fix them.
 
 ---
 
-## Step 8 - Status Line
+## Final Step - Status Line
 
 [Back to top](#quick-nav)
 
@@ -1014,12 +1014,12 @@ This is the wrap-up step. It installs a custom status line that shows you what's
 
 The status line also shows your current model, session duration, and context window usage.
 
-### Run Step 8
+### Run Final Step
 
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to set up your status line: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh | bash
+> run this command to set up your status line: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-final/step-final-install.sh | bash
 > ```
 
 Or manually:
@@ -1047,7 +1047,7 @@ This tells Claude to cross-reference the cheatsheet against your actual system a
 
 > **Note:** Use `cskip` for this step, not `cbrain`. The `cbrain` command requires your Obsidian vault to exist. If you haven't finished Step 7 yet, or if something went wrong during vault setup, `cbrain` will error out. `cskip` always works.
 
-### After Step 8
+### After Final Step
 
 Setup is complete. Head to **[You're Ready](#youre-ready)** below for your daily command.
 
@@ -1099,9 +1099,9 @@ Run the steps in this order:
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Productivity Tools | Motion Calendar + Notion (optional) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
-| **8** | **Status Line** | **Final config — status indicators, system health check** |
+| **Final** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). Step 8 (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). The Final Step (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
 
 ---
 

@@ -35,14 +35,14 @@ echo -e "${RED}  Uninstall — CLI Maxxing${NC}"
 echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  This will remove tools and configurations installed by"
-echo "  CLI Maxxing (Steps 1-8). Your Obsidian vault and"
+echo "  CLI Maxxing (all steps). Your Obsidian vault and"
 echo "  notes will NOT be deleted."
 echo ""
 
 # -----------------------------------------------------------------------------
-# Step 8 — Status Line
+# Final Step — Status Line
 # -----------------------------------------------------------------------------
-echo -e "${BLUE}--- Step 8: Status Line ---${NC}"
+echo -e "${BLUE}--- Final Step: Status Line ---${NC}"
 
 if [ -f "$HOME/.claude/statusline.sh" ]; then
     rm -f "$HOME/.claude/statusline.sh"
