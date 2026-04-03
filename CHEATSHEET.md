@@ -118,16 +118,16 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Notion | Step 6 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
+| Telegram | Step 8 | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
 | Obsidian | Add-on | Natural language — MCP add-on for vault access (notes, search, knowledge management) | "Search my vault for notes about machine learning" |
 | Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
 | Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
 | Gamma | Add-on | Natural language — presentations, documents, webpages | "Create a pitch deck for my startup" |
-| Telegram | Add-on | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
 
 > **Key distinction:** Slash commands (`/rswarm`, `/rmini`, `/rhive`, `/w4w`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 >
-> **Add-on tools** are not part of the 8-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
+> **Add-on tools** are not part of the step-by-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 
 ---
 
