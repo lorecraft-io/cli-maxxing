@@ -196,6 +196,27 @@ SETTINGS_EOF
 fi
 
 # =============================================================================
+# Clean up project-level statusLine overrides
+# Ruflo/claude-flow init can write a verbose statusLine into project .claude/settings.json
+# files, which overrides our clean global statusline. Remove any we find.
+# =============================================================================
+info "Checking for project-level statusLine overrides..."
+FOUND_OVERRIDES=0
+for PROJECT_SETTINGS in $(find "$HOME/Desktop" "$HOME/Documents" -maxdepth 5 -path "*/.claude/settings.json" -not -path "$HOME/.claude/settings.json" 2>/dev/null); do
+    if command -v jq &>/dev/null && jq -e '.statusLine' "$PROJECT_SETTINGS" &>/dev/null 2>&1; then
+        jq 'del(.statusLine)' "$PROJECT_SETTINGS" > "${PROJECT_SETTINGS}.tmp" \
+            && mv "${PROJECT_SETTINGS}.tmp" "$PROJECT_SETTINGS"
+        warn "Removed statusLine override from: $PROJECT_SETTINGS"
+        FOUND_OVERRIDES=$((FOUND_OVERRIDES + 1))
+    fi
+done
+if [ "$FOUND_OVERRIDES" -eq 0 ]; then
+    success "No project-level statusLine overrides found"
+else
+    success "Cleaned $FOUND_OVERRIDES project-level statusLine override(s)"
+fi
+
+# =============================================================================
 # Health Check — verify all commands from previous steps
 # =============================================================================
 echo ""
