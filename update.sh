@@ -94,6 +94,12 @@ echo ""
 curl -fsSL "$BASE_URL/step-7/step-7d-wire-vault.sh" | bash
 echo ""
 
+# Step 8 (Telegram)
+echo -e "${YELLOW}>>> Running Step 8 — Telegram${NC}"
+echo ""
+curl -fsSL "$BASE_URL/step-8/step-8-install.sh" | bash
+echo ""
+
 # Final Step (Status Line — wrap-up)
 echo -e "${YELLOW}>>> Running Final Step — Status Line${NC}"
 echo ""

@@ -3,7 +3,7 @@ set -uo pipefail
 
 # =============================================================================
 # Uninstall — Remove everything installed by CLI Maxxing
-# Reverses Steps 1-8. Does NOT remove Homebrew, Git, or Node.js since
+# Reverses all setup steps. Does NOT remove Homebrew, Git, or Node.js since
 # other tools may depend on them. Offers to remove those separately.
 # Usage: curl -fsSL <hosted-url>/uninstall.sh | bash
 # =============================================================================
@@ -56,6 +56,26 @@ if [ -f "$HOME/.claude/settings.json" ]; then
     if grep -q "statusline" "$HOME/.claude/settings.json" 2>/dev/null; then
         info "Status line hook found in settings.json — remove manually via Claude settings"
     fi
+fi
+
+# -----------------------------------------------------------------------------
+# Step 8 — Telegram
+# -----------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}--- Step 8: Telegram ---${NC}"
+
+if [ -f "$HOME/.claude/telegram-bot-token" ]; then
+    rm -f "$HOME/.claude/telegram-bot-token"
+    success "Telegram bot token"
+else
+    skip "Telegram bot token (not found)"
+fi
+
+if [ -d "$HOME/.claude/telegram" ]; then
+    rm -rf "$HOME/.claude/telegram"
+    success "Telegram config directory"
+else
+    skip "Telegram config directory (not found)"
 fi
 
 # -----------------------------------------------------------------------------

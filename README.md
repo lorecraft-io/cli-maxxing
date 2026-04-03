@@ -19,6 +19,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Motion Calendar + Notion (pick what you use) | ~5 min |
 | [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
+| [Step 8](#step-8---telegram) | Telegram | Message Claude from your phone via Telegram bot | ~2 min |
 | [Final Step](#final-step---status-line) | Status Line | Final config — status indicators wired up | ~2 min |
 | [You're Ready](#youre-ready) | **Start here after setup** | Your daily command and what to do next | |
 | [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
@@ -44,7 +45,7 @@ Everything you need to start working with AI-powered development tools, installe
 
 [Back to top](#quick-nav)
 
-If you already know your way around a terminal and just want everything installed at once, you can run the full setup in one shot. This runs all eight steps in order, skips anything already installed, and picks up anything new.
+If you already know your way around a terminal and just want everything installed at once, you can run the full setup in one shot. This runs every step in order, skips anything already installed, and picks up anything new.
 
 > [!IMPORTANT]
 > **Paste this into your terminal:**
@@ -52,7 +53,7 @@ If you already know your way around a terminal and just want everything installe
 > curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh | bash
 > ```
 
-This includes both bonuses (Ghostty and Arc Browser). Arc is macOS-only and will be skipped on Linux. Step 6 (Productivity Tools) will pause to ask which tools you want, so it's not completely hands-free. Everything else runs automatically.
+This includes both bonuses (Ghostty and Arc Browser). Arc is macOS-only and will be skipped on Linux. Step 6 (Productivity Tools) and Step 8 (Telegram) will pause to ask for your input, so it's not completely hands-free. Everything else runs automatically.
 
 We recommend reading through the steps below first so you understand what each tool does — but the one-shot option is here if you want it.
 
@@ -62,7 +63,7 @@ We recommend reading through the steps below first so you understand what each t
 
 [Back to top](#quick-nav)
 
-There are eight steps. Run them in order. Each one builds on the last.
+Run the steps in order. Each one builds on the last.
 
 **[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
@@ -82,6 +83,8 @@ There are eight steps. Run them in order. Each one builds on the last.
 
 **[Step 7](#step-7---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
+**[Step 8](#step-8---telegram)** connects Claude to Telegram so you can message it straight from your phone. You create a free bot through Telegram (takes about two minutes), the script handles the rest, and then you use `ctg` or `cbraintg` to launch Claude with Telegram connected — messages show up in your session in real time. This step is completely optional; everything else works without it.
+
 **[Final Step](#final-step---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. It also runs a final verification to make sure every command and tool from the cheat sheet is installed and working.
 
 After the Final Step, head to **[You're Ready](#youre-ready)** — it tells you the one command you need going forward and what to do next.
@@ -92,7 +95,7 @@ Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](
 
 Already done with everything? Use the **[Staying Up to Date](#staying-up-to-date)** command to catch any new steps or updates that have been added since your last visit.
 
-If you ever want to start fresh or remove everything this setup installed, there's a one-command **[Uninstall](#uninstall)** that reverses all eight steps. It won't touch your Obsidian vault or notes.
+If you ever want to start fresh or remove everything this setup installed, there's a one-command **[Uninstall](#uninstall)** that reverses all steps. It won't touch your Obsidian vault or notes.
 
 ### Already have Claude Code installed?
 
@@ -112,7 +115,7 @@ This is a quick reference for terminal hotkeys, typing basics, launching Claude,
 
 **[Open the full Cheat Sheet →](CHEATSHEET.md)**
 
-Here are the eight commands you'll use most:
+Here are the commands you'll use most:
 
 | Command | What it does |
 |---------|-------------|
@@ -995,6 +998,39 @@ If things don't look right, here are the most common issues and how to fix them.
 
 ---
 
+## Step 8 - Telegram
+
+[Back to top](#quick-nav)
+
+This step connects Claude to Telegram so you can message it from your phone. You create a bot on Telegram using @BotFather (free, takes about 2 minutes), then the script configures it locally. After setup, you can send Claude messages, photos, and files from anywhere — your phone, tablet, or any device with Telegram installed. The `ctg` command (already installed in Step 1) launches Claude with Telegram connected, and `cbraintg` does the same but also opens your 2ndBrain vault. This step is optional but makes Claude accessible from your pocket.
+
+### What It Sets Up
+
+| Component | What it does |
+|-----------|--------------|
+| Telegram Bot | Your personal bot created via @BotFather on Telegram |
+| Bot Token | Stored locally at `~/.claude/telegram-bot-token` |
+| Access Policy | Controls who can message your bot (default: ask before accepting) |
+| `ctg` command | Launch Claude with Telegram from any directory (installed in Step 1) |
+| `cbraintg` command | Launch Claude with Telegram inside your 2ndBrain vault (installed in Step 1) |
+
+### Run Step 8
+
+> [!NOTE]
+> Step 8 is interactive — it will ask you to create a bot on Telegram and paste the token. The whole process takes about 2 minutes.
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to set up Telegram: curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh | bash
+> ```
+
+### After Step 8
+
+Open a new terminal and run `ctg` to launch Claude with Telegram connected. Inside your Claude session, tell it to pair your Telegram bot. Once paired, messages you send from Telegram will appear in your Claude session in real time. You can also use `cbraintg` to launch with both Telegram and your 2ndBrain vault loaded.
+
+---
+
 ## Final Step - Status Line
 
 [Back to top](#quick-nav)
@@ -1099,9 +1135,10 @@ Run the steps in this order:
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Productivity Tools | Motion Calendar + Notion (optional) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
+| 8 | Telegram | Telegram bot setup — message Claude from your phone |
 | **Final** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). The Final Step (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). Step 8 (Telegram) is interactive — it walks you through creating a bot and pasting your token. The Final Step (Status Line) is the wrap-up — it wires your status indicators to show what's active across all the tools you installed.
 
 ---
 
@@ -1117,7 +1154,7 @@ Video walkthroughs for every step are coming soon. These will show you exactly w
 
 [Back to top](#quick-nav)
 
-This command re-runs all eight steps (1 through 8), skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
+This command re-runs every step, skips anything already installed, and picks up anything new. It covers everything in this repo as of right now. If new steps get added in the future, the update command will include them too.
 
 Open your terminal and run `cskip` to start a Claude session, then paste the update command. Or if you prefer, just paste it directly into your terminal without Claude.
 
@@ -1134,7 +1171,7 @@ Open your terminal and run `cskip` to start a Claude session, then paste the upd
 
 [Back to top](#quick-nav)
 
-If you need to remove everything installed by this setup, the uninstall script reverses all eight steps. It removes Claude Code, MCP servers, skills, shell aliases, dev tools, and brew packages. Your Obsidian vault and notes are never touched.
+If you need to remove everything installed by this setup, the uninstall script reverses all steps. It removes Claude Code, MCP servers, skills, shell aliases, dev tools, and brew packages. Your Obsidian vault and notes are never touched.
 
 > [!IMPORTANT]
 > **Paste this into your terminal:**
