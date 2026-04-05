@@ -16,7 +16,7 @@ jobs:
     name: ShellCheck (error severity)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ShellCheck at error severity
         uses: ludeeus/action-shellcheck@94e0aab03ca135d11a35e5bfc14e6746dc56e7e9 # v2.0.0
         with:
@@ -28,7 +28,7 @@ jobs:
     name: Secret scanning
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Scan for hardcoded secrets
@@ -46,7 +46,7 @@ jobs:
     name: Verify pinned download URLs are reachable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check SKILL_URL in step-9
         run: |
           COMMIT=$(grep 'SKILL_COMMIT=' step-9/step-9-install.sh | head -1 | cut -d'"' -f2)
