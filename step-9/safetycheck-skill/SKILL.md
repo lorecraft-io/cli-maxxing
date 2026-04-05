@@ -67,7 +67,7 @@ git ls-files 2>/dev/null | grep -iE "\.env$"
 
 **MCP Config scan** (if MCP detected) — Scan `.mcp.json`, `claude_desktop_config.json`, `.cursor/mcp.json` for hardcoded secrets in `env` blocks:
 ```bash
-grep -r '"env"' .mcp.json claude_desktop_config.json .cursor/mcp.json 2>/dev/null | grep -iE '(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36}|AIzaSy[a-zA-Z0-9_-]{30,}|xox[bpsa]-[a-zA-Z0-9-]+)'
+grep -rn '"env"' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null | grep -iE '(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36}|AIzaSy[a-zA-Z0-9_-]{30,}|xox[bpsa]-[a-zA-Z0-9-]+)'
 ```
 
 Check if MCP configs are tracked in git:
@@ -344,7 +344,7 @@ Verify TLS is enforced and DNS rebinding protection is active.
 **Checks:**
 ```bash
 # Check for HTTP (non-HTTPS, non-localhost) in MCP configs
-grep -rniE '"url"\s*:\s*"http://' .mcp.json claude_desktop_config.json 2>/dev/null | grep -vE '(localhost|127\.0\.0\.1|::1)'
+grep -rniE '"url"\s*:\s*"http://' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null | grep -vE '(localhost|127\.0\.0\.1|::1)'
 
 # Check for 0.0.0.0 binding without auth
 grep -rniE '(0\.0\.0\.0|host:\s*["'"'"']0\.0\.0\.0)' --include="*.ts" --include="*.js" --include="*.py" .
@@ -395,10 +395,10 @@ Check for over-privileged tokens, missing expiration, and insecure storage.
 
 ```bash
 # Check for wildcard/broad OAuth scopes in MCP config or auth code
-grep -rniE '(mail\.google\.com/|calendar\.google\.com/|drive\.google\.com/|scope.*\*|scope.*"all"|scope.*"full")' --include="*.ts" --include="*.js" --include="*.py" .mcp.json 2>/dev/null
+grep -rniE '(mail\.google\.com/|calendar\.google\.com/|drive\.google\.com/|scope.*\*|scope.*"all"|scope.*"full")' --include="*.ts" --include="*.js" --include="*.py" --include=".mcp.json" . 2>/dev/null
 
 # Check for access tokens stored in plaintext
-grep -rniE '("access_token"\s*:\s*"[^"]{20,}"|token\s*=\s*["'"'"'][^"'"'"']{20,})' .mcp.json claude_desktop_config.json 2>/dev/null
+grep -rniE '("access_token"\s*:\s*"[^"]{20,}"|token\s*=\s*["'"'"'][^"'"'"']{20,})' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null
 
 # Check for long-lived tokens (no expiry)
 grep -rniE '(expires_in.*86400|expires_in.*[0-9]{6,}|no.*expir|never.*expir)' --include="*.ts" --include="*.js" .
@@ -486,10 +486,10 @@ grep -rn "hostHeaderValidation\|localhostHostValidation\|createMcpExpressApp" --
 
 ```bash
 # @latest floating versions in MCP config (rug-pull risk)
-grep -rniE '"@latest"|npx.*@latest' .mcp.json claude_desktop_config.json .cursor/mcp.json 2>/dev/null
+grep -rniE '"@latest"|npx.*@latest' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null
 
 # npx -y without pinned version (auto-install from potentially poisoned package)
-grep -rniE 'npx.*-y' .mcp.json claude_desktop_config.json 2>/dev/null | grep -vE '@[0-9]'
+grep -rniE 'npx.*-y' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null | grep -vE '@[0-9]'
 
 # Lockfile check
 ls package-lock.json yarn.lock pnpm-lock.yaml bun.lockb 2>/dev/null || echo "NO_LOCKFILE"
@@ -498,7 +498,7 @@ ls package-lock.json yarn.lock pnpm-lock.yaml bun.lockb 2>/dev/null || echo "NO_
 node -e "const p=require('./package.json'); console.log(p.files ? 'HAS_FILES_WHITELIST' : 'NO_FILES_WHITELIST');" 2>/dev/null
 
 # Shell metacharacters in MCP config args (command injection via config)
-grep -rniE '"args"\s*:\s*\[' .mcp.json claude_desktop_config.json 2>/dev/null | grep -E '[;|&\$\`]'
+grep -rniE '"args"\s*:\s*\[' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null | grep -E '[;|&\$\`]'
 ```
 
 **Severity**: HIGH for `@latest` in MCP config. HIGH for no lockfile. HIGH for shell metacharacters in args arrays. MEDIUM for no files whitelist on published MCP server. PASS if pinned and locked.
@@ -515,13 +515,13 @@ Verify tool invocations are logged with structured data.
 
 ```bash
 # Check for structured logging library
-grep -rn "winston\|pino\|bunyan\|log4js\|structlog\|logging\.getLogger" package.json requirements.txt 2>/dev/null
+grep -rn "winston\|pino\|bunyan\|log4js\|structlog\|logging\.getLogger" . --include="package.json" --include="requirements.txt" 2>/dev/null
 
 # Check for MCP logging notifications
 grep -rn "sendLoggingMessage\|LoggingMessageNotification\|setLoggingLevel\|notifications/message" --include="*.ts" --include="*.js" .
 
 # Check for observability integration
-grep -rn "opentelemetry\|datadog\|sentry\|splunk\|elastic-apm" package.json 2>/dev/null
+grep -rn "opentelemetry\|datadog\|sentry\|splunk\|elastic-apm" . --include="package.json" 2>/dev/null
 ```
 
 Compare: count tool registrations (`server.tool` / `@mcp.tool`) vs structured logging references. If tools > 0 and structured logging = 0, flag it.
@@ -538,13 +538,13 @@ Check for floating version references that enable rug-pull attacks.
 
 ```bash
 # @latest in any MCP config
-grep -rniE '"@latest"' .mcp.json claude_desktop_config.json .cursor/mcp.json 2>/dev/null
+grep -rniE '"@latest"' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null
 
 # npx without pinned version in MCP config commands
-grep -rniE '"command"\s*:\s*"npx"' .mcp.json claude_desktop_config.json 2>/dev/null
+grep -rniE '"command"\s*:\s*"npx"' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null
 
 # Verify packages have pinned versions (not @latest)
-grep -rniE '@[a-z0-9-]+/[a-z0-9-]+' .mcp.json claude_desktop_config.json 2>/dev/null | grep -v '@[0-9]' | grep -v '@latest'
+grep -rniE '@[a-z0-9-]+/[a-z0-9-]+' . --include=".mcp.json" --include="claude_desktop_config.json" 2>/dev/null | grep -v '@[0-9]' | grep -v '@latest'
 
 # Check if any MCP server hashes tool definitions (integrity verification)
 grep -rn "createHash\|sha256\|sha-256\|integrity\|checksum" --include="*.ts" --include="*.js" . | grep -iE "(tool|description|schema)"

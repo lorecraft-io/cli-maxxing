@@ -94,7 +94,11 @@ verify_prerequisites() {
 install_skill() {
     SKILL_DIR="$HOME/.claude/skills/safetycheck"
     SKILL_FILE="$SKILL_DIR/SKILL.md"
-    SKILL_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-9/safetycheck-skill/SKILL.md"
+    # Pinned to a specific commit SHA — prevents rug-pull via mutable branch ref
+    # To update: change the SHA to the new commit and update SKILL_SHA256 to match
+    SKILL_COMMIT="7b449b652d946a8eef9aca65f0c8e182b4fb80f7"
+    SKILL_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/${SKILL_COMMIT}/step-9/safetycheck-skill/SKILL.md"
+    SKILL_SHA256="77e1ef1127fa35cd860925a652b96dd062ab080d438787b3bde348176597ab12"
 
     info "Creating skill directory..."
     mkdir -p "$SKILL_DIR"
@@ -140,6 +144,23 @@ install_skill() {
         soft_fail "Skill file downloaded but is empty — try again later"
         rm -f "$SKILL_FILE"
         return
+    fi
+
+    # Verify SHA-256 integrity — protects against corrupted download or tampered content
+    if command -v shasum &>/dev/null; then
+        ACTUAL_SHA=$(shasum -a 256 "$SKILL_FILE" | cut -d' ' -f1)
+        if [ "$ACTUAL_SHA" = "$SKILL_SHA256" ]; then
+            success "Skill file integrity verified (sha256 match)"
+        else
+            soft_fail "Skill file sha256 mismatch — file may be corrupt or tampered. Expected: ${SKILL_SHA256:0:16}..."
+        fi
+    elif command -v sha256sum &>/dev/null; then
+        ACTUAL_SHA=$(sha256sum "$SKILL_FILE" | cut -d' ' -f1)
+        if [ "$ACTUAL_SHA" = "$SKILL_SHA256" ]; then
+            success "Skill file integrity verified (sha256 match)"
+        else
+            soft_fail "Skill file sha256 mismatch — file may be corrupt or tampered. Expected: ${SKILL_SHA256:0:16}..."
+        fi
     fi
 
     # Verify the file contains expected content

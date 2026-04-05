@@ -202,14 +202,14 @@ fi
 # =============================================================================
 info "Checking for project-level statusLine overrides..."
 FOUND_OVERRIDES=0
-for PROJECT_SETTINGS in $(find "$HOME/Desktop" "$HOME/Documents" -maxdepth 5 -path "*/.claude/settings.json" -not -path "$HOME/.claude/settings.json" 2>/dev/null); do
+while IFS= read -r PROJECT_SETTINGS; do
     if command -v jq &>/dev/null && jq -e '.statusLine' "$PROJECT_SETTINGS" &>/dev/null 2>&1; then
         jq 'del(.statusLine)' "$PROJECT_SETTINGS" > "${PROJECT_SETTINGS}.tmp" \
             && mv "${PROJECT_SETTINGS}.tmp" "$PROJECT_SETTINGS"
         warn "Removed statusLine override from: $PROJECT_SETTINGS"
         FOUND_OVERRIDES=$((FOUND_OVERRIDES + 1))
     fi
-done
+done < <(find "$HOME/Desktop" "$HOME/Documents" -maxdepth 5 -path "*/.claude/settings.json" -not -path "$HOME/.claude/settings.json" 2>/dev/null)
 if [ "$FOUND_OVERRIDES" -eq 0 ]; then
     success "No project-level statusLine overrides found"
 else
@@ -234,7 +234,6 @@ esac
 
 HC_PASS=0
 HC_FAIL=0
-HC_ISSUES=""
 
 # --- Shell aliases ---
 for alias_check in \

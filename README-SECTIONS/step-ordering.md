@@ -14,6 +14,7 @@ Run the steps in this order:
 | 6 | Productivity Tools | Motion Calendar + Notion (pick what you use) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
 | 8 | Telegram | Telegram bot setup — message Claude from your phone |
+| 9 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
 | **Final** | **Status Line** | **Final config — status indicators, system health check** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). Step 8 (Telegram) is interactive — it walks you through creating a bot and pasting your token. The Final Step (Status Line) is the wrap-up that wires everything together — your status indicators show what's active across all the tools.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 7 (Second Brain) is the biggest step with four sub-parts (7a-7d). Step 8 (Telegram) is interactive — it walks you through creating a bot and pasting your token. Step 9 (Safety Check) installs the `/safetycheck` security audit skill — 8 core checks for any project, plus 12 MCP-specific checks when an MCP project is detected (20 total). The Final Step (Status Line) is the wrap-up that wires everything together — your status indicators show what's active across all the tools.

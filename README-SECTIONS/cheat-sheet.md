@@ -96,9 +96,10 @@ These are custom skills installed by the setup scripts. Type them inside a Claud
 | `/rmini do the thing` | Step 3 | Launch a compact 5-agent swarm — same power, tighter team |
 | `/rhive <goal>` | Step 3 | Launch a queen-led autonomous hive-mind with raft consensus |
 | `/w4w` | Step 3 | Maximum attention to detail — word for word, line for line. No skipping, no summarizing. Also works without the slash — just type `w4w` |
+| `/safetycheck` | Step 9 | Security audit — scans any project for exposed keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, and insecure configurations. Also responds to "run a safety check" in plain English |
 
 
-> These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language. Exception: `/w4w` also works without the slash — just type `w4w` anywhere in your message. `/rmini` is the compact version of `/rswarm` — 5 agents instead of 15.
+> These are **explicit triggers** — you type the command to activate the skill. This is different from the auto-triggered tools below, which respond to natural language. Exception: `/w4w` also works without the slash — just type `w4w` anywhere in your message. `/rmini` is the compact version of `/rswarm` — 5 agents instead of 15. `/safetycheck` also works in natural language.
 
 ---
 
@@ -125,7 +126,7 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
 | Gamma | Add-on | Natural language — presentations, documents, webpages | "Create a pitch deck for my startup" |
 
-> **Key distinction:** Slash commands (`/rswarm`, `/rmini`, `/rhive`, `/w4w`) require you to type the command. Everything in this table works by just talking to Claude naturally.
+> **Key distinction:** Slash commands (`/rswarm`, `/rmini`, `/rhive`, `/w4w`, `/safetycheck`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 >
 > **Add-on tools** are not part of the step-by-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
 

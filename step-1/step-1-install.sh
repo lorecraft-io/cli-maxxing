@@ -257,7 +257,7 @@ install_claude_code() {
         echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
         success "Added ~/.local/bin to PATH in $SHELL_RC"
     else
-        success "~/.local/bin already in PATH"
+        success "$HOME/.local/bin already in PATH"
     fi
 
     # Install cbrain command (2ndBrain + skip-permissions)

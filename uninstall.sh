@@ -387,9 +387,9 @@ fi
 if grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
     sed -i.bak '/\.local\/bin/d' "$SHELL_RC" 2>/dev/null || true
     rm -f "${SHELL_RC}.bak"
-    success "~/.local/bin PATH entry removed from $SHELL_RC"
+    success "$HOME/.local/bin PATH entry removed from $SHELL_RC"
 else
-    skip "~/.local/bin PATH entry (not found in $SHELL_RC)"
+    skip "$HOME/.local/bin PATH entry (not found in $SHELL_RC)"
 fi
 
 # cbrain and cbraintg commands
