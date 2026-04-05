@@ -18,6 +18,7 @@ CLAUDE.md
 *.cert
 *.p12
 *.pfx
+credentials.json
 
 # Node (defensive — step scripts may install deps)
 node_modules/
