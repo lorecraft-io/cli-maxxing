@@ -90,16 +90,14 @@ echo "    Projects:   $PROJECT_COUNT project folders"
 echo "    Total:      $TOTAL_NOTES notes"
 echo ""
 
-# Auto-link orphan files to their parent project
+# Auto-link orphan files to their parent project (idempotent — skips if link already present)
 info "Linking orphan files to parent projects..."
 LINK_COUNT=0
 while IFS= read -r f; do
-    if ! grep -q '\[\[' "$f" 2>/dev/null; then
-        project=$(echo "$f" | sed "s|$VAULT_PATH/07-Projects/||" | cut -d'/' -f1)
-        if [ -n "$project" ]; then
-            printf "\n\n---\n[[%s]]\n" "$project" >> "$f"
-            LINK_COUNT=$((LINK_COUNT + 1))
-        fi
+    project=$(echo "$f" | sed "s|$VAULT_PATH/07-Projects/||" | cut -d'/' -f1)
+    if [ -n "$project" ] && ! grep -qF "[[${project}]]" "$f" 2>/dev/null; then
+        printf "\n\n---\n[[%s]]\n" "$project" >> "$f"
+        LINK_COUNT=$((LINK_COUNT + 1))
     fi
 done < <(find "$VAULT_PATH/07-Projects" -name '*.md')
 success "Linked orphan files to parent projects"
