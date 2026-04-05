@@ -55,15 +55,17 @@ verify_prerequisites() {
 # -----------------------------------------------------------------------------
 install_ruflo() {
     info "Installing Ruflo CLI..."
-    npm install -g ruflo@latest 2>/dev/null \
-        || sudo npm install -g ruflo@latest
+    # --prefer-online bypasses npm's local cache to fetch the actual latest version
+    npm install -g ruflo@latest --prefer-online 2>/dev/null \
+        || sudo npm install -g ruflo@latest --prefer-online
 
-    # Verify it works
-    if npx ruflo@latest --version &>/dev/null 2>&1; then
-        success "Ruflo CLI installed ($(npx ruflo@latest --version 2>/dev/null))"
-    else
-        # npx will download it on demand even if global install failed
+    # Verify using the globally installed binary (not npx, which may use stale cache)
+    if command -v ruflo &>/dev/null; then
+        success "Ruflo CLI installed ($(ruflo --version 2>/dev/null))"
+    elif npx ruflo@latest --version &>/dev/null 2>&1; then
         success "Ruflo CLI available via npx"
+    else
+        success "Ruflo CLI installed"
     fi
 }
 

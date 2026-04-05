@@ -140,6 +140,10 @@ configure_ghostty() {
     mkdir -p "$CONFIG_DIR"
 
     if [ -f "$CONFIG_FILE" ]; then
+        if grep -q "CLI Maxxing" "$CONFIG_FILE" 2>/dev/null; then
+            success "Ghostty config already configured — skipping"
+            return
+        fi
         info "Ghostty config already exists — backing up to config.backup"
         cp "$CONFIG_FILE" "$CONFIG_FILE.backup"
     fi

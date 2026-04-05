@@ -25,6 +25,8 @@ soft_fail() { echo -e "${RED}[FAIL]${NC} $1 (non-critical, continuing...)"; ERRO
 # Track what was installed this run
 INSTALLED_MOTION=false
 INSTALLED_NOTION=false
+# Track pre-existing installs (credentials managed outside ~/.motion-calendar-mcp/.env)
+MOTION_PREEXISTING=false
 
 # -----------------------------------------------------------------------------
 # Detect OS
@@ -65,6 +67,7 @@ choose_tools() {
         if claude mcp list 2>/dev/null | grep -q "motion-calendar" 2>/dev/null; then
             CHOICES="1"
             INSTALLED_MOTION=true
+            MOTION_PREEXISTING=true
         fi
         if claude mcp list 2>/dev/null | grep -q "notion" 2>/dev/null; then
             CHOICES="$CHOICES 2"
@@ -240,6 +243,9 @@ run_self_test() {
 
         if [ -f "$HOME/.motion-calendar-mcp/.env" ]; then
             success "TEST: Motion Calendar config exists"
+            TEST_PASS=$((TEST_PASS + 1))
+        elif $MOTION_PREEXISTING; then
+            success "TEST: Motion Calendar credentials managed externally (pre-existing install)"
             TEST_PASS=$((TEST_PASS + 1))
         else
             soft_fail "TEST: Motion Calendar config not found"

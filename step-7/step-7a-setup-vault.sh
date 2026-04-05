@@ -53,25 +53,30 @@ find_vault() {
     echo "  Looking for your Obsidian vault..."
     echo ""
 
-    # Try common locations
+    # Try common locations — check deeper nested paths first
     VAULT_PATH=""
     for candidate in \
+        "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
+        "$HOME/Desktop/WORK/OBSIDIAN/Second-Brain" \
+        "$HOME/Desktop/OBSIDIAN/2ndBrain" \
+        "$HOME/Desktop/OBSIDIAN/Second-Brain" \
         "$HOME/Desktop/2ndBrain" \
         "$HOME/Desktop/Second-Brain" \
         "$HOME/Desktop/Vault" \
         "$HOME/Desktop/VAULT" \
+        "$HOME/Documents/OBSIDIAN/2ndBrain" \
         "$HOME/Documents/2ndBrain" \
         "$HOME/Documents/Second-Brain" \
         "$HOME/Documents/Vault"; do
-        if [ -d "$candidate" ]; then
+        if [ -d "$candidate/.obsidian" ]; then
             VAULT_PATH="$candidate"
             break
         fi
     done
 
-    # Also check for any .obsidian folder
+    # Also check for any .obsidian folder up to 5 levels deep
     if [ -z "$VAULT_PATH" ]; then
-        FOUND=$(find "$HOME/Desktop" "$HOME/Documents" -maxdepth 3 -name ".obsidian" -type d 2>/dev/null | head -1)
+        FOUND=$(find "$HOME/Desktop" "$HOME/Documents" -maxdepth 5 -name ".obsidian" -type d 2>/dev/null | head -1)
         if [ -n "$FOUND" ]; then
             VAULT_PATH="$(dirname "$FOUND")"
         fi
