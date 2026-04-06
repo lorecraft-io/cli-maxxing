@@ -773,14 +773,14 @@ Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the of
 
 ### Google Calendar
 
-> **Motion is your primary calendar.** If you have Motion Calendar installed, Claude always uses Motion for all calendar reads and changes — by natural language or by command, every time. Motion aggregates Google Calendar, Outlook, and others, so you're already covered. Only install this if you need direct access to a Google account that is NOT synced to Motion.
+Direct Google Calendar access via OAuth. If you don't have Motion, this is your calendar tool — install it and Claude will use it for all calendar reads and changes.
 
-Direct Google Calendar access via OAuth for edge cases and secondary accounts.
+If you **do** have Motion Calendar installed, Motion stays primary. Claude will always use Motion for calendar operations since it aggregates Google Calendar, Outlook, and others. The setup script will warn you and ask if you still want to proceed — only say yes if you need direct access to a Google account that isn't synced to Motion.
 
 - **Direct Google access.** Reads and writes events on a specific Google Calendar account.
-- **Secondary account support.** Useful when you have a Google Calendar not connected to Motion.
+- **No Motion? Google Calendar is your default.** Auth it once and Claude handles the rest.
 
-> **Requires:** A Google account and ~5 minutes to create OAuth credentials in Google Cloud Console. The setup script confirms your intent before installing, since Motion is the preferred calendar tool.
+> **Requires:** A Google account and ~5 minutes to create OAuth credentials in Google Cloud Console. The setup script walks you through it.
 
 ### Run Step 6
 
