@@ -116,7 +116,34 @@ Fix every gap found in Phase 4. Apply edits in this order:
 
 For each fix, make the edit precisely. Do not rewrite sections that are already accurate. Do not add padding or filler. Match the existing tone and formatting exactly.
 
-### Phase 6 — Verify and Report
+### Phase 6 — Test All Scripts and Code
+
+After fixing docs, verify all scripts and code are syntactically correct and functional:
+
+**Detect what's in the repo:**
+- Shell scripts: any `*.sh` file at any depth
+- JavaScript/TypeScript: presence of `package.json`
+- Python: any `*.py` file or `requirements.txt`
+- Other: `Makefile`, `*.go`, etc.
+
+**Run syntax checks (never execute — only check syntax):**
+- All `.sh` files: `bash -n <script>` — catches syntax errors without running
+- JS/TS: `node --check <file>` on entry points; `npx tsc --noEmit` if `tsconfig.json` exists
+- Python: `python3 -m py_compile <file>` on each `.py`
+
+**Run existing tests:**
+- If a `tests/` directory exists, run any test scripts found inside it
+- If `package.json` has a `test` script, run `npm test`
+- Report pass/fail per file
+
+**Fix or flag:**
+- Fix safe syntax errors (missing quotes, unmatched brackets, typos in variable names)
+- Flag anything requiring manual review or that is risky to auto-fix
+- Every file checked gets a result: PASS or FAIL — no files skipped
+
+Report results per file in the Phase 7 report under "Scripts/Code tested".
+
+### Phase 7 — Verify and Report
 
 After all fixes are applied:
 
@@ -130,13 +157,19 @@ After all fixes are applied:
 Fixed:
 - [list each change made, one line each]
 
+Scripts/Code tested:
+- [list each file checked and result: PASS or FAIL]
+
 Verified (no changes needed):
 - [list sections that were checked and already accurate]
+
+Watch list (could not verify — manual check recommended):
+- [anything that requires human judgment or external verification]
 ```
 
-Do not produce the report until all fixes are applied.
+Do not produce the report until all fixes are applied. The report is the last thing output.
 
-### Phase 7 — Push to Live
+### Phase 8 — Push to Live
 
 After the report is produced, check for unpushed commits:
 
@@ -152,7 +185,7 @@ If there are unpushed commits:
 4. If confirmed: run `git push origin main`
 5. Report the push result
 
-If there are no unpushed commits, skip Phase 7 entirely — do not mention it.
+If there are no unpushed commits, skip Phase 8 entirely — do not mention it.
 
 Never push without asking first. Never skip listing the commits. The user must see exactly what is going out before it goes out.
 

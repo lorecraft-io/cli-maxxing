@@ -258,11 +258,11 @@ install_claude_code() {
     # Add ~/.local/bin to PATH if not already present
     if ! grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
         echo "" >> "$SHELL_RC"
-        echo '# Local bin (cbrain, cbraintg)' >> "$SHELL_RC"
+        echo '# Local bin (cbrain, cbraintg, ctg)' >> "$SHELL_RC"
         echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
         success "Added ~/.local/bin to PATH in $SHELL_RC"
     else
-        success "$HOME/.local/bin already in PATH"
+        success "$HOME/.local/bin already configured in $SHELL_RC"
     fi
 
     # Install cbrain command (2ndBrain + skip-permissions)
@@ -302,7 +302,7 @@ CBRAIN_EOF
 
 TOKEN_FILE="$HOME/.claude/channels/telegram/.env"
 
-if [ ! -f "$TOKEN_FILE" ] || ! grep -q 'TELEGRAM_BOT_TOKEN=.\+' "$TOKEN_FILE" 2>/dev/null; then
+if [ ! -f "$TOKEN_FILE" ] || ! grep -qE 'TELEGRAM_BOT_TOKEN=.+' "$TOKEN_FILE" 2>/dev/null; then
   echo ""
   echo "Telegram bot token not configured."
   echo "Run Step 8 to set it up:"
@@ -328,7 +328,7 @@ CTG_EOF
 
 TOKEN_FILE="$HOME/.claude/channels/telegram/.env"
 
-if [ ! -f "$TOKEN_FILE" ] || ! grep -q 'TELEGRAM_BOT_TOKEN=.\+' "$TOKEN_FILE" 2>/dev/null; then
+if [ ! -f "$TOKEN_FILE" ] || ! grep -qE 'TELEGRAM_BOT_TOKEN=.+' "$TOKEN_FILE" 2>/dev/null; then
   echo ""
   echo "Telegram bot token not configured."
   echo "Run Step 8 to set it up:"
