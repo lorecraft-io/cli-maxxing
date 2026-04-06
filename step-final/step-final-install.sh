@@ -375,9 +375,12 @@ else
     info "Installing /gitfix skill..."
 fi
 
-if curl -fsSL "$GITFIX_URL" -o "$GITFIX_FILE" 2>/dev/null && [ -s "$GITFIX_FILE" ]; then
+GITFIX_TMP="$GITFIX_FILE.tmp"
+if curl -fsSL "$GITFIX_URL" -o "$GITFIX_TMP" 2>/dev/null && [ -s "$GITFIX_TMP" ]; then
+    mv "$GITFIX_TMP" "$GITFIX_FILE"
     success "/gitfix skill installed at $GITFIX_FILE"
 else
+    rm -f "$GITFIX_TMP"
     warn "Download failed — attempting local fallback..."
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     LOCAL_GITFIX="$(dirname "$SCRIPT_DIR")/gitfix-skill/SKILL.md"

@@ -156,6 +156,7 @@ install_motion_calendar() {
 
     # Write config
     mkdir -p "$HOME/.motion-calendar-mcp"
+    chmod 700 "$HOME/.motion-calendar-mcp"
     {
       printf 'MOTION_API_KEY=%s\n' "$MOTION_API_KEY"
       printf 'FIREBASE_API_KEY=%s\n' "$FIREBASE_API_KEY"
@@ -323,11 +324,15 @@ install_google_calendar() {
     # To update credentials, re-run Step 6. The -e flags below are what
     # actually injects the credentials into the MCP server at runtime.
     mkdir -p "$HOME/.google-calendar-mcp"
+    chmod 700 "$HOME/.google-calendar-mcp"
     {
       printf 'GOOGLE_CLIENT_ID=%s\n' "$GCAL_CLIENT_ID"
       printf 'GOOGLE_CLIENT_SECRET=%s\n' "$GCAL_CLIENT_SECRET"
     } > "$HOME/.google-calendar-mcp/.env"
     chmod 600 "$HOME/.google-calendar-mcp/.env"
+    echo ""
+    echo -e "  ${YELLOW}Note: editing ~/.google-calendar-mcp/.env later will not update credentials.${NC}"
+    echo -e "  ${YELLOW}To change credentials, re-run Step 6.${NC}"
 
     # Register the MCP server with credentials via -e flags.
     # Note: runs inside a script — credentials do not appear in shell history.

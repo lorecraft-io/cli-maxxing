@@ -144,6 +144,7 @@ if [ "$SKIP_TOKEN" = false ]; then
         # Save token
         info "Saving bot token..."
         mkdir -p "$CONFIG_DIR"
+        chmod 700 "$CONFIG_DIR"
         echo "TELEGRAM_BOT_TOKEN=$BOT_TOKEN" > "$TOKEN_FILE"
         chmod 600 "$TOKEN_FILE"
         success "Token saved to $TOKEN_FILE (permissions: 600)"
@@ -156,6 +157,7 @@ fi
 info "Configuring access policy..."
 
 mkdir -p "$CONFIG_DIR"
+chmod 700 "$CONFIG_DIR"
 
 if [ -f "$ACCESS_FILE" ] && [ "$SKIP_TOKEN" = true ]; then
     success "Access policy already configured at $ACCESS_FILE"
@@ -242,7 +244,7 @@ echo "  $TEST_PASS tests passed, $TEST_FAIL failed."
 
 if [ "$TEST_FAIL" -gt 0 ]; then
     echo ""
-    echo -e "  ${YELLOW}Some tests failed. Re-run Step 1 to fix missing aliases.${NC}"
+    echo -e "  ${YELLOW}Some tests failed. Scroll up to see which tests failed — re-run the relevant step to fix.${NC}"
 fi
 
 # =============================================================================
