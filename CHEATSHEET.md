@@ -118,6 +118,8 @@ These activate on their own when Claude detects a relevant task via natural lang
 | IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
 | Motion Calendar | Step 6 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
 | Notion | Step 6 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
+| Granola | Step 6 | Natural language — meeting transcripts and notes | "What did we cover in my last meeting?" |
+| Google Calendar | Step 6 | Natural language — Google Calendar events (optional install) | "What's on my Google calendar this week?" |
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 | Telegram | Step 8 | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |

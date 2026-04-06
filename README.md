@@ -1124,7 +1124,7 @@ Open any project in Claude and type `/safetycheck` to run a security audit. For 
 
 ---
 
-## Final Step - Status Line
+## Final Step - Status Line + /gitfix
 
 [Back to top](#quick-nav)
 

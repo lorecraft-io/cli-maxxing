@@ -240,8 +240,7 @@ for alias_check in \
     "cskip:claude --dangerously-skip-permissions" \
     "cc:claude" \
     "ccr:claude --resume" \
-    "ccc:claude --continue" \
-    "ctg:claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official"; do
+    "ccc:claude --continue"; do
     ALIAS_NAME="${alias_check%%:*}"
     ALIAS_CMD="${alias_check#*:}"
     if grep -q "alias ${ALIAS_NAME}=" "$SHELL_RC" 2>/dev/null; then
@@ -283,6 +282,20 @@ if [ -x "$HOME/.local/bin/cbraintg" ]; then
     HC_PASS=$((HC_PASS + 1))
 else
     warn "HEALTH: cbraintg not found — run Step 1 again to install"
+    HC_FAIL=$((HC_FAIL + 1))
+fi
+
+# --- ctg script (token-guarded — not an alias) ---
+# Migrate: remove stale alias if step-1 hasn't cleaned it up yet
+if grep -q 'alias ctg=' "$SHELL_RC" 2>/dev/null; then
+    sed -i.bak '/alias ctg=/d' "$SHELL_RC"
+    warn "HEALTH: removed stale ctg alias from $SHELL_RC — replaced by ~/.local/bin/ctg"
+fi
+if [ -x "$HOME/.local/bin/ctg" ]; then
+    success "HEALTH: ctg command — installed"
+    HC_PASS=$((HC_PASS + 1))
+else
+    warn "HEALTH: ctg not found — run Step 1 again to install"
     HC_FAIL=$((HC_FAIL + 1))
 fi
 
