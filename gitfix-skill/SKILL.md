@@ -132,12 +132,29 @@ Fixed:
 
 Verified (no changes needed):
 - [list sections that were checked and already accurate]
-
-Watch list (could not verify — manual check recommended):
-- [anything that requires human judgment or external verification]
 ```
 
-Do not produce the report until all fixes are applied. The report is the last thing output.
+Do not produce the report until all fixes are applied.
+
+### Phase 7 — Push to Live
+
+After the report is produced, check for unpushed commits:
+
+```bash
+git log origin/main..HEAD --oneline
+```
+
+If there are unpushed commits:
+
+1. List every unpushed commit in order, oldest first, with its hash and message
+2. Ask the user: **"Ready to push these X commits to main? (yes/no)"**
+3. Wait for explicit confirmation before pushing
+4. If confirmed: run `git push origin main`
+5. Report the push result
+
+If there are no unpushed commits, skip Phase 7 entirely — do not mention it.
+
+Never push without asking first. Never skip listing the commits. The user must see exactly what is going out before it goes out.
 
 ## Rules
 

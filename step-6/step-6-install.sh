@@ -276,6 +276,17 @@ install_google_calendar() {
     fi
 
     echo ""
+    echo -e "${YELLOW}  ⚠️  IMPORTANT — Motion Calendar is your primary calendar.${NC}"
+    echo -e "${YELLOW}  Claude will ALWAYS use Motion for calendar reads and changes.${NC}"
+    echo -e "${YELLOW}  Only install Google Calendar if you need direct access to events${NC}"
+    echo -e "${YELLOW}  that are NOT synced to Motion (e.g. a secondary Google account).${NC}"
+    echo ""
+    read -rp "  Continue with Google Calendar install? (y/N): " GCAL_CONFIRM
+    if [[ ! "$GCAL_CONFIRM" =~ ^[Yy]$ ]]; then
+        info "Google Calendar install skipped."
+        return
+    fi
+    echo ""
     echo -e "${BLUE}  Google Calendar MCP requires OAuth credentials from Google Cloud.${NC}"
     echo ""
     echo "    1. Go to https://console.cloud.google.com"
