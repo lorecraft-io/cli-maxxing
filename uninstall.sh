@@ -128,6 +128,30 @@ else
     skip "Notion MCP (not found)"
 fi
 
+# Granola MCP
+if claude mcp list 2>/dev/null | grep -qi "granola" 2>/dev/null; then
+    claude mcp remove granola 2>/dev/null || true
+    success "Granola MCP"
+else
+    skip "Granola MCP (not found)"
+fi
+
+# Google Calendar MCP
+if claude mcp list 2>/dev/null | grep -qi "google-calendar" 2>/dev/null; then
+    claude mcp remove google-calendar 2>/dev/null || true
+    success "Google Calendar MCP"
+else
+    skip "Google Calendar MCP (not found)"
+fi
+
+# Google Calendar config
+if [ -d "$HOME/.google-calendar-mcp" ]; then
+    rm -rf "$HOME/.google-calendar-mcp"
+    success "Google Calendar config (~/.google-calendar-mcp)"
+else
+    skip "Google Calendar config (not found)"
+fi
+
 # -----------------------------------------------------------------------------
 # Step 5 — Visual Media (Remotion, YouTube Transcript, yt-dlp, Whisper, FFmpeg)
 # -----------------------------------------------------------------------------
@@ -246,7 +270,7 @@ for pkg in ruflo@latest agentic-flow@latest @aisuite/chub typescript; do
 done
 
 # Swarm skills
-for skill in rswarm rmini rhive get-api-docs w4w; do
+for skill in rswarm rmini rhive get-api-docs w4w gitfix; do
     if [ -d "$HOME/.claude/skills/$skill" ]; then
         rm -rf "$HOME/.claude/skills/$skill"
         success "Skill: /$skill"
@@ -380,8 +404,8 @@ else
 fi
 
 # ~/.local/bin PATH entry
-if grep -q '# Local bin (cbrain, cbraintg)' "$SHELL_RC" 2>/dev/null; then
-    sed -i.bak '/# Local bin (cbrain, cbraintg)/d' "$SHELL_RC" 2>/dev/null || true
+if grep -q '# Local bin (cbrain' "$SHELL_RC" 2>/dev/null; then
+    sed -i.bak '/# Local bin (cbrain/d' "$SHELL_RC" 2>/dev/null || true
     rm -f "${SHELL_RC}.bak"
 fi
 if grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
@@ -392,8 +416,8 @@ else
     skip "$HOME/.local/bin PATH entry (not found in $SHELL_RC)"
 fi
 
-# cbrain and cbraintg commands
-for cmd in cbrain cbraintg; do
+# cbrain, cbraintg, and ctg commands (~/.local/bin scripts)
+for cmd in cbrain cbraintg ctg; do
     if [ -f "$HOME/.local/bin/$cmd" ]; then
         rm -f "$HOME/.local/bin/$cmd"
         success "$cmd command"

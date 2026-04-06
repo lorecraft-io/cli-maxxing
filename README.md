@@ -509,7 +509,7 @@ Step 3 also installs three slash commands that let you launch multi-agent swarms
 
 - **`/rhive <goal>`** — Launches a queen agent that autonomously manages everything. You describe the goal, the queen decides how to break it down, what workers to spawn, and how to coordinate them. Use this when you want to set a direction and step back.
 
-Both skills signal the statusline so you can see live indicators while agents are working.
+All three skills signal the statusline so you can see live indicators while agents are working.
 
 ### Run Step 3
 
@@ -1378,12 +1378,13 @@ If you need to remove everything installed by this setup, the uninstall script r
 > ```
 
 **What it removes:**
-- Claude Code + shell aliases (cskip, ctg, cc, ccr, ccc, cbrain, cbraintg)
-- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Obsidian, Motion Calendar, Notion)
-- All skills (rswarm, rmini, rhive, w4w, get-api-docs, UI/UX Pro Max, Remotion, safetycheck)
+- Claude Code + shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and scripts (`ctg`, `cbrain`, `cbraintg` in `~/.local/bin/`)
+- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Obsidian, Motion Calendar, Notion, Granola, Google Calendar)
+- All skills (rswarm, rmini, rhive, w4w, get-api-docs, gitfix, UI/UX Pro Max, Remotion, safetycheck)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)
+- Google Calendar config (~/.google-calendar-mcp/)
 - Arc Browser (if installed via the bonus script)
 - Ghostty config (the app itself is kept — only the config file installed by this setup is removed)
 - Status line config

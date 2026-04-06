@@ -213,7 +213,9 @@ install_notion() {
         return
     fi
 
-    # Register with the token as an environment variable
+    # Register with the token as an environment variable.
+    # Note: credentials passed here go into Claude's MCP config, not shell history
+    # (this runs inside a script, not an interactive shell).
     claude mcp add --scope user -e NOTION_TOKEN="$NOTION_TOKEN" notion -- npx -y @notionhq/notion-mcp-server 2>/dev/null
 
     # Verify
@@ -316,7 +318,10 @@ install_google_calendar() {
         return
     fi
 
-    # Write credentials file
+    # Write credentials file as a local backup reference.
+    # IMPORTANT: Editing this file later does NOT take effect automatically.
+    # To update credentials, re-run Step 6. The -e flags below are what
+    # actually injects the credentials into the MCP server at runtime.
     mkdir -p "$HOME/.google-calendar-mcp"
     {
       printf 'GOOGLE_CLIENT_ID=%s\n' "$GCAL_CLIENT_ID"
@@ -324,7 +329,8 @@ install_google_calendar() {
     } > "$HOME/.google-calendar-mcp/.env"
     chmod 600 "$HOME/.google-calendar-mcp/.env"
 
-    # Register the MCP server
+    # Register the MCP server with credentials via -e flags.
+    # Note: runs inside a script — credentials do not appear in shell history.
     claude mcp add --scope user \
         -e GOOGLE_CLIENT_ID="$GCAL_CLIENT_ID" \
         -e GOOGLE_CLIENT_SECRET="$GCAL_CLIENT_SECRET" \

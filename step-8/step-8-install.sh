@@ -48,11 +48,11 @@ else
     PREREQ_PASS=false
 fi
 
-# Check ctg alias in shell RC
-if grep -q 'alias ctg=' "$SHELL_RC" 2>/dev/null; then
-    success "ctg alias found in $SHELL_RC"
+# Check ctg command (installed as ~/.local/bin/ctg script by Step 1)
+if [ -x "$HOME/.local/bin/ctg" ]; then
+    success "ctg command found at ~/.local/bin/ctg"
 else
-    warn "ctg alias not found in $SHELL_RC — re-run Step 1 to set it up"
+    warn "ctg not found at ~/.local/bin/ctg — re-run Step 1 to set it up"
     PREREQ_PASS=false
 fi
 
@@ -219,12 +219,12 @@ else
     TEST_FAIL=$((TEST_FAIL + 1))
 fi
 
-# Test 3: ctg alias in shell RC
-if grep -q 'alias ctg=' "$SHELL_RC" 2>/dev/null; then
-    success "TEST: ctg alias configured in $SHELL_RC"
+# Test 3: ctg command (script at ~/.local/bin/ctg, installed by Step 1)
+if [ -x "$HOME/.local/bin/ctg" ]; then
+    success "TEST: ctg command installed at ~/.local/bin/ctg"
     TEST_PASS=$((TEST_PASS + 1))
 else
-    echo -e "${RED}[FAIL]${NC} TEST: ctg alias not found in $SHELL_RC"
+    echo -e "${RED}[FAIL]${NC} TEST: ctg not found at ~/.local/bin/ctg — re-run Step 1"
     TEST_FAIL=$((TEST_FAIL + 1))
 fi
 

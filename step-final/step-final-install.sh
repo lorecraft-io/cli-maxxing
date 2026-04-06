@@ -261,7 +261,7 @@ if grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
 else
     warn "HEALTH: ~/.local/bin not on PATH, adding now..."
     echo "" >> "$SHELL_RC"
-    echo '# Local bin (cbrain, cbraintg)' >> "$SHELL_RC"
+    echo '# Local bin (cbrain, cbraintg, ctg)' >> "$SHELL_RC"
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
     success "HEALTH: ~/.local/bin PATH — fixed"
     HC_PASS=$((HC_PASS + 1))

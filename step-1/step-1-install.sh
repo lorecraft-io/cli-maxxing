@@ -270,22 +270,27 @@ install_claude_code() {
     cat > "$HOME/.local/bin/cbrain" << 'CBRAIN_EOF'
 #!/usr/bin/env bash
 # cbrain — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
-for candidate in \
-    "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
-    "$HOME/Desktop/2ndBrain" \
-    "$HOME/Desktop/Second-Brain" \
-    "$HOME/Desktop/Vault" \
-    "$HOME/Documents/2ndBrain" \
-    "$HOME/Documents/Second-Brain"; do
-  if [ -d "$candidate" ]; then
-    VAULT="$candidate"
-    break
-  fi
-done
+# Check VAULT_PATH env var first, then fall back to candidate list
+if [ -n "${VAULT_PATH:-}" ] && [ -d "$VAULT_PATH" ]; then
+  VAULT="$VAULT_PATH"
+else
+  for candidate in \
+      "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
+      "$HOME/Desktop/2ndBrain" \
+      "$HOME/Desktop/Second-Brain" \
+      "$HOME/Desktop/Vault" \
+      "$HOME/Documents/2ndBrain" \
+      "$HOME/Documents/Second-Brain"; do
+    if [ -d "$candidate" ]; then
+      VAULT="$candidate"
+      break
+    fi
+  done
+fi
 
 if [ -z "${VAULT:-}" ]; then
   echo "Error: Could not find your 2ndBrain vault."
-  echo "Run Step 7 first, or set VAULT env var: VAULT=~/path/to/vault cbrain"
+  echo "Run Step 7 first, or set VAULT_PATH: VAULT_PATH=~/path/to/vault cbrain"
   exit 1
 fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions "$@"
@@ -340,22 +345,27 @@ if [ ! -f "$TOKEN_FILE" ] || ! grep -qE 'TELEGRAM_BOT_TOKEN=.+' "$TOKEN_FILE" 2>
   exit 1
 fi
 
-for candidate in \
-    "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
-    "$HOME/Desktop/2ndBrain" \
-    "$HOME/Desktop/Second-Brain" \
-    "$HOME/Desktop/Vault" \
-    "$HOME/Documents/2ndBrain" \
-    "$HOME/Documents/Second-Brain"; do
-  if [ -d "$candidate" ]; then
-    VAULT="$candidate"
-    break
-  fi
-done
+# Check VAULT_PATH env var first, then fall back to candidate list
+if [ -n "${VAULT_PATH:-}" ] && [ -d "$VAULT_PATH" ]; then
+  VAULT="$VAULT_PATH"
+else
+  for candidate in \
+      "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
+      "$HOME/Desktop/2ndBrain" \
+      "$HOME/Desktop/Second-Brain" \
+      "$HOME/Desktop/Vault" \
+      "$HOME/Documents/2ndBrain" \
+      "$HOME/Documents/Second-Brain"; do
+    if [ -d "$candidate" ]; then
+      VAULT="$candidate"
+      break
+    fi
+  done
+fi
 
 if [ -z "${VAULT:-}" ]; then
   echo "Error: Could not find your 2ndBrain vault."
-  echo "Run Step 7 first, or set VAULT env var: VAULT=~/path/to/vault cbraintg"
+  echo "Run Step 7 first, or set VAULT_PATH: VAULT_PATH=~/path/to/vault cbraintg"
   exit 1
 fi
 cd "$VAULT" && exec claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official "$@"
