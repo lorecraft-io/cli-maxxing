@@ -107,9 +107,12 @@ The `OBSIDIAN/` prefix requirement has been removed. The pattern now matches any
 | Section | Expected Behavior | Result |
 |---------|-------------------|--------|
 | UI/UX Pro Max skill | Downloads to `~/.claude/skills/ui-ux-pro-max/SKILL.md` | PASS |
+| Taste Skill pack (Leonxlnx/taste-skill) | `npx skills add https://github.com/Leonxlnx/taste-skill --yes --global` expands 7 variants (taste, redesign, soft, output, minimalist, brutalist, stitch) under `~/.claude/skills/` | PASS (soft fail ok if skills CLI rejects the URL) |
 | 21st.dev Magic MCP | `claude mcp add magic` | PASS (may need manual setup) |
 
 **Bugs found:** None.
+
+**Notes:** Taste Skill install uses the full GitHub URL form (not the owner/repo shorthand) because the taste-skill README documents the URL form as the authoritative install command. Each variant becomes its own skill folder. The main `taste-skill` variant has three tunable knobs at the top of its SKILL.md: DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY (1-10 each).
 
 ---
 
@@ -135,14 +138,23 @@ The `OBSIDIAN/` prefix requirement has been removed. The pattern now matches any
 
 **File:** `step-6/step-6-install.sh`
 
+Installs 6 optional productivity MCPs. Obsidian MCP lives in Step 7d (alongside the vault setup), NOT here.
+
 | Section | Expected Behavior | Result |
 |---------|-------------------|--------|
-| Non-interactive mode | Detects pipe (`[ ! -t 0 ]`), prints instructions, exits cleanly | PASS |
-| Interactive mode | Menu for Motion/Notion | PASS |
-| Motion Calendar | Prompts for credentials | PASS |
-| Notion | Prompts for integration token | PASS |
+| Non-interactive mode | Detects pipe (`[ ! -t 0 ]`), auto-detects already-installed MCPs, re-enters only the `"already installed"` guards; if nothing found, prints "run directly" instructions and exits cleanly | PASS |
+| Interactive menu | Numbered 1-6: Notion, Granola, n8n, GCal, Morgen, Motion. Morgen (5) flagged as recommended default | PASS |
+| (1) Notion | Prompts for integration token, registers via `-e NOTION_TOKEN=...` | PASS |
+| (2) Granola | Registers HTTP transport to `https://mcp.granola.ai/mcp` (no credentials — Granola app handles auth) | PASS |
+| (3) n8n | Prompts for user's own n8n instance URL + optional Bearer token, registers via `--transport http` with `-H "Authorization: Bearer …"` if provided | PASS |
+| (4) Google Calendar | Prompts for OAuth Client ID + Secret, writes `~/.google-calendar-mcp/.env` (chmod 700 dir / 600 file), registers with `-e GOOGLE_CLIENT_ID=... -e GOOGLE_CLIENT_SECRET=...` | PASS |
+| (5) Morgen *(recommended)* | Prompts for API key + optional IANA timezone, registers via `-e MORGEN_API_KEY=... -e MORGEN_TIMEZONE=...`. No local `.env` — credentials live in Claude Code's MCP config | PASS |
+| (6) Motion Calendar | Prompts for Motion API key, Firebase API key, Firebase refresh token, Motion user ID. Writes `~/.motion-calendar-mcp/.env` (chmod 700/600). Registers via `claude mcp add motion-calendar` | PASS |
+| Obsidian | NOT in Step 6 — points user to Step 7d | N/A |
+| Self-test | `check_registered` covers all 6 tools, verifies Motion + GCal `.env` files exist for their respective installs | PASS |
+| Summary | Prints tool-count + "what you can do now" hints per installed tool | PASS |
 
-**Notes:** When run via `update.sh` (pipe), correctly exits with instructions telling user to run directly. First-time users must run directly in terminal for credential input.
+**Notes:** When run via `update.sh` (pipe), correctly auto-detects already-registered MCPs and exits after verification without prompting. First-time users must run directly in terminal for credential input. Morgen is promoted as the default calendar+task tool; Motion and Google Calendar are documented as secondary (install only for specific features the primary tool doesn't cover).
 
 ---
 

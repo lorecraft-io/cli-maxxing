@@ -313,7 +313,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm. Do NOT explain 
 1. Read the user's task (everything they typed after `/rswarm`)
 2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__claude-flow__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
@@ -377,14 +377,14 @@ The queen decides how many workers to spawn, what roles they need, how to coordi
 1. Read the user's goal (everything they typed after `/rhive`)
 2. **Signal status line**: Run `touch /tmp/ruflo-hive-active` via Bash to light up the hive indicator
 3. Initialize the hive-mind in ONE message:
-   - Call `mcp__claude-flow__hive-mind_init` with consensus `raft`
+   - Call `mcp__ruflo__hive-mind_init` with consensus `raft` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn a queen agent (hierarchical-coordinator type) via the Agent tool with `run_in_background: true`
    - The queen's prompt MUST include:
      a. The user's full goal
-     b. Instructions to use `mcp__claude-flow__hive-mind_spawn` to create workers as needed
-     c. Instructions to use `mcp__claude-flow__hive-mind_broadcast` for coordination
-     d. Instructions to use `mcp__claude-flow__hive-mind_consensus` for decisions
-     e. Instructions to use `mcp__claude-flow__hive-mind_memory` for shared state
+     b. Instructions to use `mcp__ruflo__hive-mind_spawn` to create workers as needed
+     c. Instructions to use `mcp__ruflo__hive-mind_broadcast` for coordination
+     d. Instructions to use `mcp__ruflo__hive-mind_consensus` for decisions
+     e. Instructions to use `mcp__ruflo__hive-mind_memory` for shared state
      f. Instructions to present final synthesized output when complete
 4. After spawning the queen, STOP. Do not poll. Do not check status. The queen runs the show.
 5. When the queen returns results, present them to the user.
@@ -431,7 +431,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm. Do NOT explain h
 1. Read the user's task (everything they typed after `/rmini`)
 2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__claude-flow__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.

@@ -13,7 +13,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm. Do NOT explain 
 1. Read the user's task (everything they typed after `/rswarm`)
 2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the 🐝 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__claude-flow__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.

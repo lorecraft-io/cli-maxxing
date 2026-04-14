@@ -454,7 +454,7 @@ install_motion_calendar() {
     fi
 
     echo ""
-    echo -e "${YELLOW}  Heads up: Morgen (option 6) is the recommended default${NC}"
+    echo -e "${YELLOW}  Heads up: Morgen (option 5) is the recommended default${NC}"
     echo -e "${YELLOW}  calendar tool. Motion Calendar is only needed for a few${NC}"
     echo -e "${YELLOW}  Motion-specific features (teammate events, full-text${NC}"
     echo -e "${YELLOW}  search across events, custom calendar management).${NC}"
