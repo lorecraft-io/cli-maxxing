@@ -232,7 +232,7 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Step 4 — Design Tools (UI/UX Pro Max, 21st.dev Magic)
+# Step 4 — Design Tools (UI/UX Pro Max, Taste Skill pack, 21st.dev Magic)
 # -----------------------------------------------------------------------------
 echo ""
 echo -e "${BLUE}--- Step 4: Design Tools ---${NC}"
@@ -243,6 +243,21 @@ if [ -d "$HOME/.claude/skills/ui-ux-pro-max" ]; then
     success "UI/UX Pro Max skill"
 else
     skip "UI/UX Pro Max skill (not found)"
+fi
+
+# Taste Skill pack — 7 variants installed by `npx skills add Leonxlnx/taste-skill`
+TASTE_VARIANTS=(taste-skill redesign-skill soft-skill output-skill minimalist-skill brutalist-skill stitch-skill)
+TASTE_REMOVED=0
+for variant in "${TASTE_VARIANTS[@]}"; do
+    if [ -d "$HOME/.claude/skills/$variant" ] || [ -L "$HOME/.claude/skills/$variant" ]; then
+        rm -rf "$HOME/.claude/skills/$variant"
+        TASTE_REMOVED=$((TASTE_REMOVED + 1))
+    fi
+done
+if [ "$TASTE_REMOVED" -gt 0 ]; then
+    success "Taste Skill pack ($TASTE_REMOVED variant(s) removed)"
+else
+    skip "Taste Skill pack (not found)"
 fi
 
 # 21st.dev Magic MCP

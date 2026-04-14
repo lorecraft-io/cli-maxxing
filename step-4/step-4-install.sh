@@ -2,8 +2,8 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 4 — UI/UX Pro Max Skill + 21st.dev Magic MCP
-# Installs design intelligence and component generation tools
+# Step 4 — UI/UX Pro Max Skill + Taste Skill (Leonxlnx) + 21st.dev Magic MCP
+# Installs design intelligence, anti-slop taste skills, and component tools.
 # Run this in your terminal after completing Steps 1-3
 # =============================================================================
 
@@ -73,6 +73,40 @@ install_uiux_skill() {
 }
 
 # -----------------------------------------------------------------------------
+# Install Taste Skill (Leonxlnx/taste-skill)
+# Installs 7 variants: taste, redesign, soft, output, minimalist, brutalist, stitch.
+# Each becomes its own skill folder under ~/.claude/skills/.
+# -----------------------------------------------------------------------------
+install_taste_skill() {
+    # If any of the variants is already present, assume the pack is installed.
+    if [ -d "$HOME/.claude/skills/taste-skill" ] \
+        || [ -L "$HOME/.claude/skills/taste-skill" ] \
+        || [ -d "$HOME/.claude/skills/soft-skill" ] \
+        || [ -d "$HOME/.claude/skills/minimalist-skill" ]; then
+        success "Taste Skill already installed"
+        return
+    fi
+
+    info "Installing Taste Skill pack (Leonxlnx/taste-skill)..."
+
+    # Use the skills CLI — same pattern as the Remotion install in Step 5.
+    # The pack ships 7 variants; the CLI expands each one into its own skill dir.
+    npx skills add Leonxlnx/taste-skill --yes --global 2>/dev/null
+
+    # Re-check. If the global install didn't land it, try without --global
+    # as a fallback (some skills CLI versions don't honor --global).
+    if [ ! -d "$HOME/.claude/skills/taste-skill" ] && [ ! -L "$HOME/.claude/skills/taste-skill" ]; then
+        npx skills add Leonxlnx/taste-skill --yes 2>/dev/null
+    fi
+
+    if [ -d "$HOME/.claude/skills/taste-skill" ] || [ -L "$HOME/.claude/skills/taste-skill" ]; then
+        success "Taste Skill installed (7 variants under ~/.claude/skills/)"
+    else
+        soft_fail "Taste Skill installation could not be verified — install manually: npx skills add Leonxlnx/taste-skill --yes --global"
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # Install 21st.dev Magic MCP
 # -----------------------------------------------------------------------------
 install_21st_magic() {
@@ -121,6 +155,15 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
+    # Taste Skill (Leonxlnx/taste-skill) — checks for the main variant folder
+    if [ -d "$HOME/.claude/skills/taste-skill" ] || [ -L "$HOME/.claude/skills/taste-skill" ]; then
+        success "TEST: Taste Skill installed"
+        TEST_PASS=$((TEST_PASS + 1))
+    else
+        soft_fail "TEST: Taste Skill not found"
+        TEST_FAIL=$((TEST_FAIL + 1))
+    fi
+
     # 21st.dev Magic MCP
     if claude mcp list 2>/dev/null | grep -qi "magic\|21st" 2>/dev/null; then
         success "TEST: 21st.dev Magic MCP configured"
@@ -152,7 +195,22 @@ print_summary() {
     echo ""
     echo "  Installed:"
     echo "    UI/UX Pro Max    $([ -f "$HOME/.claude/skills/ui-ux-pro-max/SKILL.md" ] && echo 'installed' || echo '—')"
+    echo "    Taste Skill      $([ -d "$HOME/.claude/skills/taste-skill" ] || [ -L "$HOME/.claude/skills/taste-skill" ] && echo 'installed (7 variants)' || echo '—')"
     echo "    21st.dev Magic   $(claude mcp list 2>/dev/null | grep -qi 'magic\|21st' && echo 'configured' || echo 'needs manual setup')"
+    echo ""
+    echo "  Taste Skill variants installed:"
+    echo "    - taste-skill       (main premium frontend rules, 3 knobs)"
+    echo "    - redesign-skill    (upgrade existing projects — audit first)"
+    echo "    - soft-skill        (expensive soft UI look, spring animations)"
+    echo "    - output-skill      (anti-laziness: no placeholder comments)"
+    echo "    - minimalist-skill  (clean, editorial, Notion/Linear style)"
+    echo "    - brutalist-skill   (raw mechanical, CRT terminal aesthetics — beta)"
+    echo "    - stitch-skill      (Google Stitch-compatible semantic rules)"
+    echo ""
+    echo "  taste-skill knobs (edit the SKILL.md to tune, 1-10 scale):"
+    echo "    DESIGN_VARIANCE   — 1-3 centered/clean   | 8-10 asymmetric/modern"
+    echo "    MOTION_INTENSITY  — 1-3 simple hover     | 8-10 scroll-triggered"
+    echo "    VISUAL_DENSITY    — 1-3 spacious/luxury  | 8-10 dense dashboards"
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
         echo -e "  ${YELLOW}Warnings: $ERRORS issue(s) detected.${NC}"
@@ -187,13 +245,14 @@ main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 4 — Design Tools${NC}"
-    echo -e "${BLUE}  UI/UX Pro Max + 21st.dev Magic • macOS + Linux${NC}"
+    echo -e "${BLUE}  UI/UX Pro Max + Taste Skill + 21st.dev Magic • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
     detect_os
     verify_prerequisites
     install_uiux_skill
+    install_taste_skill
     install_21st_magic
     run_self_test
     print_summary

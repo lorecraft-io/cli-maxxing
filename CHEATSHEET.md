@@ -111,19 +111,22 @@ These activate on their own when Claude detects a relevant task via natural lang
 | Tool | Installed in | How it activates | Example prompt |
 |------|-------------|-----------------|----------------|
 | UI/UX Pro Max | Step 4 | Natural language — asks about UI, design, layouts, interfaces | "Build me a dashboard with a sidebar" |
+| Taste Skill (7 variants) | Step 4 | Natural language — anything frontend/design. Stops generic AI "slop" output. Name a variant to force it: "use minimalist-skill", "redesign this with soft-skill" | "Build a premium landing page" · "Redesign this dashboard with taste-skill" |
 | 21st.dev Magic | Step 4 | Natural language — building components, pulls from 21st.dev library | "Create a hero section with a CTA" |
 | Context Hub (`get-api-docs`) | Step 3 | Natural language — Claude writes code that calls external APIs | "Use the Stripe API to create a checkout" |
 | Remotion | Step 5 | Natural language — video, animation, motion graphics | "Make a 30-second intro video" |
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
-| Motion Calendar | Step 6 | Natural language — calendar, schedule, availability, events | "What's on my calendar today?" |
 | Notion | Step 6 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
+| Obsidian | Step 6 | Natural language — read/write/search a local Obsidian vault | "Search my vault for notes about machine learning" |
 | Granola | Step 6 | Natural language — meeting transcripts and notes | "What did we cover in my last meeting?" |
-| Google Calendar | Step 6 | Natural language — Google Calendar events (optional install) | "What's on my Google calendar this week?" |
+| n8n (your own) | Step 6 | Natural language — trigger and inspect your own n8n workflows | "Run my lead-qualification workflow on this email" |
+| Google Calendar | Step 6 | Natural language — direct Google Calendar access (secondary — use if Morgen not installed) | "What's on my Google calendar this week?" |
+| Morgen *(recommended)* | Step 6 | Natural language — unified calendar + tasks across Google/Outlook/iCloud/native | "What's on my calendar this week?" · "Add a task called 'Review contracts' due Friday" |
+| Motion Calendar | Step 6 | Natural language — Motion-specific features (teammate visibility, full event search) | "Who on my team has a conflict at 3pm?" |
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 | Telegram | Step 8 | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |
-| Obsidian | Add-on | Natural language — MCP add-on for vault access (notes, search, knowledge management) | "Search my vault for notes about machine learning" |
 | Canva | Add-on | Natural language — create or edit designs, social posts, presentations | "Design a social media post for our launch" |
 | Figma | Add-on | Natural language or paste a Figma URL — design-to-code, inspect designs | "Turn this Figma into React components" |
 | Excalidraw | Add-on | Natural language — diagrams, flowcharts, whiteboard sketches | "Draw a system architecture diagram" |
@@ -132,6 +135,34 @@ These activate on their own when Claude detects a relevant task via natural lang
 > **Key distinction:** Slash commands (`/rswarm`, `/rmini`, `/rhive`, `/w4w`, `/safetycheck`, `/gitfix`) require you to type the command. Everything in this table works by just talking to Claude naturally.
 >
 > **Add-on tools** are not part of the step-by-step setup — they're optional MCP servers you can connect separately. Claude auto-detects them when they're installed.
+
+---
+
+## Taste Skill — Variants & Knobs (Step 4)
+
+Installed by Step 4 via `npx skills add Leonxlnx/taste-skill`. The pack ships **7 variants** as separate skill folders under `~/.claude/skills/`. They're passive skills — Claude activates the right one based on what you ask for. You can also name a variant explicitly in your prompt ("use soft-skill", "redesign this with minimalist-skill") to force a specific style.
+
+| Variant | When Claude uses it | Example prompt |
+|---------|---------------------|----------------|
+| `taste-skill` | Default premium frontend rules — layout, typography, color, spacing, motion | "Build a premium SaaS landing page" |
+| `redesign-skill` | Upgrading an existing project — audits current design, then fixes problems | "Redesign this dashboard — it looks generic" |
+| `soft-skill` | Expensive, soft UI look — premium fonts, whitespace, depth, spring animations | "Make this feel expensive, soft, Apple-ish" |
+| `output-skill` | Anti-laziness — stops placeholder comments, skipped blocks, half-finished outputs | "Give me the full component, no TODOs" |
+| `minimalist-skill` | Clean editorial style — monochrome, crisp borders, Notion/Linear inspired | "Build a minimalist admin panel" |
+| `brutalist-skill` *(beta)* | Raw mechanical interfaces — Swiss typographic print fused with CRT terminal aesthetics | "Make it brutalist, terminal-style" |
+| `stitch-skill` | Google Stitch-compatible semantic design rules; exports a `DESIGN.md` | "Set up stitch-compatible design rules for this project" |
+
+### Taste Skill Knobs (`taste-skill` variant only)
+
+The main `taste-skill` file has three numeric knobs at the top you can tune from **1-10**. Edit `~/.claude/skills/taste-skill/SKILL.md` and change the numbers, or tell Claude "set DESIGN_VARIANCE to 9 for this build".
+
+| Knob | 1-3 | 4-7 | 8-10 |
+|------|-----|-----|------|
+| **DESIGN_VARIANCE** | Clean, centered | Balanced | Asymmetric, modern |
+| **MOTION_INTENSITY** | Simple hover | Smooth transitions | Magnetic, scroll-triggered |
+| **VISUAL_DENSITY** | Spacious, luxury | Balanced | Dense dashboards |
+
+> **No slash commands.** Taste Skill activates automatically on design work, or when you reference a variant by name. There are no `/taste-skill`-style commands to memorize. If you want Claude to NOT use it, say so — e.g. "skip taste-skill for this one, just give me raw HTML."
 
 ---
 

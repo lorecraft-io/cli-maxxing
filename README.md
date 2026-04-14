@@ -15,7 +15,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
-| [Step 4](#step-4---design-tools) | Design Tools | UI/UX skills + component generation | ~3 min |
+| [Step 4](#step-4---design-tools) | Design Tools | UI/UX Pro Max + Taste Skill (7 variants) + 21st.dev Magic | ~3 min |
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Obsidian + Granola + n8n + GCal + Morgen + Motion (pick what you use) | ~5 min |
 | [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
@@ -76,7 +76,7 @@ Run the steps in order. Each one builds on the last.
 
 **[Step 3](#step-3---ruflo--context-hub)** is where you set up Ruflo and Context Hub. Ruflo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
 
-**[Step 4](#step-4---design-tools)** gives Claude professional design skills and a library of production-ready UI components.
+**[Step 4](#step-4---design-tools)** gives Claude professional design skills, anti-slop taste skills (7 variants from Leonxlnx), and a library of production-ready UI components.
 
 **[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, pull transcripts from any YouTube video, and download + transcribe content from Instagram Reels and other social platforms. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link. Instagram Reels — paste a link and Claude downloads the audio and transcribes it locally.
 
@@ -578,7 +578,7 @@ claude mcp add claude-flow -- npx -y @claude-flow/cli@latest
 
 [Back to top](#quick-nav)
 
-This step supercharges how Claude handles anything visual. It installs two tools that make Claude dramatically better at building user interfaces, web pages, apps, and anything design-related.
+This step supercharges how Claude handles anything visual. It installs three tools that make Claude dramatically better at building user interfaces, web pages, apps, and anything design-related: UI/UX Pro Max for design intelligence, Taste Skill (7 variants) for anti-slop premium output, and 21st.dev Magic for production-ready components.
 
 ### UI/UX Pro Max Skill
 
@@ -593,6 +593,30 @@ Without this skill, Claude generates generic-looking interfaces. With it, Claude
 - **13 tech stacks supported.** React, Vue, Flutter, SwiftUI, Tailwind, and more. The skill adapts to whatever you're building with.
 
 You don't have to tell Claude to "use the UI/UX skill." It activates automatically whenever you ask for anything design-related. Just describe what you want and Claude will generate a complete design system before writing a single line of code.
+
+### Taste Skill (7 variants)
+
+Built by [@Leonxlnx](https://github.com/Leonxlnx/taste-skill) ([site](https://tasteskill.dev)). A collection of seven specialized design skills that stop AI from generating boring, generic "slop" frontend code. Where UI/UX Pro Max teaches Claude *what* good design looks like in general, Taste Skill teaches Claude *how* to make every generated interface feel premium by default — proper spacing, original layouts, real motion, anti-repetition rules.
+
+Installed in one command as a pack of seven variants — each becomes its own skill folder under `~/.claude/skills/`:
+
+- **taste-skill** — the main skill. Premium frontend rules covering layout, typography, color, spacing, and motion. Has three tunable knobs (DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY — each 1-10) you can edit in the `SKILL.md` file to dial in exactly how experimental, animated, or dense the output should be.
+- **redesign-skill** — for upgrading existing projects. Audits the current design for generic AI patterns first, then fixes the problems. Use this when you're editing a project that's already built.
+- **soft-skill** — expensive, soft UI look. Premium fonts, whitespace, depth, smooth spring animations. Think high-end Apple-esque.
+- **output-skill** — anti-laziness. Stops Claude from writing placeholder comments, skipping code blocks, or leaving outputs half-finished. Use this whenever you catch Claude hedging.
+- **minimalist-skill** — clean editorial style. Monochrome, crisp borders, inspired by Notion and Linear.
+- **brutalist-skill** *(beta)* — raw mechanical interfaces fusing Swiss typographic print with CRT terminal aesthetics. For portfolios, editorial sites, data-heavy dashboards that need to feel like declassified blueprints.
+- **stitch-skill** — Google Stitch-compatible semantic design rules. Generates a `DESIGN.md` you can export for other tooling.
+
+Claude picks the right variant automatically based on your prompt, but you can force one by naming it in your ask: *"redesign this landing page with soft-skill"*, *"use minimalist-skill for the dashboard"*.
+
+Install command (the setup script runs this for you):
+
+```bash
+npx skills add Leonxlnx/taste-skill --yes --global
+```
+
+> **No slash commands.** Taste Skill is passive — no `/taste-skill`-style trigger. It activates automatically on design work. To disable it for a specific prompt, tell Claude: *"skip taste-skill, just give me raw HTML."*
 
 ### 21st.dev Magic MCP
 
@@ -637,6 +661,7 @@ The UI/UX Pro Max Skill installs automatically. But 21st.dev needs you to create
 | Component | What it does |
 |-----------|-------------|
 | UI/UX Pro Max Skill | This gives Claude professional design intelligence. 161 design rules, 67 styles, 161 palettes, 57 font pairings, 99 UX guidelines. |
+| Taste Skill (7 variants) | Anti-slop frontend design rules — main `taste-skill` plus 6 variants (redesign, soft, output, minimalist, brutalist, stitch). Installed via `npx skills add Leonxlnx/taste-skill`. Passive — activates automatically on design work. |
 | 21st.dev Magic MCP | This connects Claude to a library of production-ready UI components it can use when building interfaces. |
 
 ---
@@ -1371,7 +1396,7 @@ Run the steps in this order:
 | Bonus | Arc Browser | Power-user browser with sidebar tabs (optional, macOS) |
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
-| 4 | Design Tools | UI/UX Pro Max + 21st.dev Magic |
+| 4 | Design Tools | UI/UX Pro Max + Taste Skill (7 variants) + 21st.dev Magic |
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
 | 6 | Productivity Tools | Notion + Obsidian + Granola + n8n + Google Calendar + Morgen + Motion Calendar (all optional — pick what you use; Morgen recommended) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
@@ -1423,7 +1448,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 **What it removes:**
 - Claude Code + shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and scripts (`ctg`, `cbrain`, `cbraintg` in `~/.local/bin/`)
 - All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Notion, Obsidian, Granola, n8n, Google Calendar, Morgen, Motion Calendar)
-- All skills (rswarm, rmini, rhive, w4w, get-api-docs, gitfix, UI/UX Pro Max, Remotion, safetycheck)
+- All skills (rswarm, rmini, rhive, w4w, get-api-docs, gitfix, UI/UX Pro Max, Taste Skill pack, Remotion, safetycheck)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
 - Motion Calendar config (~/.motion-calendar-mcp/)
