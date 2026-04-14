@@ -17,11 +17,20 @@ If you discover a security vulnerability, please report it responsibly:
 
 ## Credential Handling
 
-CLI-MAXXING install scripts collect API credentials interactively and store them in local config files with restrictive permissions (`chmod 600`). Credentials are never committed to this repository.
+CLI-MAXXING install scripts collect API credentials interactively. Some are persisted to local `.env` files with restrictive permissions (`chmod 700` dir, `chmod 600` file); the rest live inside Claude Code's MCP config via `claude mcp add -e`. Credentials are never committed to this repository.
 
-**Stored credentials and their locations:**
-- Motion Calendar: `~/.motion-calendar-mcp/.env`
-- Telegram Bot: `~/.claude/channels/telegram/.env`
+**Persisted to `.env` files (edit by re-running the step):**
+- Motion Calendar: `~/.motion-calendar-mcp/.env` — Motion API key, Firebase API key, Firebase refresh token, Motion user ID
+- Google Calendar: `~/.google-calendar-mcp/.env` — Google OAuth Client ID and Client Secret
+- Telegram Bot: `~/.claude/channels/telegram/.env` — Telegram bot token
+
+**Stored inside Claude Code's MCP config (revoke via `claude mcp remove <name>` then re-run the step):**
+- Notion: integration token (via `-e NOTION_TOKEN`)
+- Morgen: API key and timezone (via `-e MORGEN_API_KEY`, `-e MORGEN_TIMEZONE`)
+- n8n (user's own instance): optional Bearer token (via `-H "Authorization: Bearer ..."`)
+- Obsidian: no credentials — vault path only, passed as a positional argument
+
+**Revocation:** run `./uninstall.sh` to remove every MCP server and wipe both the local `.env` files and the MCP-config entries. For individual removal, use `claude mcp remove <name>` and delete the relevant `~/.<tool>-mcp/.env` directory.
 
 ## Scope
 

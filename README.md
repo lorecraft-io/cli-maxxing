@@ -17,7 +17,7 @@ Everything you need to start working with AI-powered development tools, installe
 | [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 4](#step-4---design-tools) | Design Tools | UI/UX Pro Max + Taste Skill (7 variants) + 21st.dev Magic | ~3 min |
 | [Step 5](#step-5---visual-media) | Visual Media | Remotion video creation + YouTube transcripts + Instagram/social transcription | ~5 min |
-| [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Obsidian + Granola + n8n + GCal + Morgen + Motion (pick what you use) | ~5 min |
+| [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion (pick what you use; Morgen recommended) | ~5 min |
 | [Step 7](#step-7---second-brain-obsidian) | Second Brain (Obsidian) | Personal knowledge management system | ~30+ min |
 | [Step 8](#step-8---telegram) | Telegram *(optional)* | Message Claude from your phone via Telegram bot | ~2 min |
 | [Step 9](#step-9---safety-check) | Safety Check | Security auditing — scan any project for vulnerabilities + full MCP security checks | ~2 min |
@@ -80,7 +80,7 @@ Run the steps in order. Each one builds on the last.
 
 **[Step 5](#step-5---visual-media)** gives Claude the ability to create videos programmatically using React, pull transcripts from any YouTube video, and download + transcribe content from Instagram Reels and other social platforms. Animations, captions, transitions, data visualizations — all generated from code. YouTube transcripts — just paste a link. Instagram Reels — paste a link and Claude downloads the audio and transcribes it locally.
 
-**[Step 6](#step-6---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, and workflows. Pick the ones you use: Notion, Obsidian, Granola, your own n8n instance, Google Calendar, Morgen (recommended), or Motion Calendar. All optional, install only what you need.
+**[Step 6](#step-6---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, and workflows. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), or Motion Calendar. All optional, install only what you need. (Obsidian MCP ships with Step 7, alongside the vault setup.)
 
 **[Step 7](#step-7---second-brain-obsidian)** sets up your personal knowledge management system in Obsidian. This is the biggest step but also the most rewarding. It's the transition from setup to daily use.
 
@@ -569,7 +569,7 @@ claude mcp list
 
 If the Ruflo MCP server isn't showing, re-add it:
 ```bash
-claude mcp add claude-flow -- npx -y @claude-flow/cli@latest
+claude mcp add ruflo -- npx -y ruflo@latest
 ```
 
 ---
@@ -755,24 +755,24 @@ Once installed, these tools work through natural language. No commands to memori
 
 - *"What's on my calendar this week?"*
 - *"Add a task called 'Review contracts' due Friday, high priority"*
-- *"Search my vault for notes on machine learning"*
 - *"Create a new page in Notion called Project Roadmap"*
 - *"What were the key points from my last meeting?"*
 - *"Trigger my lead-qualification workflow for this inbound email"*
 
 Claude picks the right tool automatically based on what you ask. You never need to think about which MCP is handling it.
 
-Step 6 installs seven optional tools in this order:
+Step 6 installs six optional tools in this order:
 
 1. **Notion** — pages, databases, knowledge management
-2. **Obsidian** — local vault: notes, links, tags, search
-3. **Granola** — meeting transcripts and notes
-4. **n8n** — your own n8n instance for workflow automation
-5. **Google Calendar** — calendar events via Google OAuth
-6. **Morgen** — unified calendar + tasks (recommended default)
-7. **Motion Calendar** — Motion-specific events, teammate visibility
+2. **Granola** — meeting transcripts and notes
+3. **n8n** — your own n8n instance for workflow automation
+4. **Google Calendar** — calendar events via Google OAuth
+5. **Morgen** — unified calendar + tasks (recommended default)
+6. **Motion Calendar** — Motion-specific events, teammate visibility
 
-> **Calendar recommendation:** Morgen (6) is the recommended default calendar + task tool. It unifies Google, Outlook, iCloud, and native tasks behind a single API key. Google Calendar (5) and Motion (7) are secondary — install them only if you specifically need direct access to those accounts.
+> **Calendar recommendation:** Morgen (5) is the recommended default calendar + task tool. It unifies Google, Outlook, iCloud, and native tasks behind a single API key. Google Calendar (4) and Motion (6) are secondary — install them only if you specifically need direct access to those accounts.
+>
+> **Obsidian MCP?** That lives in Step 7 (Second Brain), not here. Step 7 installs the Obsidian app, sets up your vault structure, AND registers `obsidian-mcp` with Claude Code — the MCP registration happens in **step 7d (wire-vault)** after the vault exists. If you already have a vault and just want the MCP, you can re-run `step-7d-wire-vault.sh` in isolation.
 
 ### Notion
 
@@ -784,17 +784,6 @@ Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the of
 - **22 tools** covering pages, databases, comments, and templates.
 
 > **Requires:** A free Notion account and an integration token. Go to [notion.so/profile/integrations](https://www.notion.so/profile/integrations), create a new integration named "Claude Code", select your workspace, and copy the token (starts with `ntn_`). Then share any pages you want Claude to access: on each page, click the `...` menu > **Connections** > add your integration. Claude can only see pages you explicitly share.
-
-### Obsidian
-
-Direct read/write access to any Obsidian vault on your machine. Works without the Obsidian app running — it just reads and writes Markdown files in the vault folder.
-
-- **Read and write notes.** Create new notes, edit existing ones, or read any file in the vault.
-- **Search the whole vault.** Full-text search across all notes — Claude can find context you forgot you had.
-- **Manage tags.** Add, remove, or rename tags in bulk.
-- **List and move files.** Navigate the vault tree, move notes between folders.
-
-> **Requires:** An existing Obsidian vault folder on this machine. The setup script asks for the absolute path to your vault (e.g. `/Users/you/Documents/MyVault`).
 
 ### Granola
 
@@ -864,7 +853,6 @@ Once you're inside the Claude session, paste this and hit Enter:
 | Component | What it does |
 |-----------|-------------|
 | Notion MCP | Official Notion integration — pages, databases, search, content management. 22 tools. |
-| Obsidian MCP | Read/write access to a local Obsidian vault — notes, search, tags, file management. |
 | Granola MCP | Meeting transcript access — search and query your Granola meeting notes through conversation. |
 | n8n MCP | HTTP bridge to YOUR OWN n8n instance — trigger and inspect workflows you built. |
 | Google Calendar MCP | Direct Google Calendar access via OAuth — secondary, install only if needed. |
@@ -873,7 +861,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 
 ### After Step 6
 
-You now have your productivity stack connected to Claude. Ask about your schedule, add a task, search your vault, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them.
+You now have your productivity stack connected to Claude. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them. For the Obsidian MCP and vault access, continue to Step 7.
 
 ---
 
@@ -1348,7 +1336,7 @@ Once you're inside Claude, type:
 /mcp
 ```
 
-This shows every MCP server and its connection status. Everything you installed — Ruflo, Notion, Obsidian, Granola, n8n, Morgen, Motion Calendar, Google Calendar, design tools — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
+This shows every MCP server and its connection status. Everything you installed — Ruflo, Notion, Granola, n8n, Morgen, Motion Calendar, Google Calendar, Obsidian (from Step 7), design tools — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
 
 > "One of my MCP servers isn't connecting — can you troubleshoot it?"
 
@@ -1398,7 +1386,7 @@ Run the steps in this order:
 | 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | UI/UX Pro Max + Taste Skill (7 variants) + 21st.dev Magic |
 | 5 | Visual Media | Remotion + YouTube Transcripts + IG/Social Transcription + FFmpeg |
-| 6 | Productivity Tools | Notion + Obsidian + Granola + n8n + Google Calendar + Morgen + Motion Calendar (all optional — pick what you use; Morgen recommended) |
+| 6 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar (all optional — pick what you use; Morgen recommended) |
 | 7 | Second Brain | Obsidian vault setup + data import (7a-7d) |
 | 8 | Telegram *(optional)* | Telegram bot setup — message Claude from your phone. Press Enter to skip if you don't have a bot yet. |
 | 9 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
@@ -1447,7 +1435,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 
 **What it removes:**
 - Claude Code + shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and scripts (`ctg`, `cbrain`, `cbraintg` in `~/.local/bin/`)
-- All MCP servers (Ruflo, claude-flow, Magic, YouTube Transcript, yt-dlp, Whisper, Notion, Obsidian, Granola, n8n, Google Calendar, Morgen, Motion Calendar)
+- All MCP servers (Ruflo, Magic, YouTube Transcript, yt-dlp, Whisper, Notion, Granola, n8n, Google Calendar, Morgen, Motion Calendar, Obsidian)
 - All skills (rswarm, rmini, rhive, w4w, get-api-docs, gitfix, UI/UX Pro Max, Taste Skill pack, Remotion, safetycheck)
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)

@@ -1,6 +1,6 @@
 # GitHub + Vault Integration Guide
 
-This document tells Claude how to connect your Obsidian vault to your GitHub repos. Claude references this during Step 5 when setting up project folders.
+This document tells Claude how to connect your Obsidian vault to your GitHub repos. Claude references this during Step 7 (specifically 7d) when setting up project folders.
 
 ## The Concept
 
@@ -41,7 +41,7 @@ gh repo view YOUR-ORG/REPO-NAME
 
 ## Setting Up the Connection
 
-When Claude sets up your project folders in Step 5, tell it about your GitHub repos:
+When Claude sets up your project folders in Step 7d (wire-vault), tell it about your GitHub repos:
 
 1. Tell Claude your GitHub username or organization name
 2. Claude will run `gh repo list YOUR-ORG` to see all your repos

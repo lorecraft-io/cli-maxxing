@@ -3,8 +3,9 @@ set -uo pipefail
 
 # =============================================================================
 # Step 6 — Productivity Tools
-# Installs Notion, Obsidian, Granola, n8n, Google Calendar, Morgen, and
-# Motion Calendar MCP servers. Interactive — pick the tools you actually use.
+# Installs Notion, Granola, n8n, Google Calendar, Morgen, and Motion Calendar
+# MCP servers. Interactive — pick the tools you actually use.
+# Obsidian MCP lives in Step 7 alongside the rest of the Obsidian vault setup.
 # Run this in your terminal after completing Steps 1-5.
 # =============================================================================
 
@@ -24,15 +25,16 @@ soft_fail() { echo -e "${RED}[FAIL]${NC} $1 (non-critical, continuing...)"; ERRO
 
 # Track what was installed this run
 INSTALLED_NOTION=false
-INSTALLED_OBSIDIAN=false
 INSTALLED_GRANOLA=false
 INSTALLED_N8N=false
 INSTALLED_GCAL=false
 INSTALLED_MORGEN=false
 INSTALLED_MOTION=false
-# Pre-existing installs (credentials managed outside this script)
+# Pre-existing installs (credentials managed outside this script).
+# Only Motion tracks this because Motion persists credentials to a local .env
+# the self-test checks for; Morgen/Notion/n8n credentials live inside Claude's
+# MCP config, so there is nothing separate to verify.
 MOTION_PREEXISTING=false
-MORGEN_PREEXISTING=false
 
 # -----------------------------------------------------------------------------
 # Detect OS
@@ -74,29 +76,24 @@ choose_tools() {
             CHOICES="$CHOICES 1"
             INSTALLED_NOTION=true
         fi
-        if claude mcp list 2>/dev/null | grep -q "obsidian" 2>/dev/null; then
-            CHOICES="$CHOICES 2"
-            INSTALLED_OBSIDIAN=true
-        fi
         if claude mcp list 2>/dev/null | grep -q "granola" 2>/dev/null; then
-            CHOICES="$CHOICES 3"
+            CHOICES="$CHOICES 2"
             INSTALLED_GRANOLA=true
         fi
         if claude mcp list 2>/dev/null | grep -q "n8n" 2>/dev/null; then
-            CHOICES="$CHOICES 4"
+            CHOICES="$CHOICES 3"
             INSTALLED_N8N=true
         fi
         if claude mcp list 2>/dev/null | grep -q "google-calendar" 2>/dev/null; then
-            CHOICES="$CHOICES 5"
+            CHOICES="$CHOICES 4"
             INSTALLED_GCAL=true
         fi
         if claude mcp list 2>/dev/null | grep -q "morgen" 2>/dev/null; then
-            CHOICES="$CHOICES 6"
+            CHOICES="$CHOICES 5"
             INSTALLED_MORGEN=true
-            MORGEN_PREEXISTING=true
         fi
         if claude mcp list 2>/dev/null | grep -q "motion-calendar" 2>/dev/null; then
-            CHOICES="$CHOICES 7"
+            CHOICES="$CHOICES 6"
             INSTALLED_MOTION=true
             MOTION_PREEXISTING=true
         fi
@@ -121,18 +118,20 @@ choose_tools() {
     echo -e "${BLUE}  (enter numbers separated by spaces)${NC}"
     echo ""
     echo "    1) Notion           — pages, databases, knowledge management"
-    echo "    2) Obsidian         — local vault: notes, links, tags, search"
-    echo "    3) Granola          — meeting transcripts and notes"
-    echo "    4) n8n              — your own n8n instance (workflow automation)"
-    echo "    5) Google Calendar  — calendar events via Google OAuth"
-    echo "    6) Morgen           — unified calendar + tasks (recommended)"
-    echo "    7) Motion Calendar  — Motion events, availability, scheduling"
+    echo "    2) Granola          — meeting transcripts and notes"
+    echo "    3) n8n              — your own n8n instance (workflow automation)"
+    echo "    4) Google Calendar  — calendar events via Google OAuth"
+    echo "    5) Morgen           — unified calendar + tasks (recommended)"
+    echo "    6) Motion Calendar  — Motion events, availability, scheduling"
     echo ""
-    echo -e "${YELLOW}  Note: Morgen (6) is the recommended calendar+task tool.${NC}"
-    echo -e "${YELLOW}  Motion (7) and Google Calendar (5) are secondary —${NC}"
+    echo -e "${YELLOW}  Note: Morgen (5) is the recommended calendar+task tool.${NC}"
+    echo -e "${YELLOW}  Motion (6) and Google Calendar (4) are secondary —${NC}"
     echo -e "${YELLOW}  install them only if you specifically need those accounts.${NC}"
     echo ""
-    read -rp "  Enter your choices (e.g. \"1 2 6\" or just \"6\"): " CHOICES
+    echo -e "${BLUE}  Looking for Obsidian MCP? It ships with Step 7 (Second Brain),${NC}"
+    echo -e "${BLUE}  alongside the Obsidian app install and vault setup.${NC}"
+    echo ""
+    read -rp "  Enter your choices (e.g. \"1 5\" or just \"5\"): " CHOICES
     echo ""
 
     if [ -z "$CHOICES" ]; then
@@ -191,55 +190,6 @@ install_notion() {
         echo ""
     else
         soft_fail "Notion MCP installation could not be verified"
-    fi
-}
-
-# -----------------------------------------------------------------------------
-# Install Obsidian MCP
-# -----------------------------------------------------------------------------
-install_obsidian() {
-    info "Installing Obsidian MCP server..."
-
-    if claude mcp list 2>/dev/null | grep -q "obsidian"; then
-        success "Obsidian MCP already installed"
-        INSTALLED_OBSIDIAN=true
-        return
-    fi
-
-    echo ""
-    echo -e "${BLUE}  Obsidian MCP gives Claude direct access to an Obsidian vault${NC}"
-    echo -e "${BLUE}  on this machine. It reads files from disk — no Obsidian app${NC}"
-    echo -e "${BLUE}  needs to be running, but the vault folder must exist locally.${NC}"
-    echo ""
-    echo -e "${YELLOW}  Enter the FULL absolute path to your Obsidian vault folder.${NC}"
-    echo -e "${YELLOW}  Example: /Users/you/Documents/MyVault${NC}"
-    echo ""
-
-    read -rp "  Vault path: " OBSIDIAN_VAULT_PATH
-    echo ""
-
-    # Expand ~ if provided
-    OBSIDIAN_VAULT_PATH="${OBSIDIAN_VAULT_PATH/#\~/$HOME}"
-
-    if [ -z "$OBSIDIAN_VAULT_PATH" ]; then
-        warn "No vault path provided. Skipping Obsidian setup."
-        return
-    fi
-
-    if [ ! -d "$OBSIDIAN_VAULT_PATH" ]; then
-        warn "Vault path does not exist: $OBSIDIAN_VAULT_PATH"
-        warn "Skipping Obsidian setup. Re-run Step 6 once the folder exists."
-        return
-    fi
-
-    # Register the MCP server with the vault path as a positional argument.
-    claude mcp add --scope user obsidian -- npx -y obsidian-mcp "$OBSIDIAN_VAULT_PATH" 2>/dev/null
-
-    if claude mcp list 2>/dev/null | grep -q "obsidian"; then
-        success "Obsidian MCP installed (vault: $OBSIDIAN_VAULT_PATH)"
-        INSTALLED_OBSIDIAN=true
-    else
-        soft_fail "Obsidian MCP installation could not be verified"
     fi
 }
 
@@ -443,7 +393,6 @@ install_morgen() {
     if claude mcp list 2>/dev/null | grep -q "morgen"; then
         success "Morgen MCP already installed"
         INSTALLED_MORGEN=true
-        MORGEN_PREEXISTING=true
         return
     fi
 
@@ -580,7 +529,6 @@ run_self_test() {
     }
 
     if $INSTALLED_NOTION;   then check_registered "Notion"          "notion";          else info "TEST: Notion — skipped";          TEST_SKIP=$((TEST_SKIP + 1)); fi
-    if $INSTALLED_OBSIDIAN; then check_registered "Obsidian"        "obsidian";        else info "TEST: Obsidian — skipped";        TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_GRANOLA;  then check_registered "Granola"         "granola";         else info "TEST: Granola — skipped";         TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_N8N;      then check_registered "n8n"             "n8n";             else info "TEST: n8n — skipped";             TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_GCAL;     then check_registered "Google Calendar" "google-calendar"; else info "TEST: Google Calendar — skipped"; TEST_SKIP=$((TEST_SKIP + 1)); fi
@@ -634,7 +582,6 @@ print_summary() {
     INSTALLED_COUNT=0
 
     if $INSTALLED_NOTION;   then echo "  Notion            — search pages, read databases, create content";   INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
-    if $INSTALLED_OBSIDIAN; then echo "  Obsidian          — read/write notes, search vault, manage tags";     INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
     if $INSTALLED_GRANOLA;  then echo "  Granola           — meeting transcripts and notes";                   INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
     if $INSTALLED_N8N;      then echo "  n8n               — trigger and inspect your own n8n workflows";      INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
     if $INSTALLED_GCAL;     then echo "  Google Calendar   — calendar events via Google OAuth";                INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
@@ -652,10 +599,6 @@ print_summary() {
         if $INSTALLED_NOTION; then
             echo "    - Ask Claude to search or create Notion pages"
             echo "    - Ask Claude to query a Notion database"
-        fi
-        if $INSTALLED_OBSIDIAN; then
-            echo "    - Ask Claude \"search my vault for notes on X\""
-            echo "    - Ask Claude to create or edit a note in your vault"
         fi
         if $INSTALLED_GRANOLA; then
             echo "    - Ask Claude \"what were the key points from my last meeting?\""
@@ -704,16 +647,15 @@ main() {
     verify_prerequisites
     choose_tools
 
-    # Process each selection in the new canonical order
+    # Process each selection in the canonical order
     for CHOICE in $CHOICES; do
         case "$CHOICE" in
-            1) if ! $INSTALLED_NOTION;   then install_notion;          else success "Notion already configured";          fi ;;
-            2) if ! $INSTALLED_OBSIDIAN; then install_obsidian;        else success "Obsidian already configured";        fi ;;
-            3) if ! $INSTALLED_GRANOLA;  then install_granola;         else success "Granola already configured";         fi ;;
-            4) if ! $INSTALLED_N8N;      then install_n8n;             else success "n8n already configured";             fi ;;
-            5) if ! $INSTALLED_GCAL;     then install_google_calendar; else success "Google Calendar already configured"; fi ;;
-            6) if ! $INSTALLED_MORGEN;   then install_morgen;          else success "Morgen already configured";          fi ;;
-            7) if ! $INSTALLED_MOTION;   then install_motion_calendar; else success "Motion Calendar already configured"; fi ;;
+            1) if ! $INSTALLED_NOTION;  then install_notion;          else success "Notion already configured";          fi ;;
+            2) if ! $INSTALLED_GRANOLA; then install_granola;         else success "Granola already configured";         fi ;;
+            3) if ! $INSTALLED_N8N;     then install_n8n;             else success "n8n already configured";             fi ;;
+            4) if ! $INSTALLED_GCAL;    then install_google_calendar; else success "Google Calendar already configured"; fi ;;
+            5) if ! $INSTALLED_MORGEN;  then install_morgen;          else success "Morgen already configured";          fi ;;
+            6) if ! $INSTALLED_MOTION;  then install_motion_calendar; else success "Motion Calendar already configured"; fi ;;
             *) warn "Unknown choice: $CHOICE (skipping)" ;;
         esac
     done

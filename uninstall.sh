@@ -85,12 +85,12 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Step 7 — Obsidian MCP
+# Step 7 — Second Brain (Obsidian MCP only; the vault itself is NOT removed)
 # -----------------------------------------------------------------------------
 echo ""
-echo -e "${BLUE}--- Step 7: Obsidian ---${NC}"
+echo -e "${BLUE}--- Step 7: Second Brain ---${NC}"
 
-# Obsidian MCP
+# Obsidian MCP (registered by step-7a-setup-vault, points at the user's vault)
 if claude mcp list 2>/dev/null | grep -qi "obsidian" 2>/dev/null; then
     claude mcp remove obsidian 2>/dev/null || true
     success "Obsidian MCP"
@@ -100,7 +100,7 @@ fi
 
 # -----------------------------------------------------------------------------
 # Step 6 — Productivity Tools
-# (Notion, Obsidian, Granola, n8n, Google Calendar, Morgen, Motion Calendar)
+# (Notion, Granola, n8n, Google Calendar, Morgen, Motion Calendar)
 # -----------------------------------------------------------------------------
 echo ""
 echo -e "${BLUE}--- Step 6: Productivity Tools ---${NC}"

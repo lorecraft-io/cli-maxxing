@@ -118,12 +118,12 @@ These activate on their own when Claude detects a relevant task via natural lang
 | YouTube Transcripts | Step 5 | Natural language — paste a YouTube link and ask for the transcript | "Get the transcript of this video: https://youtube.com/..." |
 | IG/Social Transcription | Step 5 | Natural language — paste an Instagram, TikTok, or social media link | "Transcribe this reel: https://instagram.com/reel/..." |
 | Notion | Step 6 | Natural language — pages, databases, knowledge management | "Search my Notion for the meeting notes" |
-| Obsidian | Step 6 | Natural language — read/write/search a local Obsidian vault | "Search my vault for notes about machine learning" |
 | Granola | Step 6 | Natural language — meeting transcripts and notes | "What did we cover in my last meeting?" |
 | n8n (your own) | Step 6 | Natural language — trigger and inspect your own n8n workflows | "Run my lead-qualification workflow on this email" |
 | Google Calendar | Step 6 | Natural language — direct Google Calendar access (secondary — use if Morgen not installed) | "What's on my Google calendar this week?" |
 | Morgen *(recommended)* | Step 6 | Natural language — unified calendar + tasks across Google/Outlook/iCloud/native | "What's on my calendar this week?" · "Add a task called 'Review contracts' due Friday" |
 | Motion Calendar | Step 6 | Natural language — Motion-specific features (teammate visibility, full event search) | "Who on my team has a conflict at 3pm?" |
+| Obsidian | Step 7 | Natural language — read/write/search a local Obsidian vault (registered during Step 7d) | "Search my vault for notes about machine learning" |
 | No-Flicker Mode | Step 2 | Automatic — fullscreen rendering, no screen jumping while Claude works | (always on — set via environment variable) |
 | Memory Hook | Step 2 | Automatic on session end — saves context from the conversation | (no prompt needed — runs automatically) |
 | Telegram | Step 8 | Automatic when launched with `ctg` or `cbraintg` — reads and replies to Telegram messages | (messages arrive automatically from connected chats) |

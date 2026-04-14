@@ -89,20 +89,25 @@ install_taste_skill() {
 
     info "Installing Taste Skill pack (Leonxlnx/taste-skill)..."
 
+    # The authoritative install form documented in the taste-skill README is the
+    # full GitHub URL. Some versions of the `skills` CLI do not accept the
+    # owner/repo shorthand, so we use the URL form the README guarantees.
+    local TASTE_SKILL_URL="https://github.com/Leonxlnx/taste-skill"
+
     # Use the skills CLI — same pattern as the Remotion install in Step 5.
     # The pack ships 7 variants; the CLI expands each one into its own skill dir.
-    npx skills add Leonxlnx/taste-skill --yes --global 2>/dev/null
+    npx skills add "$TASTE_SKILL_URL" --yes --global 2>/dev/null
 
     # Re-check. If the global install didn't land it, try without --global
     # as a fallback (some skills CLI versions don't honor --global).
     if [ ! -d "$HOME/.claude/skills/taste-skill" ] && [ ! -L "$HOME/.claude/skills/taste-skill" ]; then
-        npx skills add Leonxlnx/taste-skill --yes 2>/dev/null
+        npx skills add "$TASTE_SKILL_URL" --yes 2>/dev/null
     fi
 
     if [ -d "$HOME/.claude/skills/taste-skill" ] || [ -L "$HOME/.claude/skills/taste-skill" ]; then
         success "Taste Skill installed (7 variants under ~/.claude/skills/)"
     else
-        soft_fail "Taste Skill installation could not be verified — install manually: npx skills add Leonxlnx/taste-skill --yes --global"
+        soft_fail "Taste Skill installation could not be verified — install manually: npx skills add https://github.com/Leonxlnx/taste-skill --yes --global"
     fi
 }
 

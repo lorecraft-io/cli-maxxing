@@ -13,5 +13,5 @@ claude mcp list
 
 If the Ruflo MCP server isn't showing, re-add it:
 ```bash
-claude mcp add claude-flow -- npx -y @claude-flow/cli@latest
+claude mcp add ruflo -- npx -y ruflo@latest
 ```

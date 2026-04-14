@@ -1,6 +1,6 @@
 # Parsing Methodology Guide
 
-This document tells Claude how to parse and organize imported files into your Second Brain vault. Claude references this automatically when running Steps 5b, 5c, and 5d.
+This document tells Claude how to parse and organize imported files into your Second Brain vault. Claude references this automatically when running Steps 7b, 7c, and 7d.
 
 ## General Rules
 

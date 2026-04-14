@@ -1,5 +1,7 @@
 # README Updates -- Post-Allan-Install Review
 
+> **Status: COMPLETED — historical planning doc.** All recommendations below have been merged into README.md. Kept for reference. The observations about Step 6 and Granola are superseded by the 2026-04-14 Step 6 overhaul: Step 6 now installs Notion, Granola, n8n, Google Calendar, Morgen, and Motion Calendar (Obsidian MCP moved to Step 7 where the vault is set up).
+
 This document specifies the changes recommended for README.md based on the live install test on Allan's machine (username: `alvov`, vault at `~/Desktop/2ndBrain`).
 
 **Key finding:** All 3 reported bugs from the live install have already been fixed in the current codebase. The README updates below are documentation improvements to prevent confusion for future users.
@@ -146,4 +148,6 @@ Or open a `cskip` session and describe the problem to Claude. It can diagnose an
 
 ## Change 5: Note about Granola MCP
 
-The bug report mentioned "Granola MCP returned internal errors." Granola is NOT installed by any step in CLI-MAXXING. If this was present on Allan's machine, it was installed separately. No README change needed, but worth noting that this is not a CLI-MAXXING issue.
+~~The bug report mentioned "Granola MCP returned internal errors." Granola is NOT installed by any step in CLI-MAXXING.~~
+
+**Obsolete as of 2026-04-14 Step 6 overhaul:** Granola MCP is now installed by Step 6 (option 2). It uses the HTTP transport against `https://mcp.granola.ai/mcp` and requires the Granola app to be installed and signed in locally. If the MCP returns internal errors, the fix is (1) confirm the Granola desktop app is running, and (2) `claude mcp remove granola && claude mcp add --scope user --transport http granola https://mcp.granola.ai/mcp`.
