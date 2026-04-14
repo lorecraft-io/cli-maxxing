@@ -28,7 +28,6 @@ CLI-MAXXING install scripts collect API credentials interactively. Some are pers
 - Notion: integration token (via `-e NOTION_TOKEN`)
 - Morgen: API key and timezone (via `-e MORGEN_API_KEY`, `-e MORGEN_TIMEZONE`)
 - n8n (user's own instance): optional Bearer token (via `-H "Authorization: Bearer ..."`)
-- Obsidian: no credentials — vault path only, passed as a positional argument
 
 **Revocation:** run `./uninstall.sh` to remove every MCP server and wipe both the local `.env` files and the MCP-config entries. For individual removal, use `claude mcp remove <name>` and delete the relevant `~/.<tool>-mcp/.env` directory.
 

@@ -1,5 +1,7 @@
 # CLI-MAXXING Install Flow Walkthrough -- Regression Test
 
+> **Note:** Steps 4, 5, and 7 have been extracted to companion repos. See [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing) and [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing) for those test walkthroughs.
+
 **Test scenario:** Fresh Mac, username `alvov` (early tester), vault at `~/Desktop/2ndBrain`, no Telegram bot token, standard macOS, Homebrew either present or absent.
 
 **Test date:** 2026-04-05
@@ -100,45 +102,11 @@ The `OBSIDIAN/` prefix requirement has been removed. The pattern now matches any
 
 ---
 
-## Step 4 -- Design Tools
-
-**File:** `step-4/step-4-install.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| UI/UX Pro Max skill | Downloads to `~/.claude/skills/ui-ux-pro-max/SKILL.md` | PASS |
-| Taste Skill pack (Leonxlnx/taste-skill) | `npx skills add https://github.com/Leonxlnx/taste-skill --yes --global` expands 7 variants (taste, redesign, soft, output, minimalist, brutalist, stitch) under `~/.claude/skills/` | PASS (soft fail ok if skills CLI rejects the URL) |
-| 21st.dev Magic MCP | `claude mcp add magic` | PASS (may need manual setup) |
-
-**Bugs found:** None.
-
-**Notes:** Taste Skill install uses the full GitHub URL form (not the owner/repo shorthand) because the taste-skill README documents the URL form as the authoritative install command. Each variant becomes its own skill folder. The main `taste-skill` variant has three tunable knobs at the top of its SKILL.md: DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY (1-10 each).
-
----
-
-## Step 5 -- Visual Media
-
-**File:** `step-5/step-5-install.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| Remotion skills | `npx skills add remotion-dev/skills --yes --global` | PASS (soft fail ok) |
-| YouTube Transcript MCP | `claude mcp add` | PASS |
-| yt-dlp CLI | `brew install yt-dlp` | PASS |
-| yt-dlp MCP | `claude mcp add` | PASS |
-| whisper-cpp | `brew install whisper-cpp` | PASS |
-| Whisper MCP | `claude mcp add` | PASS |
-| FFmpeg | `brew install ffmpeg` | PASS |
-
-**Bugs found:** None.
-
----
-
 ## Step 6 -- Productivity Tools
 
 **File:** `step-6/step-6-install.sh`
 
-Installs 6 optional productivity MCPs. Obsidian MCP lives in Step 7d (alongside the vault setup), NOT here.
+Installs 6 optional productivity MCPs. Obsidian MCP has moved to [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing), NOT here.
 
 | Section | Expected Behavior | Result |
 |---------|-------------------|--------|
@@ -150,79 +118,11 @@ Installs 6 optional productivity MCPs. Obsidian MCP lives in Step 7d (alongside 
 | (4) Google Calendar | Prompts for OAuth Client ID + Secret, writes `~/.google-calendar-mcp/.env` (chmod 700 dir / 600 file), registers with `-e GOOGLE_CLIENT_ID=... -e GOOGLE_CLIENT_SECRET=...` | PASS |
 | (5) Morgen *(recommended)* | Prompts for API key + optional IANA timezone, registers via `-e MORGEN_API_KEY=... -e MORGEN_TIMEZONE=...`. No local `.env` — credentials live in Claude Code's MCP config | PASS |
 | (6) Motion Calendar | Prompts for Motion API key, Firebase API key, Firebase refresh token, Motion user ID. Writes `~/.motion-calendar-mcp/.env` (chmod 700/600). Registers via `claude mcp add motion-calendar` | PASS |
-| Obsidian | NOT in Step 6 — points user to Step 7d | N/A |
+| Obsidian | NOT in this repo — see 2ndbrain-maxxing | N/A |
 | Self-test | `check_registered` covers all 6 tools, verifies Motion + GCal `.env` files exist for their respective installs | PASS |
 | Summary | Prints tool-count + "what you can do now" hints per installed tool | PASS |
 
 **Notes:** When run via `update.sh` (pipe), correctly auto-detects already-registered MCPs and exits after verification without prompting. First-time users must run directly in terminal for credential input. Morgen is promoted as the default calendar+task tool; Motion and Google Calendar are documented as secondary (install only for specific features the primary tool doesn't cover).
-
----
-
-## Step 7a -- Setup Vault
-
-**File:** `step-7/step-7a-setup-vault.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| `install_obsidian` | `brew install --cask obsidian` | PASS |
-| `find_vault` | Searches candidates: `~/Desktop/WORK/OBSIDIAN/2ndBrain`, `~/Desktop/OBSIDIAN/2ndBrain`, `~/Desktop/2ndBrain`, etc. Falls to default | PASS |
-| Create folders | 00-Inbox through 07-Projects + `.obsidian/` | PASS |
-| Create templates | 5 templates | PASS |
-| Create CLAUDE.md | Vault instructions | PASS |
-| Register in Obsidian | Writes to `~/Library/Application Support/obsidian/obsidian.json` | PASS |
-
-**Notes:** On first run on the first run, no `.obsidian` dir exists. Script correctly defaults to `~/Desktop/2ndBrain` and creates the full structure including `.obsidian/app.json`. Subsequent runs find the vault via the `.obsidian` directory.
-
----
-
-## Step 7b -- Import Claude History
-
-**File:** `step-7/step-7b-import-claude.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| Find vault | Checks `~/Desktop/2ndBrain`, finds `00-Inbox` | PASS (after 7a) |
-| Find Claude zip | Scans Downloads for `data-*-batch-*.zip` | PASS (exits cleanly if none found) |
-
-**Minor inconsistency:** Vault search does NOT include `~/Desktop/WORK/OBSIDIAN/2ndBrain` (which step-7a does include). Not a bug for the target scenario but inconsistent across steps.
-
----
-
-## Step 7c -- Import Notes
-
-**File:** `step-7/step-7c-import-notes.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| Apple Notes Exporter | Shows App Store link if not installed | PASS |
-| Find vault | Same search as 7b | PASS |
-| Scan for files | Counts potential imports | PASS |
-
-**Bugs found:** None.
-
----
-
-## Step 7d -- Wire Vault
-
-**File:** `step-7/step-7d-wire-vault.sh`
-
-| Section | Expected Behavior | Result |
-|---------|-------------------|--------|
-| Find vault | Same search | PASS |
-| Obsidian MCP install | `claude mcp add --scope user obsidian -- npx -y obsidian-mcp "$VAULT_PATH"` | PASS (with upstream caveat) |
-| Link orphan files | Adds `[[project]]` links | PASS |
-| Embed media | Embeds in index notes | PASS |
-
-### KNOWN ISSUE: Obsidian MCP Internal Errors (Upstream)
-
-The `obsidian-mcp` npm package may return internal errors at runtime. This is an upstream package issue, not an install script bug. The script correctly installs the MCP server and provides manual fallback instructions if verification fails.
-
-**Possible causes:**
-1. Freshly created vault with few/no notes may confuse the MCP server
-2. MCP server startup race condition
-3. Package version incompatibility
-
-**Mitigation in script:** Already provides manual fallback: `claude mcp add --scope user obsidian -- npx -y obsidian-mcp "$VAULT_PATH"`
 
 ---
 
@@ -294,12 +194,8 @@ The `while true` loop has been replaced with a single `read` call. Empty input (
 
 | Section | Expected Behavior | Result |
 |---------|-------------------|--------|
-| Steps 1-5 | Run via `curl \| bash` | PASS |
+| Steps 1-3 | Run via `curl \| bash` | PASS |
 | Step 6 | Detects non-interactive, exits cleanly with instructions | PASS |
-| Step 7a | Creates vault structure | PASS |
-| Step 7b | Exits if no zip found | PASS |
-| Step 7c | Informational only | PASS |
-| Step 7d | Installs Obsidian MCP (upstream caveat) | PASS |
 | Step 8 | Token prompt gets EOF, skip path activates | PASS -- **BUG WAS FIXED** |
 | Step 9 | Downloads skill | PASS |
 | Final | Installs statusline with correct vault detection | PASS -- **BUG WAS FIXED** |
@@ -321,9 +217,8 @@ The `while true` loop has been replaced with a single `read` call. Empty input (
 | # | Issue | Location | Impact |
 |---|-------|----------|--------|
 | 1 | Step 3 writes config to CWD | `step-3/step-3-install.sh` | Ruflo config files land in whatever directory user opened terminal in |
-| 2 | Step 7b vault search inconsistent with 7a | `step-7/step-7b-import-claude.sh:32-38` | Missing `~/Desktop/WORK/OBSIDIAN/2ndBrain` from search list (7a has it) |
-| 3 | Statusline vault name false positives | All 3 statusline locations | If CWD contains "Vault" anywhere in the path (e.g., `/some/Vault-backup/project`), brain indicator shows incorrectly. Very unlikely edge case. |
-| 4 | Step 8 invalid token accepted | `step-8/step-8-install.sh:133-140` | Invalid token format is warned but saved anyway ("Saving anyway -- you can fix it later"). This is intentional leniency but means a typo gets stored. |
+| 2 | Statusline vault name false positives | All 3 statusline locations | If CWD contains "Vault" anywhere in the path (e.g., `/some/Vault-backup/project`), brain indicator shows incorrectly. Very unlikely edge case. |
+| 3 | Step 8 invalid token accepted | `step-8/step-8-install.sh:133-140` | Invalid token format is warned but saved anyway ("Saving anyway -- you can fix it later"). This is intentional leniency but means a typo gets stored. |
 
 ### Test Verdict
 
