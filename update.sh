@@ -51,46 +51,10 @@ echo ""
 curl -fsSL "$BASE_URL/step-3/step-3-install.sh" | bash
 echo ""
 
-# Step 4
-echo -e "${YELLOW}>>> Running Step 4 — Design Tools${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-4/step-4-install.sh" | bash
-echo ""
-
-# Step 5 (Visual Media)
-echo -e "${YELLOW}>>> Running Step 5 — Visual Media${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-5/step-5-install.sh" | bash
-echo ""
-
 # Step 6 (Productivity Tools)
 echo -e "${YELLOW}>>> Running Step 6 — Productivity Tools${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-6/step-6-install.sh" | bash
-echo ""
-
-# Step 7a (vault structure)
-echo -e "${YELLOW}>>> Running Step 7a — Second Brain Vault Structure${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-7/step-7a-setup-vault.sh" | bash
-echo ""
-
-# Step 7b (Claude history import)
-echo -e "${YELLOW}>>> Running Step 7b — Import Claude History${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-7/step-7b-import-claude.sh" | bash
-echo ""
-
-# Step 7c (notes import)
-echo -e "${YELLOW}>>> Running Step 7c — Import Existing Notes${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-7/step-7c-import-notes.sh" | bash
-echo ""
-
-# Step 7d (wire it up)
-echo -e "${YELLOW}>>> Running Step 7d — Wire Up Vault${NC}"
-echo ""
-curl -fsSL "$BASE_URL/step-7/step-7d-wire-vault.sh" | bash
 echo ""
 
 # Step 8 (Telegram)
@@ -117,8 +81,10 @@ echo -e "${GREEN}  Update complete. All steps are current.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-echo "  Available commands: cskip, ctg, cc, ccr, ccc, cbrain, cbraintg"
+echo "  Available commands: cskip, ctg, cc, ccr, ccc"
 echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"
+echo "  Design + media:     github.com/lorecraft-io/creativity-maxxing"
+echo "  Second Brain:       github.com/lorecraft-io/2ndbrain-maxxing"
 echo ""
 echo "  Note: Steps 6 and 8 require interactive input (API credentials"
 echo "  and Telegram bot token). They may skip themselves if run"

@@ -85,20 +85,6 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Step 7 — Second Brain (Obsidian MCP only; the vault itself is NOT removed)
-# -----------------------------------------------------------------------------
-echo ""
-echo -e "${BLUE}--- Step 7: Second Brain ---${NC}"
-
-# Obsidian MCP (registered by step-7a-setup-vault, points at the user's vault)
-if claude mcp list 2>/dev/null | grep -qi "obsidian" 2>/dev/null; then
-    claude mcp remove obsidian 2>/dev/null || true
-    success "Obsidian MCP"
-else
-    skip "Obsidian MCP (not found)"
-fi
-
-# -----------------------------------------------------------------------------
 # Step 6 — Productivity Tools
 # (Notion, Granola, n8n, Google Calendar, Morgen, Motion Calendar)
 # -----------------------------------------------------------------------------
@@ -167,105 +153,6 @@ if [ -d "$HOME/.motion-calendar-mcp" ]; then
     success "Motion Calendar config (~/.motion-calendar-mcp)"
 else
     skip "Motion Calendar config (not found)"
-fi
-
-# -----------------------------------------------------------------------------
-# Step 5 — Visual Media (Remotion, YouTube Transcript, yt-dlp, Whisper, FFmpeg)
-# -----------------------------------------------------------------------------
-echo ""
-echo -e "${BLUE}--- Step 5: Visual Media ---${NC}"
-
-# Remotion skills
-if [ -d "$HOME/.claude/skills/remotion-best-practices" ]; then
-    rm -rf "$HOME/.claude/skills/remotion-best-practices"
-    success "Remotion skills"
-else
-    skip "Remotion skills (not found)"
-fi
-
-# YouTube Transcript MCP
-if claude mcp list 2>/dev/null | grep -qi "youtube-transcript" 2>/dev/null; then
-    claude mcp remove youtube-transcript 2>/dev/null || true
-    success "YouTube Transcript MCP"
-else
-    skip "YouTube Transcript MCP (not found)"
-fi
-
-# yt-dlp MCP
-if claude mcp list 2>/dev/null | grep -qi "yt-dlp" 2>/dev/null; then
-    claude mcp remove yt-dlp 2>/dev/null || true
-    success "yt-dlp MCP"
-else
-    skip "yt-dlp MCP (not found)"
-fi
-
-# yt-dlp CLI (brew)
-if command -v yt-dlp &>/dev/null; then
-    brew uninstall yt-dlp 2>/dev/null || true
-    success "yt-dlp CLI"
-else
-    skip "yt-dlp CLI (not found)"
-fi
-
-# Whisper MCP
-if claude mcp list 2>/dev/null | grep -qi "whisper-mcp" 2>/dev/null; then
-    claude mcp remove whisper-mcp 2>/dev/null || true
-    success "Whisper MCP"
-else
-    skip "Whisper MCP (not found)"
-fi
-
-# Whisper models
-if [ -d "$HOME/.whisper" ]; then
-    rm -rf "$HOME/.whisper"
-    success "Whisper models (~/.whisper)"
-else
-    skip "Whisper models (not found)"
-fi
-
-# FFmpeg (brew)
-if command -v ffmpeg &>/dev/null; then
-    brew uninstall ffmpeg 2>/dev/null || true
-    success "FFmpeg"
-else
-    skip "FFmpeg (not found)"
-fi
-
-# -----------------------------------------------------------------------------
-# Step 4 — Design Tools (UI/UX Pro Max, Taste Skill pack, 21st.dev Magic)
-# -----------------------------------------------------------------------------
-echo ""
-echo -e "${BLUE}--- Step 4: Design Tools ---${NC}"
-
-# UI/UX Pro Max skill
-if [ -d "$HOME/.claude/skills/ui-ux-pro-max" ]; then
-    rm -rf "$HOME/.claude/skills/ui-ux-pro-max"
-    success "UI/UX Pro Max skill"
-else
-    skip "UI/UX Pro Max skill (not found)"
-fi
-
-# Taste Skill pack — 7 variants installed by `npx skills add Leonxlnx/taste-skill`
-TASTE_VARIANTS=(taste-skill redesign-skill soft-skill output-skill minimalist-skill brutalist-skill stitch-skill)
-TASTE_REMOVED=0
-for variant in "${TASTE_VARIANTS[@]}"; do
-    if [ -d "$HOME/.claude/skills/$variant" ] || [ -L "$HOME/.claude/skills/$variant" ]; then
-        rm -rf "$HOME/.claude/skills/$variant"
-        TASTE_REMOVED=$((TASTE_REMOVED + 1))
-    fi
-done
-if [ "$TASTE_REMOVED" -gt 0 ]; then
-    success "Taste Skill pack ($TASTE_REMOVED variant(s) removed)"
-else
-    skip "Taste Skill pack (not found)"
-fi
-
-# 21st.dev Magic MCP
-if claude mcp list 2>/dev/null | grep -qi "magic\|21st" 2>/dev/null; then
-    claude mcp remove magic 2>/dev/null || true
-    success "21st.dev Magic MCP"
-else
-    skip "21st.dev Magic MCP (not found)"
 fi
 
 # -----------------------------------------------------------------------------
@@ -436,8 +323,8 @@ else
 fi
 
 # ~/.local/bin PATH entry
-if grep -q '# Local bin (cbrain' "$SHELL_RC" 2>/dev/null; then
-    sed -i.bak '/# Local bin (cbrain/d' "$SHELL_RC" 2>/dev/null || true
+if grep -q '# Local bin (ctg' "$SHELL_RC" 2>/dev/null; then
+    sed -i.bak '/# Local bin (ctg/d' "$SHELL_RC" 2>/dev/null || true
     rm -f "${SHELL_RC}.bak"
 fi
 if grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
@@ -448,8 +335,8 @@ else
     skip "$HOME/.local/bin PATH entry (not found in $SHELL_RC)"
 fi
 
-# cbrain, cbraintg, and ctg commands (~/.local/bin scripts)
-for cmd in cbrain cbraintg ctg; do
+# ctg command (~/.local/bin script) — cbrain/cbraintg are managed by 2ndbrain-maxxing
+for cmd in ctg; do
     if [ -f "$HOME/.local/bin/$cmd" ]; then
         rm -f "$HOME/.local/bin/$cmd"
         success "$cmd command"

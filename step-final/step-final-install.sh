@@ -62,12 +62,6 @@ else
   TIME_FMT="0s"
 fi
 
-# --- 2ndBRAIN CHECK ---
-BRAIN=""
-if echo "$CWD" | grep -qiE "(2ndBrain|MASTER|Second-Brain|Vault)" 2>/dev/null; then
-  BRAIN="🧠 2ndBrain"
-fi
-
 # --- RUFLO CHECK ---
 RUFLO=""
 if pgrep -f "claude-flow.*mcp" >/dev/null 2>&1 || pgrep -f "@claude-flow/cli" >/dev/null 2>&1 || pgrep -f "ruflo" >/dev/null 2>&1; then
@@ -127,11 +121,7 @@ fi
 
 # --- BUILD THE LINE ---
 PARTS=""
-if [ -n "$BRAIN" ] && [ -n "$RUFLO" ]; then
-  PARTS="${BRAIN} + ${RUFLO}"
-elif [ -n "$BRAIN" ]; then
-  PARTS="${BRAIN}"
-elif [ -n "$RUFLO" ]; then
+if [ -n "$RUFLO" ]; then
   PARTS="${RUFLO}"
 fi
 
@@ -267,21 +257,21 @@ else
     HC_PASS=$((HC_PASS + 1))
 fi
 
-# --- cbrain script ---
+# --- cbrain script (installed by 2ndbrain-maxxing) ---
 if [ -x "$HOME/.local/bin/cbrain" ]; then
     success "HEALTH: cbrain command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    warn "HEALTH: cbrain not found — run Step 1 again to install"
+    warn "HEALTH: cbrain not found — install 2ndbrain-maxxing to get cbrain"
     HC_FAIL=$((HC_FAIL + 1))
 fi
 
-# --- cbraintg script ---
+# --- cbraintg script (installed by 2ndbrain-maxxing) ---
 if [ -x "$HOME/.local/bin/cbraintg" ]; then
     success "HEALTH: cbraintg command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    warn "HEALTH: cbraintg not found — run Step 1 again to install"
+    warn "HEALTH: cbraintg not found — install 2ndbrain-maxxing to get cbraintg"
     HC_FAIL=$((HC_FAIL + 1))
 fi
 
