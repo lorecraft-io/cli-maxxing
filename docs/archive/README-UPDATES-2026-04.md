@@ -1,8 +1,8 @@
-# README Updates -- Post-Allan-Install Review
+# README Updates -- Post-Install Review
 
 > **Status: COMPLETED — historical planning doc.** All recommendations below have been merged into README.md. Kept for reference. The observations about Step 6 and Granola are superseded by the 2026-04-14 Step 6 overhaul: Step 6 now installs Notion, Granola, n8n, Google Calendar, Morgen, and Motion Calendar (Obsidian MCP moved to Step 7 where the vault is set up).
 
-This document specifies the changes recommended for README.md based on the live install test on Allan's machine (username: `alvov`, vault at `~/Desktop/2ndBrain`).
+This document specifies the changes recommended for README.md based on the live install test on a fresh Mac setup (vault at `~/Desktop/2ndBrain`).
 
 **Key finding:** All 3 reported bugs from the live install have already been fixed in the current codebase. The README updates below are documentation improvements to prevent confusion for future users.
 
