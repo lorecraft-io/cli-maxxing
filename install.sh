@@ -48,7 +48,7 @@ curl -fsSL "$BASE_URL/step-2/step-2-install.sh" | bash
 echo ""
 
 # Step 3
-echo -e "${YELLOW}>>> Step 3 — Ruflo + Context Hub${NC}"
+echo -e "${YELLOW}>>> Step 3 — FidgetFlo + Context Hub${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-3/step-3-install.sh" | bash
 echo ""

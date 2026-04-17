@@ -2,8 +2,8 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 3 — Ruflo Setup
-# Installs and configures Ruflo multi-agent swarming orchestration
+# Step 3 — FidgetFlo Setup
+# Installs and configures FidgetFlo multi-agent swarming orchestration
 # Run this in your terminal after completing Steps 1 and 2
 # =============================================================================
 
@@ -51,75 +51,75 @@ verify_prerequisites() {
 }
 
 # -----------------------------------------------------------------------------
-# Install Ruflo CLI
+# Install FidgetFlo CLI
 # -----------------------------------------------------------------------------
-install_ruflo() {
-    info "Installing Ruflo CLI..."
+install_fidgetflo() {
+    info "Installing FidgetFlo CLI..."
     # --prefer-online bypasses npm's local cache to fetch the actual latest version
-    npm install -g ruflo@latest --prefer-online 2>/dev/null \
-        || sudo npm install -g ruflo@latest --prefer-online
+    npm install -g fidgetflo --prefer-online 2>/dev/null \
+        || sudo npm install -g fidgetflo --prefer-online
 
     # Verify using the globally installed binary (not npx, which may use stale cache)
-    if command -v ruflo &>/dev/null; then
-        success "Ruflo CLI installed ($(ruflo --version 2>/dev/null))"
-    elif npx ruflo@latest --version &>/dev/null 2>&1; then
-        success "Ruflo CLI available via npx"
+    if command -v fidgetflo &>/dev/null; then
+        success "FidgetFlo CLI installed ($(fidgetflo --version 2>/dev/null))"
+    elif npx fidgetflo --version &>/dev/null 2>&1; then
+        success "FidgetFlo CLI available via npx"
     else
-        success "Ruflo CLI installed"
+        success "FidgetFlo CLI installed"
     fi
 }
 
 # -----------------------------------------------------------------------------
-# Add Ruflo as MCP server to Claude Code
+# Add FidgetFlo as MCP server to Claude Code
 # -----------------------------------------------------------------------------
 configure_mcp() {
-    info "Adding Ruflo as MCP server to Claude Code..."
+    info "Adding FidgetFlo as MCP server to Claude Code..."
 
     # Check if already configured
-    if claude mcp list 2>/dev/null | grep -q "ruflo" 2>/dev/null; then
-        success "Ruflo MCP server already configured"
+    if claude mcp list 2>/dev/null | grep -q "fidgetflo" 2>/dev/null; then
+        success "FidgetFlo MCP server already configured"
         return
     fi
 
-    claude mcp add ruflo -- npx -y ruflo@latest 2>/dev/null
+    claude mcp add fidgetflo -- npx -y fidgetflo 2>/dev/null
 
-    if claude mcp list 2>/dev/null | grep -q "ruflo" 2>/dev/null; then
-        success "Ruflo MCP server added to Claude Code"
+    if claude mcp list 2>/dev/null | grep -q "fidgetflo" 2>/dev/null; then
+        success "FidgetFlo MCP server added to Claude Code"
     else
         # Try alternative approach — write directly to config
         warn "MCP add command may not have worked. Trying direct config..."
         CLAUDE_MCP_CONFIG="$HOME/.claude/claude_mcp_config.json"
         if [ -f "$CLAUDE_MCP_CONFIG" ]; then
-            if ! grep -q "ruflo" "$CLAUDE_MCP_CONFIG" 2>/dev/null; then
-                jq '.mcpServers["ruflo"] = {"command": "npx", "args": ["-y", "ruflo@latest"]}' "$CLAUDE_MCP_CONFIG" > "${CLAUDE_MCP_CONFIG}.tmp" \
+            if ! grep -q "fidgetflo" "$CLAUDE_MCP_CONFIG" 2>/dev/null; then
+                jq '.mcpServers["fidgetflo"] = {"command": "npx", "args": ["-y", "fidgetflo"]}' "$CLAUDE_MCP_CONFIG" > "${CLAUDE_MCP_CONFIG}.tmp" \
                     && mv "${CLAUDE_MCP_CONFIG}.tmp" "$CLAUDE_MCP_CONFIG"
             fi
         else
             cat > "$CLAUDE_MCP_CONFIG" << 'MCP_EOF'
 {
   "mcpServers": {
-    "ruflo": {
+    "fidgetflo": {
       "command": "npx",
-      "args": ["-y", "ruflo@latest"]
+      "args": ["-y", "fidgetflo"]
     }
   }
 }
 MCP_EOF
         fi
-        success "Ruflo MCP server configured (direct config)"
+        success "FidgetFlo MCP server configured (direct config)"
     fi
 }
 
 # -----------------------------------------------------------------------------
-# Start the Ruflo daemon
+# Start the FidgetFlo daemon
 # -----------------------------------------------------------------------------
 start_daemon() {
-    info "Starting Ruflo daemon..."
-    npx ruflo@latest daemon start 2>/dev/null || true
+    info "Starting FidgetFlo daemon..."
+    npx fidgetflo daemon start 2>/dev/null || true
 
     # Daemon starts in background. Check if PID file exists as proof it launched.
-    if [ -f ".claude-flow/daemon.pid" ] || npx ruflo@latest daemon status 2>/dev/null | grep -q "PID" 2>/dev/null; then
-        success "Ruflo daemon started"
+    if [ -f ".claude-flow/daemon.pid" ] || npx fidgetflo daemon status 2>/dev/null | grep -q "PID" 2>/dev/null; then
+        success "FidgetFlo daemon started"
     else
         warn "Daemon may not have started. Claude will start it automatically when needed."
     fi
@@ -129,38 +129,38 @@ start_daemon() {
 # Run doctor to verify and fix issues
 # -----------------------------------------------------------------------------
 run_doctor() {
-    info "Running Ruflo doctor..."
-    npx ruflo@latest doctor --fix 2>/dev/null
+    info "Running FidgetFlo doctor..."
+    npx fidgetflo doctor --fix 2>/dev/null
 
-    success "Ruflo doctor completed"
+    success "FidgetFlo doctor completed"
 }
 
 # -----------------------------------------------------------------------------
 # Initialize default configuration
 # -----------------------------------------------------------------------------
 init_config() {
-    info "Initializing Ruflo configuration..."
+    info "Initializing FidgetFlo configuration..."
 
     # Only init if not already initialized
-    if [ -f ".claude-flow/config.yaml" ] || [ -f ".ruflo.json" ] || [ -f "ruflo.json" ]; then
-        success "Ruflo already initialized in this directory"
+    if [ -f ".claude-flow/config.yaml" ] || [ -f ".fidgetflo.json" ] || [ -f "fidgetflo.json" ]; then
+        success "FidgetFlo already initialized in this directory"
         return
     fi
 
-    npx ruflo@latest init 2>/dev/null || true
+    npx fidgetflo init 2>/dev/null || true
 
-    # Ruflo init may write a verbose statusLine to project-level .claude/settings.json.
+    # FidgetFlo init may write a verbose statusLine to project-level .claude/settings.json.
     # Remove it so our clean global statusline (Final Step) isn't overridden.
     PROJECT_SETTINGS=".claude/settings.json"
     if [ -f "$PROJECT_SETTINGS" ] && command -v jq &>/dev/null; then
         if jq -e '.statusLine' "$PROJECT_SETTINGS" &>/dev/null; then
             jq 'del(.statusLine)' "$PROJECT_SETTINGS" > "${PROJECT_SETTINGS}.tmp" \
                 && mv "${PROJECT_SETTINGS}.tmp" "$PROJECT_SETTINGS"
-            info "Removed Ruflo statusLine override from project settings (global statusline takes priority)"
+            info "Removed FidgetFlo statusLine override from project settings (global statusline takes priority)"
         fi
     fi
 
-    success "Ruflo configuration initialized"
+    success "FidgetFlo configuration initialized"
 }
 
 # -----------------------------------------------------------------------------
@@ -169,10 +169,10 @@ init_config() {
 init_memory_and_deps() {
     # Initialize memory backend
     info "Initializing memory database..."
-    npx ruflo@latest memory configure --backend hybrid 2>/dev/null || true
+    npx fidgetflo memory configure --backend hybrid 2>/dev/null || true
     success "Memory database initialized"
 
-    # Install TypeScript (needed for some Ruflo features)
+    # Install TypeScript (needed for some FidgetFlo features)
     if ! command -v tsc &>/dev/null; then
         info "Installing TypeScript..."
         npm install -g typescript 2>/dev/null || true
@@ -192,10 +192,10 @@ configure_model_defaults() {
     info "Setting default model to Opus..."
 
     # Set default model to opus
-    npx ruflo@latest config set --key "model.default" --value "opus" 2>/dev/null || true
+    npx fidgetflo config set --key "model.default" --value "opus" 2>/dev/null || true
 
     # Set minimum model floor to opus
-    npx ruflo@latest config set --key "model.routing.minModel" --value "opus" 2>/dev/null || true
+    npx fidgetflo config set --key "model.routing.minModel" --value "opus" 2>/dev/null || true
 
     # Disable automatic model routing (CLI can't pass boolean false, so patch config directly)
     CONFIG_FILE=".claude-flow/config.json"
@@ -301,23 +301,23 @@ install_swarm_skills() {
     cat > "$RSWARM_DIR/SKILL.md" << 'RSWARM_EOF'
 ---
 name: rswarm
-description: "Launch a full 15-agent Ruflo swarm to execute a task immediately. Triggers real multi-agent execution — not a reference."
+description: "Launch a full 15-agent FidgetFlo swarm to execute a task immediately. Triggers real multi-agent execution — not a reference."
 ---
 
-# Ruflo Advanced Swarm — Immediate Execution
+# FidgetFlo Advanced Swarm — Immediate Execution
 
 When this skill is invoked, IMMEDIATELY launch a 15-agent swarm. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rswarm`)
-2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
+2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized` (skip if the FidgetFlo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-swarm-active` via Bash to turn off the swarm indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-swarm-active` via Bash to turn off the swarm indicator
 
 ## The 15 Agents
 
@@ -358,10 +358,10 @@ RSWARM_EOF
     cat > "$RHIVE_DIR/SKILL.md" << 'RHIVE_EOF'
 ---
 name: rhive
-description: "Launch a queen-led Ruflo hive-mind with raft consensus for autonomous task execution. The queen decomposes and delegates — hands-off."
+description: "Launch a queen-led FidgetFlo hive-mind with raft consensus for autonomous task execution. The queen decomposes and delegates — hands-off."
 ---
 
-# Ruflo Hive Mind — Queen-Led Autonomous Execution
+# FidgetFlo Hive Mind — Queen-Led Autonomous Execution
 
 When this skill is invoked, IMMEDIATELY initialize a hive-mind with a queen agent that autonomously manages the work. Do NOT explain how hive-minds work. Do NOT show code examples. ACT.
 
@@ -375,20 +375,20 @@ The queen decides how many workers to spawn, what roles they need, how to coordi
 ## Execution Steps
 
 1. Read the user's goal (everything they typed after `/rhive`)
-2. **Signal status line**: Run `touch /tmp/ruflo-hive-active` via Bash to light up the hive indicator
+2. **Signal status line**: Run `touch /tmp/fidgetflo-hive-active` via Bash to light up the hive indicator
 3. Initialize the hive-mind in ONE message:
-   - Call `mcp__ruflo__hive-mind_init` with consensus `raft` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
+   - Call `mcp__fidgetflo__hive-mind_init` with consensus `raft` (skip if the FidgetFlo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn a queen agent (hierarchical-coordinator type) via the Agent tool with `run_in_background: true`
    - The queen's prompt MUST include:
      a. The user's full goal
-     b. Instructions to use `mcp__ruflo__hive-mind_spawn` to create workers as needed
-     c. Instructions to use `mcp__ruflo__hive-mind_broadcast` for coordination
-     d. Instructions to use `mcp__ruflo__hive-mind_consensus` for decisions
-     e. Instructions to use `mcp__ruflo__hive-mind_memory` for shared state
+     b. Instructions to use `mcp__fidgetflo__hive-mind_spawn` to create workers as needed
+     c. Instructions to use `mcp__fidgetflo__hive-mind_broadcast` for coordination
+     d. Instructions to use `mcp__fidgetflo__hive-mind_consensus` for decisions
+     e. Instructions to use `mcp__fidgetflo__hive-mind_memory` for shared state
      f. Instructions to present final synthesized output when complete
 4. After spawning the queen, STOP. Do not poll. Do not check status. The queen runs the show.
 5. When the queen returns results, present them to the user.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-hive-active` via Bash to turn off the hive indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-hive-active` via Bash to turn off the hive indicator
 
 ## Queen Agent Behavior
 
@@ -419,23 +419,23 @@ RHIVE_EOF
     cat > "$RMINI_DIR/SKILL.md" << 'RMINI_EOF'
 ---
 name: rmini
-description: "Launch a compact 5-agent Ruflo swarm for focused task execution. Smaller than /rswarm but still parallel and powerful."
+description: "Launch a compact 5-agent FidgetFlo swarm for focused task execution. Smaller than /rswarm but still parallel and powerful."
 ---
 
-# Ruflo Mini Swarm — Compact Execution
+# FidgetFlo Mini Swarm — Compact Execution
 
 When this skill is invoked, IMMEDIATELY launch a 5-agent swarm. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rmini`)
-2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized` (skip if the Ruflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized` (skip if the FidgetFlo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-mini-active` via Bash to turn off the 🍯 indicator
 
 ## The 5 Agents
 
@@ -466,24 +466,24 @@ RMINI_EOF
     cat > "$RMINI1_DIR/SKILL.md" << 'RMINI1_EOF'
 ---
 name: rmini1
-description: "Launch a compact 5-agent Ruflo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, mini swarm with thinking."
+description: "Launch a compact 5-agent FidgetFlo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, mini swarm with thinking."
 ---
 
-# Ruflo Mini Swarm — Tier 1 (think)
+# FidgetFlo Mini Swarm — Tier 1 (think)
 
 When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with light extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rmini1`)
-2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think.` as the last line of every Agent `prompt` to activate extended thinking (~4k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-mini-active` via Bash to turn off the 🍯 indicator
 
 ## The 5 Agents
 
@@ -515,24 +515,24 @@ RMINI1_EOF
     cat > "$RMINI2_DIR/SKILL.md" << 'RMINI2_EOF'
 ---
 name: rmini2
-description: "Launch a compact 5-agent Ruflo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking mini swarm."
+description: "Launch a compact 5-agent FidgetFlo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking mini swarm."
 ---
 
-# Ruflo Mini Swarm — Tier 2 (think hard / think deep)
+# FidgetFlo Mini Swarm — Tier 2 (think hard / think deep)
 
 When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with hard/deep extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rmini2`)
-2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think hard.` as the last line of every Agent `prompt` to activate extended thinking (~10k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-mini-active` via Bash to turn off the 🍯 indicator
 
 ## The 5 Agents
 
@@ -564,24 +564,24 @@ RMINI2_EOF
     cat > "$RMINI3_DIR/SKILL.md" << 'RMINI3_EOF'
 ---
 name: rmini3
-description: "Launch a compact 5-agent Ruflo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking mini swarm."
+description: "Launch a compact 5-agent FidgetFlo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking mini swarm."
 ---
 
-# Ruflo Mini Swarm — Tier 3 (think harder / think deeper)
+# FidgetFlo Mini Swarm — Tier 3 (think harder / think deeper)
 
 When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with harder/deeper extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rmini3`)
-2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think harder.` as the last line of every Agent `prompt` to activate extended thinking (~31k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-mini-active` via Bash to turn off the 🍯 indicator
 
 ## The 5 Agents
 
@@ -613,24 +613,24 @@ RMINI3_EOF
     cat > "$RMINIMAX_DIR/SKILL.md" << 'RMINIMAX_EOF'
 ---
 name: rminimax
-description: "Launch a compact 5-agent Ruflo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, mini swarm max."
+description: "Launch a compact 5-agent FidgetFlo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, mini swarm max."
 ---
 
-# Ruflo Mini Swarm — Tier Max (ultrathink)
+# FidgetFlo Mini Swarm — Tier Max (ultrathink)
 
 When this skill is invoked, IMMEDIATELY launch a 5-agent swarm at MAX extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rminimax`)
-2. **Signal status line**: Run `echo 5 > /tmp/ruflo-mini-active` via Bash to light up the 🍯 indicator
+2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
    - Spawn ALL 5 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Ultrathink.` as the last line of every Agent `prompt` to activate MAX extended thinking (~32k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-mini-active` via Bash to turn off the 🍯 indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-mini-active` via Bash to turn off the 🍯 indicator
 
 ## The 5 Agents
 
@@ -662,24 +662,24 @@ RMINIMAX_EOF
     cat > "$RSWARM1_DIR/SKILL.md" << 'RSWARM1_EOF'
 ---
 name: rswarm1
-description: "Launch a full 15-agent Ruflo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, full swarm with thinking."
+description: "Launch a full 15-agent FidgetFlo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, full swarm with thinking."
 ---
 
-# Ruflo Advanced Swarm — Tier 1 (think)
+# FidgetFlo Advanced Swarm — Tier 1 (think)
 
 When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with light extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rswarm1`)
-2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
+2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think.` as the last line of every Agent `prompt` to activate extended thinking (~4k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-swarm-active` via Bash to turn off the swarm indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-swarm-active` via Bash to turn off the swarm indicator
 
 ## The 15 Agents
 
@@ -721,24 +721,24 @@ RSWARM1_EOF
     cat > "$RSWARM2_DIR/SKILL.md" << 'RSWARM2_EOF'
 ---
 name: rswarm2
-description: "Launch a full 15-agent Ruflo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking full swarm."
+description: "Launch a full 15-agent FidgetFlo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking full swarm."
 ---
 
-# Ruflo Advanced Swarm — Tier 2 (think hard / think deep)
+# FidgetFlo Advanced Swarm — Tier 2 (think hard / think deep)
 
 When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with hard/deep extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rswarm2`)
-2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
+2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think hard.` as the last line of every Agent `prompt` to activate extended thinking (~10k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-swarm-active` via Bash to turn off the swarm indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-swarm-active` via Bash to turn off the swarm indicator
 
 ## The 15 Agents
 
@@ -780,24 +780,24 @@ RSWARM2_EOF
     cat > "$RSWARM3_DIR/SKILL.md" << 'RSWARM3_EOF'
 ---
 name: rswarm3
-description: "Launch a full 15-agent Ruflo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking full swarm."
+description: "Launch a full 15-agent FidgetFlo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking full swarm."
 ---
 
-# Ruflo Advanced Swarm — Tier 3 (think harder / think deeper)
+# FidgetFlo Advanced Swarm — Tier 3 (think harder / think deeper)
 
 When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with harder/deeper extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rswarm3`)
-2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
+2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Think harder.` as the last line of every Agent `prompt` to activate extended thinking (~31k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-swarm-active` via Bash to turn off the swarm indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-swarm-active` via Bash to turn off the swarm indicator
 
 ## The 15 Agents
 
@@ -839,24 +839,24 @@ RSWARM3_EOF
     cat > "$RSWARMMAX_DIR/SKILL.md" << 'RSWARMMAX_EOF'
 ---
 name: rswarmmax
-description: "Launch a full 15-agent Ruflo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, full swarm max."
+description: "Launch a full 15-agent FidgetFlo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, full swarm max."
 ---
 
-# Ruflo Advanced Swarm — Tier Max (ultrathink)
+# FidgetFlo Advanced Swarm — Tier Max (ultrathink)
 
 When this skill is invoked, IMMEDIATELY launch a 15-agent swarm at MAX extended thinking. Do NOT explain how swarms work. Do NOT show code examples. Do NOT ask clarifying questions unless the task is truly ambiguous. ACT.
 
 ## Execution Steps
 
 1. Read the user's task (everything they typed after `/rswarmmax`)
-2. **Signal status line**: Run `echo 15 > /tmp/ruflo-swarm-active` via Bash to light up the swarm indicator
+2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
-   - Call `mcp__ruflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
+   - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
    - Spawn ALL 15 agents via the Agent tool with `run_in_background: true` — every agent in ONE message
    - **MANDATORY**: Append `Ultrathink.` as the last line of every Agent `prompt` to activate MAX extended thinking (~32k budget)
 4. After spawning, STOP. Do not poll. Do not check status. Wait for agents to return.
 5. When results come back, synthesize and present the combined output.
-6. **Clear status line**: Run `rm -f /tmp/ruflo-swarm-active` via Bash to turn off the swarm indicator
+6. **Clear status line**: Run `rm -f /tmp/fidgetflo-swarm-active` via Bash to turn off the swarm indicator
 
 ## The 15 Agents
 
@@ -932,8 +932,8 @@ W4W_EOF
     STATUSLINE_DIR="$HOME/.claude"
     cat > "$STATUSLINE_DIR/statusline.sh" << 'STATUSLINE_EOF'
 #!/bin/bash
-# Ruflo Status Line — real state only
-# Detects: 2ndBrain (Obsidian), Ruflo (MCP), UIPro, Swarm/Hive activity
+# FidgetFlo Status Line — real state only
+# Detects: 2ndBrain (Obsidian), FidgetFlo (MCP), UIPro, Swarm/Hive activity
 
 input=$(cat)
 
@@ -963,10 +963,10 @@ if echo "$CWD" | grep -qiE "(2ndBrain|MASTER|Second-Brain|Vault)" 2>/dev/null; t
   BRAIN="🧠 2ndBrain"
 fi
 
-# --- RUFLO CHECK ---
-RUFLO=""
-if pgrep -f "claude-flow.*mcp" >/dev/null 2>&1 || pgrep -f "@claude-flow/cli" >/dev/null 2>&1 || pgrep -f "ruflo" >/dev/null 2>&1; then
-  RUFLO="⚡ Ruflo"
+# --- FIDGETFLO CHECK ---
+FIDGETFLO=""
+if pgrep -f "claude-flow.*mcp" >/dev/null 2>&1 || pgrep -f "@claude-flow/cli" >/dev/null 2>&1 || pgrep -f "fidgetflo" >/dev/null 2>&1; then
+  FIDGETFLO="⚡ FidgetFlo"
 fi
 
 # --- UIPRO CHECK (always on — global skill) ---
@@ -977,9 +977,9 @@ UIPRO="🎨 UIPro"
 # Agents run as Claude Code subprocesses (not CLI), so pgrep won't find them.
 # Auto-clean lock files older than 30 min as stale.
 SWARM=""
-SWARM_LOCK="/tmp/ruflo-swarm-active"
+SWARM_LOCK="/tmp/fidgetflo-swarm-active"
 if [ -f "$SWARM_LOCK" ] 2>/dev/null; then
-  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-swarm-active' -mmin +30 2>/dev/null)" ]; then
+  if [ "$(find /tmp -maxdepth 1 -name 'fidgetflo-swarm-active' -mmin +30 2>/dev/null)" ]; then
     rm -f "$SWARM_LOCK" 2>/dev/null
   else
     AGENT_COUNT=$(cat "$SWARM_LOCK" 2>/dev/null || echo "")
@@ -994,9 +994,9 @@ fi
 # --- HIVE CHECK (only shows when actively running) ---
 # Same approach — trust lock file, auto-clean after 30 min.
 HIVE=""
-HIVE_LOCK="/tmp/ruflo-hive-active"
+HIVE_LOCK="/tmp/fidgetflo-hive-active"
 if [ -f "$HIVE_LOCK" ] 2>/dev/null; then
-  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-hive-active' -mmin +30 2>/dev/null)" ]; then
+  if [ "$(find /tmp -maxdepth 1 -name 'fidgetflo-hive-active' -mmin +30 2>/dev/null)" ]; then
     rm -f "$HIVE_LOCK" 2>/dev/null
   else
     HIVE="👑 Hive"
@@ -1006,9 +1006,9 @@ fi
 # --- MINI CHECK (only shows when actively running) ---
 # Same approach — trust lock file, auto-clean after 30 min.
 MINI=""
-MINI_LOCK="/tmp/ruflo-mini-active"
+MINI_LOCK="/tmp/fidgetflo-mini-active"
 if [ -f "$MINI_LOCK" ] 2>/dev/null; then
-  if [ "$(find /tmp -maxdepth 1 -name 'ruflo-mini-active' -mmin +30 2>/dev/null)" ]; then
+  if [ "$(find /tmp -maxdepth 1 -name 'fidgetflo-mini-active' -mmin +30 2>/dev/null)" ]; then
     rm -f "$MINI_LOCK" 2>/dev/null
   else
     MINI_AGENT_COUNT=$(cat "$MINI_LOCK" 2>/dev/null || echo "")
@@ -1023,13 +1023,13 @@ fi
 # --- BUILD THE LINE ---
 PARTS=""
 
-# 2ndBrain + Ruflo
-if [ -n "$BRAIN" ] && [ -n "$RUFLO" ]; then
-  PARTS="${BRAIN} + ${RUFLO}"
+# 2ndBrain + FidgetFlo
+if [ -n "$BRAIN" ] && [ -n "$FIDGETFLO" ]; then
+  PARTS="${BRAIN} + ${FIDGETFLO}"
 elif [ -n "$BRAIN" ]; then
   PARTS="${BRAIN}"
-elif [ -n "$RUFLO" ]; then
-  PARTS="${RUFLO}"
+elif [ -n "$FIDGETFLO" ]; then
+  PARTS="${FIDGETFLO}"
 fi
 
 # UIPro (always on)
@@ -1092,30 +1092,30 @@ run_self_test() {
     TEST_PASS=0
     TEST_FAIL=0
 
-    # Ruflo CLI available
-    if npx ruflo@latest --version &>/dev/null 2>&1; then
-        success "TEST: Ruflo CLI available"
+    # FidgetFlo CLI available
+    if npx fidgetflo --version &>/dev/null 2>&1; then
+        success "TEST: FidgetFlo CLI available"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Ruflo CLI not available"
+        soft_fail "TEST: FidgetFlo CLI not available"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
     # MCP server configured
-    if claude mcp list 2>/dev/null | grep -q "ruflo" 2>/dev/null; then
-        success "TEST: Ruflo MCP server configured"
+    if claude mcp list 2>/dev/null | grep -q "fidgetflo" 2>/dev/null; then
+        success "TEST: FidgetFlo MCP server configured"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Ruflo MCP server not detected"
+        soft_fail "TEST: FidgetFlo MCP server not detected"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
     # Daemon available
-    if [ -f ".claude-flow/daemon.pid" ] || npx ruflo@latest daemon status 2>/dev/null | grep -q "PID" 2>/dev/null; then
-        success "TEST: Ruflo daemon available"
+    if [ -f ".claude-flow/daemon.pid" ] || npx fidgetflo daemon status 2>/dev/null | grep -q "PID" 2>/dev/null; then
+        success "TEST: FidgetFlo daemon available"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        warn "TEST: Ruflo daemon not detected (will auto-start when needed)"
+        warn "TEST: FidgetFlo daemon not detected (will auto-start when needed)"
         TEST_PASS=$((TEST_PASS + 1))
     fi
 
@@ -1263,7 +1263,7 @@ run_self_test() {
         success "TEST: Model locked to Opus"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        MODEL_CONFIG=$(npx ruflo@latest config get --key "model.default" 2>/dev/null || echo "")
+        MODEL_CONFIG=$(npx fidgetflo config get --key "model.default" 2>/dev/null || echo "")
         if echo "$MODEL_CONFIG" | grep -qi "opus" 2>/dev/null; then
             success "TEST: Model locked to Opus"
             TEST_PASS=$((TEST_PASS + 1))
@@ -1273,7 +1273,7 @@ run_self_test() {
         fi
     fi
 
-    # Memory system configured (ruflo still uses .claude-flow/ directory internally)
+    # Memory system configured (fidgetflo still uses .claude-flow/ directory internally)
     if [ -f ".claude-flow/config.yaml" ] && grep -q "hybrid\|memory" ".claude-flow/config.yaml" 2>/dev/null; then
         success "TEST: Memory system configured"
         TEST_PASS=$((TEST_PASS + 1))
@@ -1302,10 +1302,10 @@ run_self_test() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Step 3 Complete — Ruflo is Ready${NC}"
+    echo -e "${GREEN}  Step 3 Complete — FidgetFlo is Ready${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo "  Ruflo is now installed and connected to Claude Code."
+    echo "  FidgetFlo is now installed and connected to Claude Code."
     echo ""
     echo "  What you can do now:"
     echo "    - Claude can spawn multiple agents to work in parallel"
@@ -1333,14 +1333,14 @@ print_summary() {
 main() {
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Step 3 — Ruflo${NC}"
+    echo -e "${BLUE}  Step 3 — FidgetFlo${NC}"
     echo -e "${BLUE}  Multi-agent orchestration • macOS + Linux${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
     detect_os
     verify_prerequisites
-    install_ruflo
+    install_fidgetflo
     configure_mcp
     start_daemon
     run_doctor
