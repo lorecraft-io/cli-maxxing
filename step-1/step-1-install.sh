@@ -22,7 +22,40 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 soft_fail() { echo -e "${RED}[FAIL]${NC} $1 (non-critical, continuing...)"; ERRORS=$((ERRORS + 1)); }
 
 # -----------------------------------------------------------------------------
-# 1. Detect OS
+# 0. Runtime PATH bootstrap — source whatever brew/nvm/.local bin already exist
+#    so a re-run of step-1 in a fresh shell can see previously-installed tools.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    # Homebrew shellenv (Apple Silicon + Intel macOS)
+    if [ -x /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [ -x /usr/local/bin/brew ]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+
+    # nvm (Node Version Manager)
+    if [ -d "$HOME/.nvm" ]; then
+        export NVM_DIR="$HOME/.nvm"
+        # shellcheck source=/dev/null
+        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    fi
+
+    # User-local bin (ctg and friends)
+    if [ -d "$HOME/.local/bin" ]; then
+        case ":$PATH:" in
+            *":$HOME/.local/bin:"*) ;;
+            *) export PATH="$HOME/.local/bin:$PATH" ;;
+        esac
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# 1. Detect OS + shell-config targets
+#    macOS Terminal.app launches zsh by default (since 10.15) even when the
+#    passwd shell is /bin/bash. Writing to BOTH zsh + bash config files is the
+#    same approach Homebrew's own installer recommends, and prevents the
+#    "command not found" trap when the passwd shell and the launched shell
+#    disagree. On Linux we keep single-shell behavior (login shell from getent).
 # -----------------------------------------------------------------------------
 detect_os() {
     case "$(uname -s)" in
@@ -33,12 +66,42 @@ detect_os() {
     esac
     info "Detected OS: $OS"
 
-    case "${SHELL:-/bin/bash}" in
-        */zsh)  USER_SHELL="zsh";  SHELL_RC="$HOME/.zshrc" ;;
-        */bash) USER_SHELL="bash"; SHELL_RC="$HOME/.bashrc" ;;
-        *)      USER_SHELL="bash"; SHELL_RC="$HOME/.bashrc" ;;
-    esac
-    info "Detected shell: $USER_SHELL ($SHELL_RC)"
+    if [ "$OS" = "mac" ]; then
+        # macOS: write to both shells so Terminal.app (zsh) AND bash sessions
+        # both pick up aliases/PATH regardless of the user's passwd shell.
+        SHELL_RCS=("$HOME/.zshrc" "$HOME/.bashrc")
+        SHELL_PROFILES=("$HOME/.zprofile" "$HOME/.bash_profile")
+        USER_SHELL="zsh+bash"
+    else
+        # Linux: detect actual login shell from /etc/passwd, fall back to $SHELL.
+        local login_shell=""
+        if command -v getent &>/dev/null; then
+            login_shell=$(getent passwd "$USER" 2>/dev/null | cut -d: -f7)
+        fi
+        if [ -z "$login_shell" ]; then
+            login_shell="${SHELL:-/bin/bash}"
+        fi
+        case "$login_shell" in
+            */zsh)
+                USER_SHELL="zsh"
+                SHELL_RCS=("$HOME/.zshrc")
+                SHELL_PROFILES=("$HOME/.zprofile")
+                ;;
+            */bash|*)
+                USER_SHELL="bash"
+                SHELL_RCS=("$HOME/.bashrc")
+                SHELL_PROFILES=("$HOME/.bash_profile")
+                ;;
+        esac
+    fi
+
+    # Ensure every target file exists before we try to read/write it.
+    for f in "${SHELL_RCS[@]}" "${SHELL_PROFILES[@]}"; do
+        [ -e "$f" ] || touch "$f"
+    done
+
+    info "Detected shell: $USER_SHELL"
+    info "Writing shell integrations to: ${SHELL_RCS[*]} ${SHELL_PROFILES[*]}"
 }
 
 # -----------------------------------------------------------------------------
@@ -116,6 +179,9 @@ install_build_tools() {
 
 # -----------------------------------------------------------------------------
 # 5. Homebrew (macOS only)
+#    brew shellenv must live in PROFILE files (login-shell env), not RC files.
+#    On macOS we write to BOTH .zprofile and .bash_profile so either shell
+#    picks up brew on next login — matches Homebrew's own post-install advice.
 # -----------------------------------------------------------------------------
 install_homebrew() {
     if [ "$OS" != "mac" ]; then return; fi
@@ -132,18 +198,29 @@ install_homebrew() {
         # ensures the cached credential is fresh so sudo -n succeeds.
         NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+        # Pick the right brew prefix and eval it into THIS shell so subsequent
+        # install_git / install_node steps see `brew`.
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
-            if [ "$USER_SHELL" = "bash" ]; then
-                BREW_PROFILE="$HOME/.bash_profile"
-            else
-                BREW_PROFILE="$HOME/.zprofile"
-            fi
-            if ! grep -q 'homebrew' "$BREW_PROFILE" 2>/dev/null; then
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$BREW_PROFILE"
-            fi
+            BREW_SHELLENV_LINE='eval "$(/opt/homebrew/bin/brew shellenv)"'
         elif [ -f /usr/local/bin/brew ]; then
             eval "$(/usr/local/bin/brew shellenv)"
+            BREW_SHELLENV_LINE='eval "$(/usr/local/bin/brew shellenv)"'
+        else
+            BREW_SHELLENV_LINE=""
+        fi
+
+        # Persist brew shellenv into ALL profile files (idempotent per file).
+        if [ -n "$BREW_SHELLENV_LINE" ]; then
+            for profile in "${SHELL_PROFILES[@]}"; do
+                [ -e "$profile" ] || touch "$profile"
+                if ! grep -q 'brew shellenv' "$profile" 2>/dev/null; then
+                    echo "" >> "$profile"
+                    echo '# Homebrew' >> "$profile"
+                    echo "$BREW_SHELLENV_LINE" >> "$profile"
+                    info "Added Homebrew shellenv to $profile"
+                fi
+            done
         fi
 
         command -v brew &>/dev/null || fail "Homebrew installation failed"
@@ -212,7 +289,11 @@ install_node() {
 }
 
 # -----------------------------------------------------------------------------
-# 8. Claude Code
+# 8. Claude Code + shell integrations
+#    Aliases and PATH live in RC files (interactive-shell config), NOT profile
+#    files. We loop across every RC in SHELL_RCS so both zsh + bash sessions
+#    on macOS see the shortcuts — fixes the Terminal.app-launches-zsh bug
+#    where the passwd shell is bash but Terminal actually runs zsh.
 # -----------------------------------------------------------------------------
 install_claude_code() {
     if command -v claude &>/dev/null; then
@@ -226,44 +307,57 @@ install_claude_code() {
         success "Claude Code installed"
     fi
 
-    # Add Claude Code shortcuts (check each individually so re-runs fill gaps)
-    ALIASES_ADDED=0
-    if ! grep -q '# Claude Code shortcuts' "$SHELL_RC" 2>/dev/null; then
-        echo "" >> "$SHELL_RC"
-        echo "# Claude Code shortcuts" >> "$SHELL_RC"
-    fi
-    for alias_line in \
-        "alias cskip='claude --dangerously-skip-permissions'" \
-        "alias cc='claude'" \
-        "alias ccr='claude --resume'" \
-        "alias ccc='claude --continue'"; do
-        ALIAS_NAME=$(echo "$alias_line" | sed "s/alias \([^=]*\)=.*/\1/")
-        if ! grep -q "alias ${ALIAS_NAME}=" "$SHELL_RC" 2>/dev/null; then
-            echo "$alias_line" >> "$SHELL_RC"
-            ALIASES_ADDED=$((ALIASES_ADDED + 1))
+    # Add Claude Code shortcuts to every RC file. Idempotent per-file — re-runs
+    # fill gaps without duplicating. Also migrates the old `alias ctg=` line
+    # (now replaced by ~/.local/bin/ctg which can do the token pre-check).
+    local total_aliases_added=0
+    for rc in "${SHELL_RCS[@]}"; do
+        [ -e "$rc" ] || touch "$rc"
+
+        local aliases_added_here=0
+
+        # Marker comment — only once per file
+        if ! grep -q '# Claude Code shortcuts' "$rc" 2>/dev/null; then
+            echo "" >> "$rc"
+            echo "# Claude Code shortcuts" >> "$rc"
         fi
+
+        # Each alias — skip if already present in this rc
+        for alias_line in \
+            "alias cskip='claude --dangerously-skip-permissions'" \
+            "alias cc='claude'" \
+            "alias ccr='claude --resume'" \
+            "alias ccc='claude --continue'"; do
+            ALIAS_NAME=$(echo "$alias_line" | sed "s/alias \([^=]*\)=.*/\1/")
+            if ! grep -q "alias ${ALIAS_NAME}=" "$rc" 2>/dev/null; then
+                echo "$alias_line" >> "$rc"
+                aliases_added_here=$((aliases_added_here + 1))
+            fi
+        done
+
+        # Migrate old ctg alias → script (alias can't do token check; script can)
+        if grep -q 'alias ctg=' "$rc" 2>/dev/null; then
+            sed -i.bak '/alias ctg=/d' "$rc"
+            info "Removed old ctg alias from $rc (replaced by ~/.local/bin/ctg)"
+        fi
+
+        # Add ~/.local/bin to PATH if not already present in this rc
+        if ! grep -q '\.local/bin' "$rc" 2>/dev/null; then
+            echo "" >> "$rc"
+            echo '# Local bin (ctg)' >> "$rc"
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$rc"
+            success "Added ~/.local/bin to PATH in $rc"
+        else
+            success "$HOME/.local/bin already configured in $rc"
+        fi
+
+        if [ "$aliases_added_here" -gt 0 ]; then
+            success "Added $aliases_added_here new shortcut(s) to $rc"
+        else
+            success "All shortcuts already configured in $rc (cskip, cc, ccr, ccc)"
+        fi
+        total_aliases_added=$((total_aliases_added + aliases_added_here))
     done
-    if [ "$ALIASES_ADDED" -gt 0 ]; then
-        success "Added $ALIASES_ADDED new shortcut(s) to $SHELL_RC"
-    else
-        success "All shortcuts already configured (cskip, cc, ccr, ccc)"
-    fi
-
-    # Migrate old ctg alias → script (alias can't do token check; script can)
-    if grep -q 'alias ctg=' "$SHELL_RC" 2>/dev/null; then
-        sed -i.bak '/alias ctg=/d' "$SHELL_RC"
-        info "Removed old ctg alias from $SHELL_RC (replaced by ~/.local/bin/ctg)"
-    fi
-
-    # Add ~/.local/bin to PATH if not already present
-    if ! grep -q '\.local/bin' "$SHELL_RC" 2>/dev/null; then
-        echo "" >> "$SHELL_RC"
-        echo '# Local bin (ctg)' >> "$SHELL_RC"
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
-        success "Added ~/.local/bin to PATH in $SHELL_RC"
-    else
-        success "$HOME/.local/bin already configured in $SHELL_RC"
-    fi
 
     # Install ctg command (Telegram + skip-permissions, any directory)
     info "Installing ctg command to ~/.local/bin..."
@@ -348,19 +442,28 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Shell aliases
+    # Shell aliases — success if each alias appears in AT LEAST ONE rc file.
+    # On macOS we write to both zsh + bash, and finding it in either shell's
+    # rc is enough (user only opens one shell at a time in practice).
     ALIAS_PASS=0
     ALIAS_TOTAL=4
     for alias_name in cskip cc ccr ccc; do
-        if grep -q "alias ${alias_name}=" "$SHELL_RC" 2>/dev/null; then
+        found_in_any_rc=0
+        for rc in "${SHELL_RCS[@]}"; do
+            if grep -q "alias ${alias_name}=" "$rc" 2>/dev/null; then
+                found_in_any_rc=1
+                break
+            fi
+        done
+        if [ "$found_in_any_rc" -eq 1 ]; then
             ALIAS_PASS=$((ALIAS_PASS + 1))
         fi
     done
     if [ "$ALIAS_PASS" -eq "$ALIAS_TOTAL" ]; then
-        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, cc, ccr, ccc)"
+        success "TEST: shell aliases — all $ALIAS_TOTAL configured (cskip, cc, ccr, ccc) across ${SHELL_RCS[*]}"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: shell aliases — only $ALIAS_PASS/$ALIAS_TOTAL found in $SHELL_RC"
+        soft_fail "TEST: shell aliases — only $ALIAS_PASS/$ALIAS_TOTAL found across ${SHELL_RCS[*]}"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
@@ -393,9 +496,20 @@ show_next_steps() {
     echo -e "${YELLOW}  NEXT: Move to Step 2${NC}"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo -e "  1. Run this command to reload your shell config:"
-    echo ""
-    echo -e "     ${GREEN}source $SHELL_RC${NC}"
+    if [ "${#SHELL_RCS[@]}" -gt 1 ]; then
+        echo -e "  1. Reload your shell config (source whichever one matches your current shell):"
+        echo ""
+        for rc in "${SHELL_RCS[@]}"; do
+            echo -e "     ${GREEN}source $rc${NC}"
+        done
+        echo ""
+        echo -e "     ${BLUE}Note:${NC} You have both zsh and bash configured — either shell now works."
+        echo "     macOS Terminal.app defaults to zsh; if you don't know, use .zshrc."
+    else
+        echo -e "  1. Run this command to reload your shell config:"
+        echo ""
+        echo -e "     ${GREEN}source ${SHELL_RCS[0]}${NC}"
+    fi
     echo ""
     echo -e "  2. Close this terminal window and reopen it."
     echo ""
@@ -448,6 +562,10 @@ print_summary() {
 # Main
 # -----------------------------------------------------------------------------
 main() {
+    # Source any brew/nvm/.local/bin that already exist so a re-run in a fresh
+    # shell sees previously-installed tools before we start detecting them.
+    source_runtime_path
+
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 1 — Get Claude Running${NC}"
@@ -484,6 +602,10 @@ main() {
     run_self_test
     print_summary
     show_next_steps
+
+    # Sentinel — lets step-2+ (and any orchestrator) detect "step-1 is done".
+    mkdir -p "$HOME/.cli-maxxing"
+    touch "$HOME/.cli-maxxing/step-1.done"
 }
 
 main "$@"

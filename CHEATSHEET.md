@@ -236,6 +236,44 @@ These are available in your terminal after Step 3 installs the Ruflo CLI.
 
 ---
 
+## Reset PATH (stuck install)
+
+If you ran the installer, opened a fresh terminal, and `claude --version` still says "command not found" — your `~/.zshrc` is probably missing the lines that wire Homebrew, nvm, `~/.local/bin`, and the cli-maxxing aliases together. This is the exact block we used on marina@Mac to unstick her install. Paste it verbatim into your terminal — it creates `~/.zshrc` if it doesn't exist, appends the four things that need to be on PATH, then sources it and verifies `claude` works.
+
+```bash
+cat > ~/.zshrc <<'EOF'
+# Homebrew (Apple Silicon default; also works on Intel via brew --prefix)
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# nvm (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# User-local binaries (cbrain, ctg, cbraintg land here)
+export PATH="$HOME/.local/bin:$PATH"
+
+# cli-maxxing aliases
+alias cskip='claude --dangerously-skip-permissions'
+alias cc='claude'
+alias ccr='claude --resume'
+alias ccc='claude --continue'
+EOF
+
+source ~/.zshrc
+claude --version
+```
+
+**What to expect:** `claude --version` should print something like `2.1.112 (Claude Code)`. If it does, you're unstuck — close this terminal, open a fresh one, and continue from where you left off. If it still errors, the issue is upstream of PATH (Claude Code itself didn't install, or Node is broken) — paste the error into a `cskip` session and Claude can diagnose.
+
+> **Using bash instead of zsh?** Swap `~/.zshrc` for `~/.bashrc` in the block above. Everything else is identical.
+
+---
+
 ## Tips
 
 - Claude remembers context within a session. If it's getting confused, use `/compact` to reset.

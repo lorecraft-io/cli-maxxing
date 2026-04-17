@@ -16,6 +16,36 @@ NC='\033[0m'
 
 BASE_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main"
 
+# -----------------------------------------------------------------------------
+# reload_path — re-source brew + nvm into the current shell so chained child
+# steps in this pipeline can find node, npm, brew, etc. Needed because Step 1
+# installs brew/nvm mid-run and the parent shell otherwise never picks them up.
+# -----------------------------------------------------------------------------
+reload_path() {
+  # brew — first found wins
+  local brew_bin
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [ -x "$brew_bin" ]; then
+      eval "$("$brew_bin" shellenv)"
+      break
+    fi
+  done
+
+  # nvm — source if installed
+  export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1091
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+  # ~/.local/bin — prepend idempotently
+  case ":$PATH:" in
+    *":$HOME/.local/bin:"*) : ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+  esac
+}
+
+# Breadcrumb dir — child step scripts touch step-N.done here on success.
+mkdir -p "$HOME/.cli-maxxing"
+
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${BLUE}  CLI Maxxing — Install${NC}"
@@ -27,6 +57,9 @@ echo ""
 echo -e "${YELLOW}>>> Step 1 — Get Claude Running${NC}"
 echo ""
 curl -fsSL "$BASE_URL/step-1/step-1-install.sh" | bash
+# BUG A fix: Step 1 installs brew+nvm; re-source them into this shell so the
+# remaining curl|bash steps (Ghostty/Arc/2/3/9/final) can actually find them.
+reload_path
 echo ""
 
 # Bonus — Ghostty Terminal (optional, won't reinstall if already present)
@@ -70,6 +103,26 @@ echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━
 echo -e "${GREEN}  Core install complete.${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
+
+# Breadcrumb check — list any expected steps that did NOT touch their .done file.
+EXPECTED_CRUMBS=(step-1 step-2 step-3 step-9 step-final ghostty arc)
+MISSING_CRUMBS=()
+for crumb in "${EXPECTED_CRUMBS[@]}"; do
+  if [ ! -f "$HOME/.cli-maxxing/${crumb}.done" ]; then
+    MISSING_CRUMBS+=("$crumb")
+  fi
+done
+
+if [ "${#MISSING_CRUMBS[@]}" -gt 0 ]; then
+  echo -e "${YELLOW}⚠️  Some steps did not complete. This usually happens on the first install${NC}"
+  echo -e "${YELLOW}   when a new terminal hasn't loaded brew + node yet.${NC}"
+  echo -e "${YELLOW}   → Close this terminal, open a new one, and re-run:${NC}"
+  echo -e "${YELLOW}     bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/install.sh)${NC}"
+  echo -e "${YELLOW}   The script is idempotent and will resume.${NC}"
+  echo ""
+  echo -e "${YELLOW}   Missing: ${MISSING_CRUMBS[*]}${NC}"
+  echo ""
+fi
 
 echo "  Available commands: cskip, ctg, cc, ccr, ccc"
 echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"

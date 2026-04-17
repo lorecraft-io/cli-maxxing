@@ -18,6 +18,42 @@ success() { echo -e "${GREEN}[OK]${NC} $1"; }
 warn()    { echo -e "${YELLOW}[WARN]${NC} $1"; }
 fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 
+# -----------------------------------------------------------------------------
+# source_runtime_path — load brew/nvm/~/.local/bin into current PATH so that
+# health checks (node, claude, jq, etc.) see what's actually installed on disk
+# even if the parent shell never sourced its rc files. Idempotent.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    # 1. Homebrew shellenv (macOS + Linuxbrew) — adds brew-managed bins to PATH
+    if command -v brew &>/dev/null; then
+        eval "$(brew shellenv)" 2>/dev/null || true
+    elif [ -x "/opt/homebrew/bin/brew" ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+    elif [ -x "/usr/local/bin/brew" ]; then
+        eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null || true
+    elif [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2>/dev/null || true
+    fi
+
+    # 2. nvm — source the script so `node` / `claude` (if installed via npm -g
+    # under a node version) become visible in this shell
+    export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+    if [ -s "$NVM_DIR/nvm.sh" ]; then
+        # shellcheck disable=SC1091
+        \. "$NVM_DIR/nvm.sh" 2>/dev/null || true
+    fi
+
+    # 3. Prepend ~/.local/bin to PATH (idempotent — skip if already present)
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+}
+
+# Refresh PATH before any health check so we see commands that were installed
+# in earlier steps but haven't been picked up by this shell yet.
+source_runtime_path
+
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${BLUE}  Final Step — Status Line${NC}"
@@ -224,6 +260,10 @@ esac
 
 HC_PASS=0
 HC_FAIL=0
+# Optional add-ons (e.g., 2ndbrain-maxxing) are tracked separately so we don't
+# tell the user to "re-run a step" when nothing is actually broken.
+OPTIONAL_FAIL=0
+OPTIONAL_MSGS=()
 
 # --- Shell aliases ---
 for alias_check in \
@@ -257,22 +297,24 @@ else
     HC_PASS=$((HC_PASS + 1))
 fi
 
-# --- cbrain script (installed by 2ndbrain-maxxing) ---
+# --- cbrain script (optional — installed by 2ndbrain-maxxing) ---
 if [ -x "$HOME/.local/bin/cbrain" ]; then
     success "HEALTH: cbrain command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    warn "HEALTH: cbrain not found — install 2ndbrain-maxxing to get cbrain"
-    HC_FAIL=$((HC_FAIL + 1))
+    info "HEALTH: cbrain not installed — optional add-on (install 2ndbrain-maxxing for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndbrain-maxxing)"
+    OPTIONAL_FAIL=$((OPTIONAL_FAIL + 1))
+    OPTIONAL_MSGS+=("cbrain — install 2ndbrain-maxxing (https://github.com/lorecraft-io/2ndbrain-maxxing) for vault-aware Claude aliases")
 fi
 
-# --- cbraintg script (installed by 2ndbrain-maxxing) ---
+# --- cbraintg script (optional — installed by 2ndbrain-maxxing) ---
 if [ -x "$HOME/.local/bin/cbraintg" ]; then
     success "HEALTH: cbraintg command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    warn "HEALTH: cbraintg not found — install 2ndbrain-maxxing to get cbraintg"
-    HC_FAIL=$((HC_FAIL + 1))
+    info "HEALTH: cbraintg not installed — optional add-on (install 2ndbrain-maxxing for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndbrain-maxxing)"
+    OPTIONAL_FAIL=$((OPTIONAL_FAIL + 1))
+    OPTIONAL_MSGS+=("cbraintg — install 2ndbrain-maxxing (https://github.com/lorecraft-io/2ndbrain-maxxing) for vault-aware Claude aliases")
 fi
 
 # --- ctg script (token-guarded — not an alias) ---
@@ -318,13 +360,19 @@ else
     HC_FAIL=$((HC_FAIL + 1))
 fi
 
-# --- Claude Code ---
+# --- Claude Code (fallback-check nvm glob in case PATH is stale) ---
 if command -v claude &>/dev/null; then
     success "HEALTH: Claude Code — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    warn "HEALTH: Claude Code not found — run Step 1 first"
-    HC_FAIL=$((HC_FAIL + 1))
+    NVM_CLAUDE=$(ls -1 "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -n1)
+    if [ -n "${NVM_CLAUDE:-}" ] && [ -x "$NVM_CLAUDE" ]; then
+        info "HEALTH: Claude Code found at $NVM_CLAUDE (not on current shell's PATH — open a new shell or source ~/.zshrc to use it)"
+        HC_PASS=$((HC_PASS + 1))
+    else
+        warn "HEALTH: Claude Code not found — run Step 1 first"
+        HC_FAIL=$((HC_FAIL + 1))
+    fi
 fi
 
 # --- jq ---
@@ -340,8 +388,15 @@ echo ""
 echo "  Health check: $HC_PASS passed, $HC_FAIL issues found."
 if [ "$HC_FAIL" -gt 0 ]; then
     echo ""
-    echo -e "  ${YELLOW}Some items need attention. Scroll up to see which steps to re-run.${NC}"
+    echo -e "  ${YELLOW}Some install items need attention. Scroll up to see which steps to re-run.${NC}"
     echo -e "  ${YELLOW}Or just launch cskip and ask Claude to fix them — it'll figure it out.${NC}"
+fi
+if [ "$OPTIONAL_FAIL" -gt 0 ]; then
+    echo ""
+    echo -e "  ${BLUE}Optional add-ons (not installed — everything still works without them):${NC}"
+    for msg in "${OPTIONAL_MSGS[@]}"; do
+        echo -e "    ${BLUE}•${NC} $msg"
+    done
 fi
 
 # =============================================================================
@@ -457,3 +512,7 @@ echo -e "  ${YELLOW}instead of cbrain. cbrain requires an Obsidian vault to exis
 echo ""
 echo "  Restart Claude Code to see your status line."
 echo ""
+
+# Mark step complete (best-effort — don't fail the run if mkdir/touch can't write)
+mkdir -p "$HOME/.cli-maxxing" 2>/dev/null || true
+touch "$HOME/.cli-maxxing/step-final.done" 2>/dev/null || true

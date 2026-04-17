@@ -23,6 +23,38 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 soft_fail() { echo -e "${RED}[FAIL]${NC} $1 (non-critical, continuing...)"; ERRORS=$((ERRORS + 1)); }
 
 # -----------------------------------------------------------------------------
+# source_runtime_path — defense-in-depth PATH hydration
+#
+# Ensures brew, nvm-installed node, pipx shims, and ~/.local/bin are visible
+# even when this script is invoked standalone (not via the install.sh wrapper
+# which already calls reload_path between steps — see BUG A coordination fix).
+#
+# Idempotent: safe to call multiple times.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    # 1. Homebrew — eval shellenv from the first brew binary found
+    local brew_bin
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+        if [ -x "$brew_bin" ]; then
+            eval "$("$brew_bin" shellenv)" 2>/dev/null || true
+            break
+        fi
+    done
+
+    # 2. nvm — source if present (node/npm may live under $NVM_DIR/versions/node/*/bin)
+    if [ -s "$HOME/.nvm/nvm.sh" ]; then
+        # shellcheck disable=SC1091
+        \. "$HOME/.nvm/nvm.sh" 2>/dev/null || true
+    fi
+
+    # 3. ~/.local/bin — idempotent prepend (pipx shims, ctg, user-installed bins)
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+}
+
+# -----------------------------------------------------------------------------
 # Detect OS + shell
 # -----------------------------------------------------------------------------
 detect_os() {
@@ -34,11 +66,22 @@ detect_os() {
     esac
     info "Detected OS: $OS"
 
+    # Primary SHELL_RC (for summary/display + legacy single-file grep checks)
     case "${SHELL:-/bin/bash}" in
         */zsh)  SHELL_RC="$HOME/.zshrc" ;;
         */bash) SHELL_RC="$HOME/.bashrc" ;;
         *)      SHELL_RC="$HOME/.bashrc" ;;
     esac
+
+    # SHELL_RCS — full list to write integrations to. On macOS many users have
+    # both zsh (default) and bash installed; step-1 mirrors writes across both.
+    # We match that pattern so no-flicker + memory hook land in whichever rc
+    # the user actually sources.
+    if [ "$OS" = "mac" ]; then
+        SHELL_RCS="$HOME/.zshrc $HOME/.bashrc"
+    else
+        SHELL_RCS="$SHELL_RC"
+    fi
 }
 
 # -----------------------------------------------------------------------------
@@ -135,30 +178,58 @@ install_pandoc() {
 }
 
 # -----------------------------------------------------------------------------
-# xlsx2csv
+# xlsx2csv (via pipx — avoids PEP 668 externally-managed-environment on mac py 3.9)
 # -----------------------------------------------------------------------------
 install_xlsx2csv() {
-    if python3 -c "import xlsx2csv" &>/dev/null 2>&1; then
-        success "xlsx2csv already installed"
+    if command -v xlsx2csv &>/dev/null; then
+        success "xlsx2csv already installed ($(command -v xlsx2csv))"
         return
     fi
 
-    info "Installing xlsx2csv..."
-    python3 -m pip install --user xlsx2csv --quiet 2>/dev/null \
-        || python3 -m pip install --user --break-system-packages xlsx2csv --quiet \
-        || { soft_fail "xlsx2csv installation failed"; return; }
-
-    PYTHON_USER_BIN="$(python3 -m site --user-base)/bin"
-    if [ -d "$PYTHON_USER_BIN" ]; then
-        export PATH="$PYTHON_USER_BIN:$PATH"
-        if ! grep -q 'Python.*bin' "$SHELL_RC" 2>/dev/null; then
-            echo "" >> "$SHELL_RC"
-            echo "# Python user packages" >> "$SHELL_RC"
-            echo "export PATH=\"\$(python3 -m site --user-base)/bin:\$PATH\"" >> "$SHELL_RC"
+    # Ensure pipx is available (idempotent — brew/apt/dnf skip if present)
+    if ! command -v pipx &>/dev/null; then
+        info "Installing pipx (required for PEP 668 isolated Python apps)..."
+        if [ "$OS" = "mac" ]; then
+            brew install pipx || { soft_fail "pipx installation failed — skipping xlsx2csv"; return; }
+        else
+            if command -v apt-get &>/dev/null; then
+                sudo apt-get install -y -qq pipx || {
+                    # Fallback: bootstrap pipx via pip on older Ubuntus
+                    python3 -m pip install --user pipx --break-system-packages --quiet 2>/dev/null \
+                        || python3 -m pip install --user pipx --quiet \
+                        || { soft_fail "pipx installation failed — skipping xlsx2csv"; return; }
+                }
+            elif command -v dnf &>/dev/null; then
+                sudo dnf install -y pipx || {
+                    python3 -m pip install --user pipx --quiet \
+                        || { soft_fail "pipx installation failed — skipping xlsx2csv"; return; }
+                }
+            else
+                python3 -m pip install --user pipx --quiet \
+                    || { soft_fail "pipx installation failed — skipping xlsx2csv"; return; }
+            fi
         fi
     fi
 
-    success "xlsx2csv installed"
+    # ensurepath appends pipx's bin dir (~/.local/bin on mac/linux) to shell rc files.
+    # Safe on re-run — pipx writes idempotent markers.
+    pipx ensurepath >/dev/null 2>&1 || true
+
+    # Re-hydrate PATH so the freshly-added pipx shim dir is visible to this shell
+    source_runtime_path
+
+    info "Installing xlsx2csv via pipx..."
+    if pipx install xlsx2csv --force >/dev/null 2>&1; then
+        # One more PATH hydrate in case pipx just created a new shim dir
+        source_runtime_path
+        if command -v xlsx2csv &>/dev/null; then
+            success "xlsx2csv installed ($(command -v xlsx2csv))"
+        else
+            soft_fail "xlsx2csv installed but shim not on PATH — open a new shell or run: pipx ensurepath"
+        fi
+    else
+        soft_fail "xlsx2csv installation failed"
+    fi
 }
 
 # -----------------------------------------------------------------------------
@@ -408,21 +479,27 @@ run_self_test() {
         fi
     done
 
-    # xlsx2csv (Python import check)
-    if python3 -c "import xlsx2csv" &>/dev/null 2>&1; then
-        success "TEST: xlsx2csv — installed"
+    # xlsx2csv (pipx shim check — pipx install adds `xlsx2csv` to ~/.local/bin)
+    if command -v xlsx2csv &>/dev/null; then
+        success "TEST: xlsx2csv — installed ($(command -v xlsx2csv))"
         TEST_PASS=$((TEST_PASS + 1))
     else
         soft_fail "TEST: xlsx2csv — not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # No-flicker mode
-    if grep -q 'CLAUDE_CODE_NO_FLICKER' "$SHELL_RC" 2>/dev/null; then
-        success "TEST: no-flicker mode — configured in $SHELL_RC"
+    # No-flicker mode — check across all rc files we write to
+    NO_FLICKER_FOUND=""
+    for rc in $SHELL_RCS; do
+        if [ -f "$rc" ] && grep -q 'CLAUDE_CODE_NO_FLICKER' "$rc" 2>/dev/null; then
+            NO_FLICKER_FOUND="${NO_FLICKER_FOUND}${rc} "
+        fi
+    done
+    if [ -n "$NO_FLICKER_FOUND" ]; then
+        success "TEST: no-flicker mode — configured in ${NO_FLICKER_FOUND% }"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: no-flicker mode — not found in $SHELL_RC"
+        soft_fail "TEST: no-flicker mode — not found in any of: $SHELL_RCS"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
@@ -490,27 +567,45 @@ SETTINGS_EOF
 
 # -----------------------------------------------------------------------------
 # No-flicker mode — fullscreen rendering for Claude Code
+#
+# Writes to every shell rc file that already exists in $SHELL_RCS so users on
+# macOS (zsh default, bash secondary) get the env vars whichever shell they
+# launch. Idempotent via grep markers.
 # -----------------------------------------------------------------------------
 configure_no_flicker() {
-    FLICKER_CHANGED=false
+    FLICKER_ANY_CHANGED=false
+    FLICKER_ANY_WRITTEN=""
 
-    if ! grep -q 'CLAUDE_CODE_NO_FLICKER' "$SHELL_RC" 2>/dev/null; then
-        info "Enabling no-flicker mode (fullscreen rendering)..."
-        echo "" >> "$SHELL_RC"
-        echo "# Claude Code — no-flicker fullscreen rendering" >> "$SHELL_RC"
-        echo "export CLAUDE_CODE_NO_FLICKER=1" >> "$SHELL_RC"
-        FLICKER_CHANGED=true
-    fi
+    for rc in $SHELL_RCS; do
+        # Only write to files that already exist — never materialize a .bashrc
+        # on a zsh-only macOS user and vice versa.
+        [ -f "$rc" ] || continue
 
-    if ! grep -q 'CLAUDE_CODE_SCROLL_SPEED' "$SHELL_RC" 2>/dev/null; then
-        echo "export CLAUDE_CODE_SCROLL_SPEED=3" >> "$SHELL_RC"
-        FLICKER_CHANGED=true
-    fi
+        local changed=false
 
-    if $FLICKER_CHANGED; then
-        success "No-flicker mode enabled in $SHELL_RC"
+        if ! grep -q 'CLAUDE_CODE_NO_FLICKER' "$rc" 2>/dev/null; then
+            echo "" >> "$rc"
+            echo "# Claude Code — no-flicker fullscreen rendering" >> "$rc"
+            echo "export CLAUDE_CODE_NO_FLICKER=1" >> "$rc"
+            changed=true
+        fi
+
+        if ! grep -q 'CLAUDE_CODE_SCROLL_SPEED' "$rc" 2>/dev/null; then
+            echo "export CLAUDE_CODE_SCROLL_SPEED=3" >> "$rc"
+            changed=true
+        fi
+
+        if $changed; then
+            FLICKER_ANY_CHANGED=true
+            FLICKER_ANY_WRITTEN="${FLICKER_ANY_WRITTEN}${rc} "
+            info "Enabled no-flicker mode in $rc"
+        fi
+    done
+
+    if $FLICKER_ANY_CHANGED; then
+        success "No-flicker mode enabled in ${FLICKER_ANY_WRITTEN% }"
     else
-        success "No-flicker mode already configured in $SHELL_RC"
+        success "No-flicker mode already configured in $SHELL_RCS"
     fi
 }
 
@@ -526,7 +621,7 @@ print_summary() {
     echo "  Installed:"
     echo "    Python         $(python3 --version 2>/dev/null || echo '—')"
     echo "    Pandoc         $(pandoc --version 2>/dev/null | head -1 || echo '—')"
-    echo "    xlsx2csv       $(python3 -c 'import xlsx2csv; print("installed")' 2>/dev/null || echo '—')"
+    echo "    xlsx2csv       $(command -v xlsx2csv &>/dev/null && echo 'installed' || echo '—')"
     echo "    pdftotext      $(command -v pdftotext &>/dev/null && echo 'installed' || echo '—')"
     echo "    jq             $(jq --version 2>/dev/null || echo '—')"
     echo "    ripgrep        $(rg --version 2>/dev/null | head -1 || echo '—')"
@@ -535,8 +630,17 @@ print_summary() {
     echo "    fzf            $(fzf --version 2>/dev/null | cut -d' ' -f1 || echo '—')"
     echo "    wget           $(command -v wget &>/dev/null && echo 'installed' || echo '—')"
     echo ""
+    # Report no-flicker status across all rc files we may have written to
+    NO_FLICKER_STATUS="—"
+    for rc in $SHELL_RCS; do
+        if [ -f "$rc" ] && grep -q 'CLAUDE_CODE_NO_FLICKER' "$rc" 2>/dev/null; then
+            NO_FLICKER_STATUS="enabled"
+            break
+        fi
+    done
+
     echo "  Configured:"
-    echo "    No-flicker     $(grep -q 'CLAUDE_CODE_NO_FLICKER' "$SHELL_RC" 2>/dev/null && echo 'enabled' || echo '—')"
+    echo "    No-flicker     $NO_FLICKER_STATUS"
     echo "    Memory hook    $(grep -q '"Stop"' "$HOME/.claude/settings.json" 2>/dev/null && echo 'enabled' || echo '—')"
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
@@ -553,6 +657,11 @@ print_summary() {
 # Main
 # -----------------------------------------------------------------------------
 main() {
+    # Defense-in-depth for BUG A: hydrate PATH before any brew/node/claude probe.
+    # install.sh wrapper calls reload_path between steps, but step-2 may be
+    # invoked standalone (curl | bash) — so we self-hydrate first thing.
+    source_runtime_path
+
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 2 — Dev Tools${NC}"
@@ -578,6 +687,10 @@ main() {
     configure_no_flicker
     run_self_test
     print_summary
+
+    # Success marker — consumed by install.sh wrapper for step-skip logic
+    mkdir -p "$HOME/.cli-maxxing"
+    touch "$HOME/.cli-maxxing/step-2.done"
 }
 
 main "$@"

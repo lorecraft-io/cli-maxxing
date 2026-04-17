@@ -39,6 +39,36 @@ INSTALLED_SWIFTKIT=false
 MOTION_PREEXISTING=false
 
 # -----------------------------------------------------------------------------
+# Ensure runtime PATH (brew, nvm, ~/.local/bin) is visible.
+# Defense-in-depth: users typically run this step in a fresh terminal after
+# Steps 1-5 completed, but installers/nvm don't always source their shell
+# rc files in non-login shells. This makes `node`, `npm`, and `claude`
+# resolvable regardless of how the user invoked the script.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    # Homebrew shellenv — try the first brew binary we find.
+    local brew_bin
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+        if [ -x "$brew_bin" ]; then
+            eval "$("$brew_bin" shellenv)" 2>/dev/null || true
+            break
+        fi
+    done
+
+    # nvm — source it if installed so `node`/`npm` resolve.
+    export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+    if [ -s "$NVM_DIR/nvm.sh" ]; then
+        # shellcheck disable=SC1091
+        . "$NVM_DIR/nvm.sh" 2>/dev/null || true
+    fi
+
+    # ~/.local/bin — prepend if not already on PATH.
+    if [ -d "$HOME/.local/bin" ] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # Detect OS
 # -----------------------------------------------------------------------------
 detect_os() {
@@ -748,6 +778,8 @@ print_summary() {
 # Main
 # -----------------------------------------------------------------------------
 main() {
+    source_runtime_path
+
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 6 — Productivity Tools${NC}"
@@ -776,6 +808,10 @@ main() {
 
     run_self_test
     print_summary
+
+    # Breadcrumb for /doctor and re-run detection.
+    mkdir -p "$HOME/.cli-maxxing" 2>/dev/null || true
+    touch "$HOME/.cli-maxxing/step-6.done" 2>/dev/null || true
 }
 
 main "$@"

@@ -20,6 +20,27 @@ warn()    { echo -e "${YELLOW}[WARN]${NC} $1"; }
 fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 
 # -----------------------------------------------------------------------------
+# Source runtime PATH (brew, nvm, ~/.local/bin) so a freshly-installed brew
+# from Step 1 is visible without requiring a new shell.
+# Idempotent: multiple brew shellenv evals are safe, nvm re-source is safe,
+# and the PATH guard prevents duplicate $HOME/.local/bin entries.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+        if [ -x "$brew_bin" ]; then
+            eval "$("$brew_bin" shellenv)"
+            break
+        fi
+    done
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+}
+
+# -----------------------------------------------------------------------------
 # Detect OS
 # -----------------------------------------------------------------------------
 detect_os() {
@@ -445,6 +466,7 @@ main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
+    source_runtime_path
     detect_os
     install_ghostty
     install_font
@@ -452,6 +474,9 @@ main() {
     configure_link_opener
     install_window_tiling
     print_summary
+
+    mkdir -p "$HOME/.cli-maxxing"
+    touch "$HOME/.cli-maxxing/ghostty.done"
 }
 
 main "$@"

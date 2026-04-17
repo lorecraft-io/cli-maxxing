@@ -22,6 +22,38 @@ fail()    { echo -e "${RED}[FAIL]${NC} $1"; exit 1; }
 soft_fail() { echo -e "${RED}[FAIL]${NC} $1 (non-critical, continuing...)"; ERRORS=$((ERRORS + 1)); }
 
 # -----------------------------------------------------------------------------
+# source_runtime_path — load brew/nvm/~/.local/bin into current PATH so that
+# prereq checks (node, claude, etc.) see what's actually installed on disk
+# even if the parent shell never sourced its rc files. Idempotent.
+# -----------------------------------------------------------------------------
+source_runtime_path() {
+    # 1. Homebrew shellenv (macOS + Linuxbrew) — adds brew-managed bins to PATH
+    if command -v brew &>/dev/null; then
+        eval "$(brew shellenv)" 2>/dev/null || true
+    elif [ -x "/opt/homebrew/bin/brew" ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+    elif [ -x "/usr/local/bin/brew" ]; then
+        eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null || true
+    elif [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2>/dev/null || true
+    fi
+
+    # 2. nvm — source the script so `node` / `claude` (if installed via npm -g
+    # under a node version) become visible in this shell
+    export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+    if [ -s "$NVM_DIR/nvm.sh" ]; then
+        # shellcheck disable=SC1091
+        \. "$NVM_DIR/nvm.sh" 2>/dev/null || true
+    fi
+
+    # 3. Prepend ~/.local/bin to PATH (idempotent — skip if already first/present)
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+}
+
+# -----------------------------------------------------------------------------
 # 1. Detect OS
 # -----------------------------------------------------------------------------
 detect_os() {
@@ -64,12 +96,17 @@ verify_prerequisites() {
         PREREQ_PASS=false
     fi
 
-    # Check Claude Code
+    # Check Claude Code (fallback-check nvm glob in case PATH is stale)
     if command -v claude &>/dev/null; then
         success "Claude Code is installed"
     else
-        warn "Claude Code not found — run Step 1 first"
-        PREREQ_PASS=false
+        NVM_CLAUDE=$(ls -1 "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -n1)
+        if [ -n "${NVM_CLAUDE:-}" ] && [ -x "$NVM_CLAUDE" ]; then
+            info "Claude Code found at $NVM_CLAUDE (not on PATH — source ~/.zshrc or open a new shell to use it)"
+        else
+            warn "Claude Code not found — run Step 1 first"
+            PREREQ_PASS=false
+        fi
     fi
 
     # Check curl (needed for download)
@@ -234,13 +271,19 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Test 6: Claude Code is installed
+    # Test 6: Claude Code is installed (fallback-check nvm glob if PATH is stale)
     if command -v claude &>/dev/null; then
         success "TEST: Claude Code is available"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        echo -e "${RED}[FAIL]${NC} TEST: Claude Code not found — install via Step 1"
-        TEST_FAIL=$((TEST_FAIL + 1))
+        NVM_CLAUDE=$(ls -1 "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -n1)
+        if [ -n "${NVM_CLAUDE:-}" ] && [ -x "$NVM_CLAUDE" ]; then
+            info "TEST: Claude Code found at $NVM_CLAUDE (not on PATH — open a new shell to pick it up)"
+            TEST_PASS=$((TEST_PASS + 1))
+        else
+            echo -e "${RED}[FAIL]${NC} TEST: Claude Code not found — install via Step 1"
+            TEST_FAIL=$((TEST_FAIL + 1))
+        fi
     fi
 
     echo ""
@@ -311,6 +354,10 @@ print_summary() {
 # Main
 # -----------------------------------------------------------------------------
 main() {
+    # Refresh PATH before any prereq check so we see node/claude that were
+    # installed in earlier steps but haven't been picked up by this shell yet.
+    source_runtime_path
+
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}  Step 9 — Safety Check${NC}"
@@ -323,6 +370,10 @@ main() {
     install_skill
     run_self_test
     print_summary
+
+    # Mark step complete (best-effort — don't fail the run if mkdir/touch can't write)
+    mkdir -p "$HOME/.cli-maxxing" 2>/dev/null || true
+    touch "$HOME/.cli-maxxing/step-9.done" 2>/dev/null || true
 }
 
 main "$@"

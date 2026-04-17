@@ -203,25 +203,21 @@ When Claude is running in any terminal, you can press **Shift+Tab** to switch be
 
 After the script finishes, you need to activate the tools that were just installed. Do these three things in order:
 
-**1. Reload your shell config** — copy and paste this, then hit Enter:
+**1. Close this terminal and open a new one.**
 
-```bash
-source ~/.zshrc
-```
+This is the most important step. Homebrew, nvm, and the new shell aliases only load when a fresh shell starts. If you skip this, `claude` and `cskip` won't be found even though they're installed. Fully close the Terminal window (Cmd+Q on Mac works too) and open a new one.
 
-> On Linux or if you use bash, run `source ~/.bashrc` instead.
-
-**2. Close the terminal window and reopen it.**
-
-**3. Verify Claude is working:**
+**2. Verify Claude is working** — in the new terminal, run:
 
 ```bash
 claude --version
 ```
 
-If you see a version number, you're good. If not, repeat steps 1 and 2.
+You should see a version number like `2.1.112 (Claude Code)`. If you see that, you're good.
 
-**4. Exit and switch to auto-approve mode:**
+> If `claude --version` says "command not found," try `source ~/.zshrc` (or `source ~/.bashrc` if you're on Linux or still using bash). macOS uses zsh by default since Catalina, so `.zshrc` is almost always the right one. If that still doesn't work, see the [Troubleshooting](#troubleshooting) section below — specifically "I ran the installer but `claude` command is not found."
+
+**3. Exit and switch to auto-approve mode:**
 
 Press **Ctrl+C** to exit Claude, then run `cskip` to continue with auto-approve mode (Claude runs without asking permission for each action). This is the recommended way to work through the remaining setup steps.
 
@@ -1008,6 +1004,66 @@ Setup is complete. Head to **[You're Ready](#youre-ready)** below for your daily
 ## Troubleshooting
 
 [Back to top](#quick-nav)
+
+### I ran the installer but `claude` command is not found
+
+First install has a catch: the installer adds Homebrew, nvm, and the shell aliases to your config files, but those only load when a brand new shell starts. On top of that, the script may have been running in bash while your default shell on modern macOS is zsh — so even `source`-ing the file the script wrote can miss.
+
+**Fix:**
+1. Fully close the terminal window (Cmd+Q on Mac works too).
+2. Open a fresh terminal.
+3. Run `claude --version`. You should see something like `2.1.112 (Claude Code)`.
+
+If it's still missing after a fresh terminal, paste the **Reset PATH (stuck install)** block from [CHEATSHEET.md](CHEATSHEET.md#reset-path-stuck-install) — it rewires `~/.zshrc` with Homebrew shellenv, nvm, `~/.local/bin`, and the four aliases in one shot.
+
+### Some steps say "Homebrew not found" during install
+
+Step 1 installs Homebrew mid-pipeline and the downstream steps in the same shell session don't see it yet — the installer hadn't refreshed PATH for subsequent commands. Known issue, fixed 2026-04-17.
+
+**Fix:** close the terminal, open a fresh one, and re-run the installer:
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/install.sh)
+```
+It's idempotent — anything already installed gets skipped.
+
+### I see the zsh/bash shell prompt change after install
+
+The installer detects your default shell and writes integrations accordingly. On modern macOS, zsh is the default even if `/etc/passwd` still says bash (Terminal.app overrides passwd with the "default login shell" preference), so you may notice your prompt looks different after a fresh terminal.
+
+**Fix:** confirm which shell you're actually in:
+```bash
+echo $SHELL
+```
+If you want your passwd entry to match what Terminal.app uses, run:
+```bash
+chsh -s /bin/zsh
+```
+This is optional — everything works fine either way. The installer writes to both `~/.zshrc` and `~/.bashrc` so both shells pick up the aliases.
+
+### xlsx2csv failed to install
+
+Python 3.9 (the macOS default) ships with PEP 668 restrictions that block `pip install` into the system Python. The installer now uses `pipx` to work around this.
+
+**Fix:** re-run Step 2:
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-2/step-2-install.sh)
+```
+If it's still failing, install manually:
+```bash
+brew install pipx
+pipx install xlsx2csv
+```
+
+### I want to completely remove everything
+
+Run the uninstall script:
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/uninstall.sh)
+```
+
+This removes the cli-maxxing aliases (`cskip`, `cc`, `ccr`, `ccc`), the `ctg`/`cbrain`/`cbraintg` scripts in `~/.local/bin/`, all MCP servers, skills, and breadcrumbs this setup dropped. See the [Uninstall](#uninstall) section below for the full list.
+
+It does **not** remove Homebrew, nvm, Node.js, or Claude Code itself — those are general-purpose tools you might use outside of cli-maxxing. The uninstall script will show you how to remove them manually if you want a completely clean machine.
 
 ### Telegram: pressing Enter skips setup
 
