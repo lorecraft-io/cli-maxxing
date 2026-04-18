@@ -117,7 +117,7 @@ Installs 7 optional productivity MCPs. Obsidian MCP has moved to [2ndbrain-maxxi
 | (3) n8n | Prompts for user's own n8n instance URL + optional Bearer token, registers via `--transport http` with `-H "Authorization: Bearer …"` if provided | PASS |
 | (4) Google Calendar | Prompts for OAuth Client ID + Secret, writes `~/.google-calendar-mcp/.env` (chmod 700 dir / 600 file), registers with `-e GOOGLE_CLIENT_ID=... -e GOOGLE_CLIENT_SECRET=...` | PASS |
 | (5) Morgen *(recommended)* | Prompts for API key + optional IANA timezone, registers via `-e MORGEN_API_KEY=... -e MORGEN_TIMEZONE=...`. No local `.env` — credentials live in Claude Code's MCP config | PASS |
-| (6) Motion Calendar | Prompts for Motion API key, Firebase API key, Firebase refresh token, Motion user ID. Writes `~/.motion-calendar-mcp/.env` (chmod 700/600). Registers via `claude mcp add motion-calendar` | PASS |
+| (6) Motion Calendar | Prompts for Motion API key, Firebase API key, Firebase refresh token, Motion user ID. Writes `~/.motion-mcp/.env` (chmod 700/600). Registers via `claude mcp add motion` | PASS |
 | (7) Playwright | No credentials required. Registers Microsoft's official `@playwright/mcp` via `claude mcp add playwright -- npx -y @playwright/mcp@latest`. Chromium binaries auto-download on first use. | PASS |
 | Obsidian | NOT in this repo — see 2ndbrain-maxxing | N/A |
 | Self-test | `check_registered` covers all 7 tools, verifies Motion + GCal `.env` files exist for their respective installs | PASS |

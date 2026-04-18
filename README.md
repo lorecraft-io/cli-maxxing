@@ -739,7 +739,7 @@ Direct Google Calendar access via OAuth. This is a secondary calendar tool — i
 
 ### Motion Calendar
 
-Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-calendar-mcp). A Motion-specific MCP that fills a few gaps Morgen doesn't cover — install this only if you specifically need Motion's teammate features or full event search.
+Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-mcp). A Motion-specific MCP that fills a few gaps Morgen doesn't cover — install this only if you specifically need Motion's teammate features or full event search.
 
 - **Teammate visibility.** See when teammates are busy or out of office — something Morgen's API doesn't expose.
 - **Full event search.** Query events by title or description across all your Motion calendars.
@@ -1239,7 +1239,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 - All skills (rswarm, rmini, rhive, w4w, get-api-docs, gitfix, safetycheck) — UI/UX Pro Max, Taste Skill pack, and Remotion are managed by creativity-maxxing
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)
-- Motion Calendar config (~/.motion-calendar-mcp/)
+- Motion Calendar config (~/.motion-mcp/)
 - Google Calendar config (~/.google-calendar-mcp/)
 - Arc Browser (if installed via the bonus script)
 - Ghostty config (the app itself is kept — only the config file installed by this setup is removed)

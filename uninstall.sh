@@ -223,7 +223,7 @@ uninstall_productivity_mcps() {
     echo ""
     echo -e "${BLUE}--- Step 6: Productivity Tools ---${NC}"
 
-    for mcp in notion granola n8n google-calendar morgen motion-calendar playwright; do
+    for mcp in notion granola n8n google-calendar morgen motion playwright; do
         if claude mcp list 2>/dev/null | grep -qi "$mcp" 2>/dev/null; then
             claude mcp remove "$mcp" 2>/dev/null || true
             success "$mcp MCP"
@@ -241,9 +241,9 @@ uninstall_productivity_mcps() {
     fi
 
     # Motion Calendar config
-    if [ -d "$HOME/.motion-calendar-mcp" ]; then
-        rm -rf "$HOME/.motion-calendar-mcp"
-        success "Motion Calendar config (~/.motion-calendar-mcp)"
+    if [ -d "$HOME/.motion-mcp" ]; then
+        rm -rf "$HOME/.motion-mcp"
+        success "Motion Calendar config (~/.motion-mcp)"
     else
         skip "Motion Calendar config (not found)"
     fi

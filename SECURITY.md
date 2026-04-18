@@ -20,7 +20,7 @@ If you discover a security vulnerability, please report it responsibly:
 CLI-MAXXING install scripts collect API credentials interactively. Some are persisted to local `.env` files with restrictive permissions (`chmod 700` dir, `chmod 600` file); the rest live inside Claude Code's MCP config via `claude mcp add -e`. Credentials are never committed to this repository.
 
 **Persisted to `.env` files (edit by re-running the step):**
-- Motion Calendar: `~/.motion-calendar-mcp/.env` — Motion API key, Firebase API key, Firebase refresh token, Motion user ID
+- Motion Calendar: `~/.motion-mcp/.env` — Motion API key, Firebase API key, Firebase refresh token, Motion user ID
 - Google Calendar: `~/.google-calendar-mcp/.env` — Google OAuth Client ID and Client Secret
 - Telegram Bot: `~/.claude/channels/telegram/.env` — Telegram bot token
 

@@ -124,7 +124,7 @@ choose_tools() {
             CHOICES="$CHOICES 5"
             INSTALLED_MORGEN=true
         fi
-        if claude mcp list 2>/dev/null | grep -q "motion-calendar" 2>/dev/null; then
+        if claude mcp list 2>/dev/null | grep -q "^motion\b\|[[:space:]]motion\b" 2>/dev/null; then
             CHOICES="$CHOICES 6"
             INSTALLED_MOTION=true
             MOTION_PREEXISTING=true
@@ -352,7 +352,7 @@ install_google_calendar() {
     fi
 
     # If a primary calendar is already installed, warn that it takes priority
-    if claude mcp list 2>/dev/null | grep -q "morgen\|motion-calendar"; then
+    if claude mcp list 2>/dev/null | grep -q "morgen\|^motion\b\|[[:space:]]motion\b"; then
         echo ""
         echo -e "${YELLOW}  You already have a primary calendar MCP installed${NC}"
         echo -e "${YELLOW}  (Morgen or Motion). Claude will use that by default.${NC}"
@@ -450,7 +450,7 @@ install_morgen() {
     echo "    2. Sign in with your Morgen account"
     echo "    3. Generate an API key and copy it"
     echo ""
-    echo -e "${BLUE}  Package: morgen-mcp (published by lorecraft-io)${NC}"
+    echo -e "${BLUE}  Package: fidgetcoding-morgen-mcp (published by lorecraft-io)${NC}"
     echo -e "${BLUE}  Source:  https://github.com/lorecraft-io/morgen-mcp${NC}"
     echo ""
 
@@ -475,7 +475,7 @@ install_morgen() {
     claude mcp add --scope user \
         -e MORGEN_API_KEY="$MORGEN_API_KEY" \
         -e MORGEN_TIMEZONE="$MORGEN_TIMEZONE" \
-        morgen -- npx -y morgen-mcp 2>/dev/null
+        morgen -- npx -y fidgetcoding-morgen-mcp 2>/dev/null
 
     if claude mcp list 2>/dev/null | grep -q "morgen"; then
         success "Morgen MCP installed (timezone: $MORGEN_TIMEZONE)"
@@ -491,7 +491,7 @@ install_morgen() {
 install_motion_calendar() {
     info "Installing Motion Calendar MCP server..."
 
-    if claude mcp list 2>/dev/null | grep -q "motion-calendar"; then
+    if claude mcp list 2>/dev/null | grep -q "^motion\b\|[[:space:]]motion\b"; then
         success "Motion Calendar MCP already installed"
         INSTALLED_MOTION=true
         MOTION_PREEXISTING=true
@@ -504,8 +504,8 @@ install_motion_calendar() {
     echo -e "${YELLOW}  Motion-specific features (teammate events, full-text${NC}"
     echo -e "${YELLOW}  search across events, custom calendar management).${NC}"
     echo ""
-    echo -e "${BLUE}  Package: motion-calendar-mcp (published by lorecraft-io)${NC}"
-    echo -e "${BLUE}  Source:  https://github.com/lorecraft-io/motion-calendar-mcp${NC}"
+    echo -e "${BLUE}  Package: fidgetcoding-motion-mcp (published by lorecraft-io)${NC}"
+    echo -e "${BLUE}  Source:  https://github.com/lorecraft-io/motion-mcp${NC}"
     echo ""
     echo -e "${BLUE}  Motion Calendar requires a few API credentials from your${NC}"
     echo -e "${BLUE}  Motion account settings.${NC}"
@@ -522,24 +522,24 @@ install_motion_calendar() {
 
     if [ -z "$MOTION_API_KEY" ] || [ -z "$FIREBASE_API_KEY" ] || [ -z "$FIREBASE_REFRESH_TOKEN" ] || [ -z "$MOTION_USER_ID" ]; then
         warn "One or more Motion credentials were left blank."
-        warn "You can fill them in later at ~/.motion-calendar-mcp/.env"
+        warn "You can fill them in later at ~/.motion-mcp/.env"
     fi
 
     # Write config
-    mkdir -p "$HOME/.motion-calendar-mcp"
-    chmod 700 "$HOME/.motion-calendar-mcp"
+    mkdir -p "$HOME/.motion-mcp"
+    chmod 700 "$HOME/.motion-mcp"
     {
       printf 'MOTION_API_KEY=%s\n' "$MOTION_API_KEY"
       printf 'FIREBASE_API_KEY=%s\n' "$FIREBASE_API_KEY"
       printf 'FIREBASE_REFRESH_TOKEN=%s\n' "$FIREBASE_REFRESH_TOKEN"
       printf 'MOTION_USER_ID=%s\n' "$MOTION_USER_ID"
-    } > "$HOME/.motion-calendar-mcp/.env"
-    chmod 600 "$HOME/.motion-calendar-mcp/.env"
+    } > "$HOME/.motion-mcp/.env"
+    chmod 600 "$HOME/.motion-mcp/.env"
 
-    # Register the MCP server (it reads credentials from ~/.motion-calendar-mcp/.env)
-    claude mcp add --scope user motion-calendar -- npx -y motion-calendar-mcp 2>/dev/null
+    # Register the MCP server (it reads credentials from ~/.motion-mcp/.env)
+    claude mcp add --scope user motion -- npx -y fidgetcoding-motion-mcp 2>/dev/null
 
-    if claude mcp list 2>/dev/null | grep -q "motion-calendar"; then
+    if claude mcp list 2>/dev/null | grep -q "^motion\b\|[[:space:]]motion\b"; then
         success "Motion Calendar MCP installed"
         INSTALLED_MOTION=true
     else
@@ -663,7 +663,7 @@ run_self_test() {
     if $INSTALLED_N8N;      then check_registered "n8n"             "n8n";             else info "TEST: n8n — skipped";             TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_GCAL;     then check_registered "Google Calendar" "google-calendar"; else info "TEST: Google Calendar — skipped"; TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_MORGEN;   then check_registered "Morgen"          "morgen";          else info "TEST: Morgen — skipped";          TEST_SKIP=$((TEST_SKIP + 1)); fi
-    if $INSTALLED_MOTION;   then check_registered "Motion Calendar" "motion-calendar"; else info "TEST: Motion Calendar — skipped"; TEST_SKIP=$((TEST_SKIP + 1)); fi
+    if $INSTALLED_MOTION;   then check_registered "Motion Calendar" "motion"; else info "TEST: Motion Calendar — skipped"; TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_PLAYWRIGHT; then check_registered "Playwright"    "playwright";      else info "TEST: Playwright — skipped";      TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_SWIFTKIT;  then check_registered "SwiftKit"     "swiftkit";        else info "TEST: SwiftKit — skipped";        TEST_SKIP=$((TEST_SKIP + 1)); fi
 
@@ -678,7 +678,7 @@ run_self_test() {
         fi
     fi
     if $INSTALLED_MOTION; then
-        if [ -f "$HOME/.motion-calendar-mcp/.env" ]; then
+        if [ -f "$HOME/.motion-mcp/.env" ]; then
             success "TEST: Motion Calendar config exists"
             TEST_PASS=$((TEST_PASS + 1))
         elif $MOTION_PREEXISTING; then
