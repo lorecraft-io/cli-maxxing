@@ -45,9 +45,7 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
 | [Step 3](#step-3---fidgetflo--context-hub) | FidgetFlo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
-| [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing) | Design + Media | UI/UX Pro Max, Taste Skill, 21st.dev Magic, Remotion, yt-dlp, Whisper, FFmpeg | [separate repo](https://github.com/lorecraft-io/creativity-maxxing) |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit (pick what you use; Morgen recommended) | ~5 min |
-| [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) | Second Brain | Obsidian vault setup, Claude history import, `cbrain`/`cbraintg` commands | [separate repo](https://github.com/lorecraft-io/2ndBrain-mogging) |
 | [Step 8](#step-8---telegram) | Telegram *(optional)* | Message Claude from your phone via Telegram bot | ~2 min |
 | [Step 9](#step-9---safety-check) | Safety Check | Security auditing — scan any project for vulnerabilities + full MCP security checks | ~2 min |
 | [Step 10](#step-10---developer-tools) | Developer Tools *(optional)* | GitHub MCP — repos, issues, PRs, code search via Claude (requires PAT) | ~2 min |
@@ -85,29 +83,25 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 
 Run the steps in order. Each one builds on the last.
 
-**[Step 1](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
+**[Step 1 — Get Claude Running](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
-**[Bonus: Ghostty](#bonus---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
+**[Bonus — Ghostty Terminal](#bonus---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
 
-**[Bonus: Arc Browser](#bonus---arc-browser)** is another optional step that installs Arc, a browser built from the ground up for people who actually use their computer all day. If you're still on Chrome or Safari, Arc is a massive upgrade — built-in tab management, Spaces for context switching, a sidebar instead of a tab bar, and it just feels faster. It imports everything from Chrome in about 30 seconds, so switching is painless. Highly recommended.
+**[Bonus — Arc Browser](#bonus---arc-browser)** is another optional step that installs Arc, a browser built from the ground up for people who actually use their computer all day. If you're still on Chrome or Safari, Arc is a massive upgrade — built-in tab management, Spaces for context switching, a sidebar instead of a tab bar, and it just feels faster. It imports everything from Chrome in about 30 seconds, so switching is painless. Highly recommended.
 
-**[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
+**[Step 2 — Dev Tools](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
-**[Step 3](#step-3---fidgetflo--context-hub)** is where you set up FidgetFlo and Context Hub. FidgetFlo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
+**[Step 3 — FidgetFlo + Context Hub](#step-3---fidgetflo--context-hub)** is where you set up FidgetFlo and Context Hub. FidgetFlo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
 
-**[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** adds professional design skills and a full video/audio production pipeline. Install it after this repo.
+**[Step 6 — Productivity Tools](#step-6---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, workflows, browser automation, and hosted toolkits. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), Motion Calendar, Playwright, or SwiftKit. All optional, install only what you need.
 
-**[Step 6](#step-6---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, workflows, browser automation, and hosted toolkits. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), Motion Calendar, Playwright, or SwiftKit. All optional, install only what you need.
+**[Step 8 — Telegram](#step-8---telegram)** connects Claude to Telegram so you can message it straight from your phone. You create a free bot through Telegram (takes about two minutes), the script handles the rest, and then you use `ctg` or `cbraintg` to launch Claude with Telegram connected — messages show up in your session in real time. This step is completely optional; everything else works without it.
 
-**[2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)** sets up your Obsidian PKM vault and installs `cbrain`/`cbraintg` commands. Install it after this repo.
+**[Step 9 — Safety Check](#step-9---safety-check)** installs a security auditing skill that lets Claude scan any project for exposed keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, and more. Just point Claude at a project and ask it to run a safety check. It catches the stuff that slips through code review.
 
-**[Step 8](#step-8---telegram)** connects Claude to Telegram so you can message it straight from your phone. You create a free bot through Telegram (takes about two minutes), the script handles the rest, and then you use `ctg` or `cbraintg` to launch Claude with Telegram connected — messages show up in your session in real time. This step is completely optional; everything else works without it.
+**[Step 10 — Developer Tools](#step-10---developer-tools)** is for developers only — it installs the GitHub MCP so Claude can read and write your repos, issues, pull requests, and search code across your GitHub organizations. Requires a GitHub Personal Access Token. Skip it if you don't use GitHub with Claude.
 
-**[Step 9](#step-9---safety-check)** installs a security auditing skill that lets Claude scan any project for exposed keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, and more. Just point Claude at a project and ask it to run a safety check. It catches the stuff that slips through code review.
-
-**[Step 10](#step-10---developer-tools)** is for developers only — it installs the GitHub MCP so Claude can read and write your repos, issues, pull requests, and search code across your GitHub organizations. Requires a GitHub Personal Access Token. Skip it if you don't use GitHub with Claude.
-
-**[Final Step](#final-step---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. It also installs the `/gitfix` skill and runs a final verification to make sure every command and tool from the cheat sheet is installed and working.
+**[Final Step — Status Line + /gitfix](#final-step---status-line)** is the wrap-up. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds. It also installs the `/gitfix` skill and runs a final verification to make sure every command and tool from the cheat sheet is installed and working.
 
 After the Final Step, head to **[You're Ready](#youre-ready)** — it tells you the one command you need going forward and what to do next.
 
@@ -601,7 +595,7 @@ You'll see "MCP" mentioned here and in future steps. MCP stands for Model Contex
 
 ### After Step 3
 
-Your core tools are installed. Continue to Step 6 for productivity tools. For design tools and video/audio production, install [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). For your Obsidian knowledge base, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). Or open a new `cskip` session and try something ambitious. FidgetFlo kicks in automatically when the task calls for it.
+Your core tools are installed. Continue to Step 6 for productivity tools. Or open a new `cskip` session and try something ambitious. FidgetFlo kicks in automatically when the task calls for it.
 
 ### MCP Server Setup
 
@@ -620,40 +614,6 @@ If the FidgetFlo MCP server isn't showing, re-add it:
 ```bash
 claude mcp add fidgetflo -- npx -y fidgetflo@latest
 ```
-
----
-
-## Step 4 - Design Tools
-
-[Back to top](#quick-navigation)
-
-> **This step has moved.**
->
-> Design tools (UI/UX Pro Max, Taste Skill, and 21st.dev Magic) are now part of **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)**.
->
-> Install it after completing this repo:
-> ```bash
-> bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/creativity-maxxing/main/install.sh)
-> ```
->
-> creativity-maxxing also includes Step 5 (Remotion, YouTube Transcripts, yt-dlp, Whisper, FFmpeg). You get both in one install.
-
----
-
-## Step 5 - Visual Media
-
-[Back to top](#quick-navigation)
-
-> **This step has moved.**
->
-> Visual media tools (Remotion, YouTube Transcripts, yt-dlp, Whisper, and FFmpeg) are now part of **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)**.
->
-> Install it after completing this repo:
-> ```bash
-> bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/creativity-maxxing/main/install.sh)
-> ```
->
-> creativity-maxxing also includes Step 4 (UI/UX Pro Max, Taste Skill, 21st.dev Magic). You get both in one install.
 
 ---
 
@@ -802,20 +762,6 @@ Once you're inside the Claude session, paste this and hit Enter:
 ### After Step 6
 
 You now have your productivity stack connected to Claude. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them. For the Obsidian MCP and vault access, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
-
----
-
-## Step 7 — Second Brain (Obsidian)
-
-[Back to top](#quick-navigation)
-
-> **This step has moved.** See [lorecraft-io/2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
-
-2ndBrain-mogging sets up your Obsidian knowledge base, imports your Claude conversation history, and installs `cbrain`/`cbraintg` commands. Install it after completing cli-maxxing.
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndBrain-mogging/main/install.sh)
-```
 
 ---
 
@@ -1187,15 +1133,12 @@ Run the steps in this order:
 | Bonus | Arc Browser | Power-user browser with sidebar tabs (optional, macOS) |
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
 | 3 | FidgetFlo + Context Hub | Multi-agent orchestration + API docs |
-| 4 | Design Tools | → **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** (UI/UX Pro Max, Taste Skill, 21st.dev Magic) |
-| 5 | Visual Media | → **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** (Remotion, YouTube Transcripts, yt-dlp, Whisper, FFmpeg) |
 | 6 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit (all optional — pick what you use; Morgen recommended) |
-| 7 | Second Brain | → **[2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)** (Obsidian vault setup, Claude history import, `cbrain`/`cbraintg`) |
 | 8 | Telegram *(optional)* | Telegram bot setup — message Claude from your phone. Press Enter to skip if you don't have a bot yet. |
 | 9 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
 | **Final** | **Status Line + /gitfix** | **Final config — status indicators, system health check, /gitfix skill** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Steps 4 and 5 are handled by [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). Step 7 (Second Brain) is handled by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). Step 8 (Telegram) is completely optional — press Enter to skip if you don't have a bot token yet; you can always re-run it later. Step 9 (Safety Check) installs a security auditing skill — 8 standard checks for any project, plus 12 MCP-specific checks that auto-activate when an MCP project is detected. The Final Step (Status Line + /gitfix) is the wrap-up — it wires your status indicators, installs the /gitfix skill, and runs a system health check.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Step 8 (Telegram) is completely optional — press Enter to skip if you don't have a bot token yet; you can always re-run it later. Step 9 (Safety Check) installs a security auditing skill — 8 standard checks for any project, plus 12 MCP-specific checks that auto-activate when an MCP project is detected. The Final Step (Status Line + /gitfix) is the wrap-up — it wires your status indicators, installs the /gitfix skill, and runs a system health check.
 
 ---
 
