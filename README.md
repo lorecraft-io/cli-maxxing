@@ -4,7 +4,7 @@
 
 > [!NOTE]
 > **fidg·et·code** \ ˈfij-ət-ˌkōd \   *verb*   ·   **fidgetcoded**; **fidgetcoding**
-> **1** : to code as self-regulation — the ADHD dopamine loop, coding as a stim
+> **1** : to code as self-regulation — the ADHD dopamine loop
 > **2** : a fork, not a dead end — where most devs start (half the JS ecosystem began as fidgets); sharpens into craft or stagnates as pure loop
 > *see also* VIBECODING
 >
