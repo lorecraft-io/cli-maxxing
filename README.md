@@ -3,16 +3,16 @@
 **Everything you need to start working with AI-powered development tools; one command per step.**
 
 > [!NOTE]
-> **fidg·et·cod·ing** \ ˈfij-ət-ˌkō-diŋ \   *verb*   ·   **fidgetcoded**; **fidgetcode**<br>
-> **1** : to code as self-regulation — the ADHD dopamine loop<br>
-> **2** : to build software through relentless tinkering by someone with no formal training and too many browser tabs open
->
 > **Heads up — this was fidgetcoded.** I'm no expert, but I tried — nominally — my best. Getting this stack running end-to-end on a clean machine took a lot of trial and error, and it still might not be perfect.
 >
 > **Read everything carefully as you go.** If something breaks mid-install, don't panic:
 >
 > 1. **Get Claude CLI up first (Step 1).** Once it's running, you can paste any error straight into it and Claude will help you troubleshoot EVERYTHING downstream.
 > 2. **Re-run the install step.** A lot of first-pass failures quietly clear themselves on the second try — re-running is almost always the right first move before anything fancier.
+>
+> **fidg·et·cod·ing** \ ˈfij-ət-ˌkō-diŋ \   *verb*   ·   **fidgetcoded**; **fidgetcode**<br>
+> **1** : to code as self-regulation — the ADHD dopamine loop<br>
+> **2** : to build software through relentless tinkering by someone with no formal training and too many browser tabs open
 
 ## The Trilogy
 
