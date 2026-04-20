@@ -41,8 +41,8 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Install Everything](#install-everything) | One-shot | Run all steps at once | ~20 min |
 | [Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet) | Commands & Shortcuts | Hotkeys, typing, and commands for your terminal | |
 | [Step 1](#step-1---get-claude-running) | Get Claude Running | Sets up the foundation on your machine | ~5 min |
-| [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
-| [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
+| [Bonus #1](#bonus-1---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
+| [Bonus #2](#bonus-2---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
 | [Step 3](#step-3---fidgetflo--context-hub) | FidgetFlo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit (pick what you use; Morgen recommended) | ~5 min |
@@ -85,9 +85,9 @@ Run the steps in order. Each one builds on the last.
 
 **[Step 1 — Get Claude Running](#step-1---get-claude-running)** is the only part that feels "techy." This step gets the bare essentials on your machine so Claude (your AI assistant) can run. You paste one command and it handles the rest, but there are a few manual steps after it finishes, like logging into Claude. This is the most hands-on part of the entire process. After Step 1, you can ask Claude questions at any point. If something doesn't make sense, just ask. That's the whole point.
 
-**[Bonus — Ghostty Terminal](#bonus---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
+**[Bonus #1 — Ghostty Terminal](#bonus-1---ghostty-terminal)** is an optional step right after Step 1 that installs and configures Ghostty, a GPU-accelerated terminal. It's faster than CPU-rendered terminals, fully customizable, and has Cmd+Click support for opening URLs, file paths, and PDFs directly from the terminal. You don't need it to continue — everything works in any terminal — but if you want the nicest terminal experience, this is it.
 
-**[Bonus — Arc Browser](#bonus---arc-browser)** is another optional step that installs Arc, a browser built from the ground up for people who actually use their computer all day. If you're still on Chrome or Safari, Arc is a massive upgrade — built-in tab management, Spaces for context switching, a sidebar instead of a tab bar, and it just feels faster. It imports everything from Chrome in about 30 seconds, so switching is painless. Highly recommended.
+**[Bonus #2 — Arc Browser](#bonus-2---arc-browser)** is another optional step that installs Arc, a browser built from the ground up for people who actually use their computer all day. If you're still on Chrome or Safari, Arc is a massive upgrade — built-in tab management, Spaces for context switching, a sidebar instead of a tab bar, and it just feels faster. It imports everything from Chrome in about 30 seconds, so switching is painless. Highly recommended.
 
 **[Step 2 — Dev Tools](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
@@ -257,7 +257,7 @@ That's it for Step 1. Continue to the [Ghostty bonus](#bonus---ghostty-terminal)
 
 ---
 
-## Bonus - Ghostty Terminal
+## Bonus #1 - Ghostty Terminal
 
 [Back to top](#quick-navigation)
 
@@ -293,6 +293,20 @@ Or if you're already in a Claude session, paste this:
 > ```
 > run this command to install Ghostty: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-ghostty/bonus-ghostty.sh)
 > ```
+
+### If the script fails — install Ghostty manually
+
+If Homebrew times out, stalls, or the script errors out for any reason, install Ghostty directly from the website. It takes two minutes:
+
+1. Open your browser and go to **[ghostty.org/download](https://ghostty.org/download)**.
+2. Click the **Download for macOS** button (or the Linux package for your distro). A `.dmg` file lands in your `Downloads` folder.
+3. Open the `.dmg` — double-click it in Finder or your Downloads stack.
+4. A Finder window opens with **Ghostty.app** on the left and an **Applications** folder shortcut on the right. Drag **Ghostty.app** onto the **Applications** folder. Wait for the copy to finish.
+5. Eject the disk image — right-click the mounted volume on your desktop (or in Finder's sidebar) and choose **Eject**.
+6. Open Ghostty — press **Cmd+Space**, type **Ghostty**, hit **Enter**.
+7. macOS will warn you it was downloaded from the internet — click **Open** to confirm.
+
+That gets you Ghostty itself. To pick up the font, dark theme, `g2`/`g4` tiling aliases, and Cmd+Click config, re-run the install script above — it's idempotent, so it'll detect Ghostty is already installed and just lay down the config bits.
 
 ### What This Step Installs
 
@@ -333,7 +347,7 @@ Full docs: [ghostty.org/docs](https://ghostty.org/docs)
 
 ---
 
-## Bonus - Arc Browser
+## Bonus #2 - Arc Browser
 
 [Back to top](#quick-navigation)
 
@@ -383,6 +397,22 @@ Or if you're already in a Claude session, paste this:
 > ```
 > run this command to install Arc: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/bonus-arc/bonus-arc.sh)
 > ```
+
+### If the script fails — install Arc manually
+
+If Homebrew stalls or the script errors out, grab Arc straight from the website. Takes under two minutes:
+
+1. Open your current browser and go to **[arc.net](https://arc.net)**.
+2. Click **Download Arc** on the homepage (the site auto-detects your OS and serves the right installer — `.dmg` on Mac, `.exe` on Windows).
+3. Open the downloaded file from your `Downloads` folder.
+4. On macOS: a Finder window opens with **Arc.app** and an **Applications** folder shortcut. Drag **Arc.app** into **Applications**. On Windows: run the `.exe` and follow the installer prompts.
+5. Eject the disk image (macOS) — right-click the mounted volume and choose **Eject**.
+6. Open Arc — press **Cmd+Space**, type **Arc**, hit **Enter**. (Windows: Start menu → Arc.)
+7. macOS will ask to confirm opening a downloaded app — click **Open**.
+8. Sign up for a free Arc account when prompted (required for sync between devices) and say **yes** when Arc offers to import your bookmarks, passwords, history, and extensions from Chrome. Takes about 30 seconds.
+9. When Arc asks to be your default browser, say yes — or do it later in **System Settings → Desktop & Dock → Default web browser**.
+
+That's it. No config step is needed from the cli-maxxing install script — Arc is self-contained.
 
 ### What This Step Installs
 
