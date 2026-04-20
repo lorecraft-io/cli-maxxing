@@ -250,18 +250,18 @@ uninstall_productivity_mcps() {
 }
 
 # -----------------------------------------------------------------------------
-# Step 3 — Ruflo + Context Hub + skills
+# Step 3 — FidgetFlo + Context Hub + skills
 # -----------------------------------------------------------------------------
-uninstall_ruflo_stack() {
+uninstall_fidgetflo_stack() {
     echo ""
-    echo -e "${BLUE}--- Step 3: Ruflo + Context Hub ---${NC}"
+    echo -e "${BLUE}--- Step 3: FidgetFlo + Context Hub ---${NC}"
 
-    # Ruflo MCP
-    if claude mcp list 2>/dev/null | grep -qi "ruflo" 2>/dev/null; then
-        claude mcp remove ruflo 2>/dev/null || true
-        success "Ruflo MCP server"
+    # FidgetFlo MCP
+    if claude mcp list 2>/dev/null | grep -qi "fidgetflo" 2>/dev/null; then
+        claude mcp remove fidgetflo 2>/dev/null || true
+        success "FidgetFlo MCP server"
     else
-        skip "Ruflo MCP server (not found)"
+        skip "FidgetFlo MCP server (not found)"
     fi
 
     # Claude-flow MCP
@@ -273,7 +273,7 @@ uninstall_ruflo_stack() {
     fi
 
     # Global npm packages
-    for pkg in ruflo@latest agentic-flow@latest @aisuite/chub typescript; do
+    for pkg in fidgetflo@latest agentic-flow@latest @aisuite/chub typescript; do
         PKG_NAME=$(echo "$pkg" | sed 's/@latest//')
         if npm list -g "$PKG_NAME" 2>/dev/null | grep -q "$PKG_NAME"; then
             npm uninstall -g "$PKG_NAME" 2>/dev/null || true
@@ -286,9 +286,9 @@ uninstall_ruflo_stack() {
     # cli-maxxing-installed skill files. User-installed skills not in this list
     # (design-taste-*, high-end-visual-design, /save, /wiki, etc.) are preserved.
     for skill in \
-        rswarm rswarm1 rswarm2 rswarm3 rswarmmax \
-        rmini rmini1 rmini2 rmini3 rminimax \
-        rhive get-api-docs w4w gitfix; do
+        fswarm fswarm1 fswarm2 fswarm3 fswarmmax \
+        fmini fmini1 fmini2 fmini3 fminimax \
+        fhive get-api-docs w4w gitfix; do
         if [ -d "$HOME/.claude/skills/$skill" ]; then
             rm -rf "$HOME/.claude/skills/$skill"
             success "Skill: /$skill"
@@ -507,7 +507,7 @@ uninstall_step_1() {
 
     # -------------------------------------------------------------------------
     # ctg command (~/.local/bin script). cbrain/cbraintg are managed by the
-    # companion 2ndbrain-maxxing installer — we don't touch those.
+    # companion 2ndBrain-mogging installer — we don't touch those.
     # -------------------------------------------------------------------------
     if [ -f "$HOME/.local/bin/ctg" ]; then
         rm -f "$HOME/.local/bin/ctg"
@@ -592,7 +592,7 @@ main() {
     uninstall_safetycheck
     uninstall_telegram
     uninstall_productivity_mcps
-    uninstall_ruflo_stack
+    uninstall_fidgetflo_stack
     uninstall_dev_tools
     uninstall_ghostty
     uninstall_arc

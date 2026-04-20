@@ -26,7 +26,7 @@ This is one of three repos in the cli-maxxing stack:
 
 | Repo | What it does |
 |------|-------------|
-| **`cli-maxxing`** | **This repo** — Foundation — Claude Code, shell aliases, Ruflo, dev tools, productivity MCPs |
+| **`cli-maxxing`** | **This repo** — Foundation — Claude Code, shell aliases, FidgetFlo, dev tools, productivity MCPs |
 | [`creativity-maxxing`](https://github.com/lorecraft-io/creativity-maxxing) | Design skills + video/audio pipeline |
 | [`task-maxxing`](https://github.com/lorecraft-io/task-maxxing) | Three-way task sync — Obsidian ↔ Notion ↔ Morgen (requires [`2ndBrain-mogging`](https://github.com/lorecraft-io/2ndBrain-mogging)) |
 
@@ -44,10 +44,10 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Bonus: Ghostty](#bonus---ghostty-terminal) | Ghostty Terminal | GPU-accelerated terminal with clickable links and tabs | ~2 min |
 | [Bonus: Arc Browser](#bonus---arc-browser) | Arc Browser | The browser for power users — fast, clean, no tab clutter | ~2 min |
 | [Step 2](#step-2---dev-tools) | Dev Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
-| [Step 3](#step-3---ruflo--context-hub) | Ruflo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
+| [Step 3](#step-3---fidgetflo--context-hub) | FidgetFlo + Context Hub | Multi-agent orchestration, API docs, Opus locked | ~3 min |
 | [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing) | Design + Media | UI/UX Pro Max, Taste Skill, 21st.dev Magic, Remotion, yt-dlp, Whisper, FFmpeg | [separate repo](https://github.com/lorecraft-io/creativity-maxxing) |
 | [Step 6](#step-6---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit (pick what you use; Morgen recommended) | ~5 min |
-| [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing) | Second Brain | Obsidian vault setup, Claude history import, `cbrain`/`cbraintg` commands | [separate repo](https://github.com/lorecraft-io/2ndbrain-maxxing) |
+| [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) | Second Brain | Obsidian vault setup, Claude history import, `cbrain`/`cbraintg` commands | [separate repo](https://github.com/lorecraft-io/2ndBrain-mogging) |
 | [Step 8](#step-8---telegram) | Telegram *(optional)* | Message Claude from your phone via Telegram bot | ~2 min |
 | [Step 9](#step-9---safety-check) | Safety Check | Security auditing — scan any project for vulnerabilities + full MCP security checks | ~2 min |
 | [Step 10](#step-10---developer-tools) | Developer Tools *(optional)* | GitHub MCP — repos, issues, PRs, code search via Claude (requires PAT) | ~2 min |
@@ -93,13 +93,13 @@ Run the steps in order. Each one builds on the last.
 
 **[Step 2](#step-2---dev-tools)** is where you install the rest of your development tools. Things like file converters, search tools, and utilities. You run this from your terminal after Step 1 is done. Much more straightforward.
 
-**[Step 3](#step-3---ruflo--context-hub)** is where you set up Ruflo and Context Hub. Ruflo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
+**[Step 3](#step-3---fidgetflo--context-hub)** is where you set up FidgetFlo and Context Hub. FidgetFlo is the multi-agent orchestration layer that turns Claude into a full team of AI agents. Context Hub stops Claude from hallucinating when writing code that calls APIs.
 
 **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** adds professional design skills and a full video/audio production pipeline. Install it after this repo.
 
 **[Step 6](#step-6---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, workflows, browser automation, and hosted toolkits. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), Motion Calendar, Playwright, or SwiftKit. All optional, install only what you need.
 
-**[2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing)** sets up your Obsidian PKM vault and installs `cbrain`/`cbraintg` commands. Install it after this repo.
+**[2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)** sets up your Obsidian PKM vault and installs `cbrain`/`cbraintg` commands. Install it after this repo.
 
 **[Step 8](#step-8---telegram)** connects Claude to Telegram so you can message it straight from your phone. You create a free bot through Telegram (takes about two minutes), the script handles the rest, and then you use `ctg` or `cbraintg` to launch Claude with Telegram connected — messages show up in your session in real time. This step is completely optional; everything else works without it.
 
@@ -158,7 +158,7 @@ Here are the commands you'll use most:
 | Command | What it does |
 |---------|-------------|
 | `cskip` | Start with all permissions skipped (fastest, no prompts) |
-| `cbrain` | Jump straight into your 2ndBrain vault with permissions skipped *(requires [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing))* |
+| `cbrain` | Jump straight into your 2ndBrain vault with permissions skipped *(requires [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging))* |
 | `Shift+Tab` | Toggle permissions on/off mid-session without restarting |
 | `/fswarm *write task here*` | Launch a 15-agent FidgetFlo swarm — just describe what you want in plain English after `/fswarm` |
 | `/fmini *write task here*` | Launch a compact 5-agent FidgetFlo swarm — same power, tighter team. Describe your task after `/fmini` |
@@ -203,7 +203,7 @@ These are the tools that get installed automatically when you run the command ab
 | Node.js (v18+) | This runs JavaScript. Claude Code needs it to work. |
 | Claude Code | This is your AI coding assistant. The main tool you'll be using. |
 | Shell aliases | Shortcuts: `cskip`, `cc`, `ccr`, `ccc` — faster ways to launch Claude with different settings. |
-| cbrain | Launches Claude pointed at your Obsidian vault. Your daily driver after setting up [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing). Do not use until your vault is set up. |
+| cbrain | Launches Claude pointed at your Obsidian vault. Your daily driver after setting up [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). Do not use until your vault is set up. |
 | ctg | Launches Claude with Telegram connected from any directory. Includes a token check — exits cleanly if no token is configured. |
 | cbraintg | Same as cbrain but with Telegram integration. Includes the same token check as ctg. |
 
@@ -496,27 +496,27 @@ You don't need to do anything to make this work. It's already configured. Just k
 
 ---
 
-## Step 3 - Ruflo + Context Hub
+## Step 3 - FidgetFlo + Context Hub
 
 [Back to top](#quick-navigation)
 
-This step installs Ruflo, a multi-agent swarming layer that turns Claude from a single assistant into a full team of coordinated AI agents. Each agent focuses on a particular task, work is split up, done with more attention to detail: power in numbers. It also installs Context Hub, which makes sure those agents don't hallucinate when writing code that talks to external APIs.
+This step installs FidgetFlo, a multi-agent swarming layer that turns Claude from a single assistant into a full team of coordinated AI agents. Each agent focuses on a particular task, work is split up, done with more attention to detail: power in numbers. It also installs Context Hub, which makes sure those agents don't hallucinate when writing code that talks to external APIs.
 
-### Ruflo
+### FidgetFlo
 
-Built by [@ruvnet](https://github.com/ruvnet) ([repo](https://github.com/ruvnet/ruflo)). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
+Built by [@ruvnet](https://github.com/ruvnet) ([repo](https://github.com/ruvnet/fidgetflo)). This is an open-source multi-agent orchestration system that sits on top of Claude Code.
 
-> **Note:** We made one change from the default Ruflo setup. Out of the box, Ruflo uses a model routing system that can silently send some of your tasks to cheaper, weaker models like Haiku instead of Opus. If you're paying for Opus, you should always get Opus. Our install locks everything to Opus and disables the auto-downgrading. You can always turn routing back on later if you want to save on costs, but we default to giving you the best answers every time.
+> **Note:** We made one change from the default FidgetFlo setup. Out of the box, FidgetFlo uses a model routing system that can silently send some of your tasks to cheaper, weaker models like Haiku instead of Opus. If you're paying for Opus, you should always get Opus. Our install locks everything to Opus and disables the auto-downgrading. You can always turn routing back on later if you want to save on costs, but we default to giving you the best answers every time.
 
 > This applies to all agents in the swarm — every agent spawned by `/fswarm`, `/fhive`, or `/fmini` runs on Opus. No agent is silently downgraded to a cheaper model.
 
-Claude Code is already powerful on its own. But Ruflo takes it to another level by adding coordinated multi-agent workflows, persistent memory, and smart cost optimization on top:
+Claude Code is already powerful on its own. But FidgetFlo takes it to another level by adding coordinated multi-agent workflows, persistent memory, and smart cost optimization on top:
 
 - **Multiple agents working in parallel.** Claude can spin up several agents at once, each focused on a different part of your task. A researcher, a coder, a reviewer, all working simultaneously instead of one after the other.
-- **Smart model routing (optional, disabled by default).** Ruflo can route simple tasks to cheaper models to save costs. We disable this by default and lock everything to Opus so you always get the best reasoning. If you want to enable cost savings later, you can turn routing back on. But we'd rather you get the best results out of the box.
-- **Autonomous execution.** You describe what you want, and Ruflo figures out how to break it down, assign it, and execute it. You don't have to micromanage every step.
-- **Persistent memory.** Ruflo has its own memory system that agents share. Context doesn't get lost between tasks or sessions. Your agents remember what they learned.
-- **Self-healing workflows.** If something fails, Ruflo can detect it and recover automatically instead of just stopping.
+- **Smart model routing (optional, disabled by default).** FidgetFlo can route simple tasks to cheaper models to save costs. We disable this by default and lock everything to Opus so you always get the best reasoning. If you want to enable cost savings later, you can turn routing back on. But we'd rather you get the best results out of the box.
+- **Autonomous execution.** You describe what you want, and FidgetFlo figures out how to break it down, assign it, and execute it. You don't have to micromanage every step.
+- **Persistent memory.** FidgetFlo has its own memory system that agents share. Context doesn't get lost between tasks or sessions. Your agents remember what they learned.
+- **Self-healing workflows.** If something fails, FidgetFlo can detect it and recover automatically instead of just stopping.
 
 ### Context Hub
 
@@ -528,7 +528,7 @@ When Claude writes code that calls an external API, it's working from its traini
 - **Persistent annotations.** You and Claude can add notes to docs that carry over across sessions. If you figure out a quirk with an API, it stays documented.
 - **Less hallucination.** This is the big one. Claude stops making up function names that don't exist.
 
-Together, Ruflo and Context Hub are what take you from "using AI" to actually being an AI super user.
+Together, FidgetFlo and Context Hub are what take you from "using AI" to actually being an AI super user.
 
 ### Swarm Skills
 
@@ -569,7 +569,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 > [!IMPORTANT]
 > **Paste this into your Claude session:**
 > ```
-> run this command to set up Ruflo and Context Hub: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-3/step-3-install.sh)
+> run this command to set up FidgetFlo and Context Hub: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-3/step-3-install.sh)
 > ```
 
 
@@ -583,9 +583,9 @@ You'll see "MCP" mentioned here and in future steps. MCP stands for Model Contex
 
 | Component | What it does |
 |-----------|-------------|
-| Ruflo CLI | This is the command-line tool that manages everything below. |
-| MCP Server Connection | This connects Ruflo to Claude Code so they can talk to each other (see above). |
-| Ruflo Daemon | This runs in the background and coordinates agents, memory, and tasks. |
+| FidgetFlo CLI | This is the command-line tool that manages everything below. |
+| MCP Server Connection | This connects FidgetFlo to Claude Code so they can talk to each other (see above). |
+| FidgetFlo Daemon | This runs in the background and coordinates agents, memory, and tasks. |
 | Memory System | This gives your agents persistent, searchable memory across sessions. |
 | Smart Model Routing | This is disabled by default so you always get Opus. Can be turned on later to save up to 75% on costs by routing simple tasks to cheaper models. |
 | Opus Lock | This locks all tasks to Opus so nothing silently downgrades to a weaker model. You're paying for Opus, so you should always get Opus. |
@@ -595,17 +595,17 @@ You'll see "MCP" mentioned here and in future steps. MCP stands for Model Contex
 | Mini Swarm Skill (`/fmini`) | Type `/fmini` followed by any task and Claude launches 5 focused agents — architect, developer, tester, reviewer, and researcher. Same parallel execution as `/fswarm`, just a tighter team for focused work. |
 | Hive Skill (`/fhive`) | Type `/fhive` followed by a goal and a queen agent takes full control. She decides what workers to spawn, how to coordinate them, and when the work is done. You set the goal and step back. |
 | Attention Skill (`/w4w`) | Word-for-word, line-for-line mode. Maximum attention to detail for critical tasks. |
-| TypeScript | Required by some Ruflo features. Installed globally. |
+| TypeScript | Required by some FidgetFlo features. Installed globally. |
 | agentic-flow | Enables embeddings and advanced routing capabilities. |
 | Statusline | A real-time status bar that shows your active tools, model, session time, and context usage. When a swarm or hive is running, you'll see live indicators so you always know what's happening. |
 
 ### After Step 3
 
-Your core tools are installed. Continue to Step 6 for productivity tools. For design tools and video/audio production, install [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). For your Obsidian knowledge base, install [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing). Or open a new `cskip` session and try something ambitious. Ruflo kicks in automatically when the task calls for it.
+Your core tools are installed. Continue to Step 6 for productivity tools. For design tools and video/audio production, install [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). For your Obsidian knowledge base, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). Or open a new `cskip` session and try something ambitious. FidgetFlo kicks in automatically when the task calls for it.
 
 ### MCP Server Setup
 
-Claude Code can connect to MCP (Model Context Protocol) servers for extended capabilities. After running Step 3 (Ruflo), the MCP server is configured automatically.
+Claude Code can connect to MCP (Model Context Protocol) servers for extended capabilities. After running Step 3 (FidgetFlo), the MCP server is configured automatically.
 
 For manual MCP setup or troubleshooting, see the [Claude Code MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp-servers).
 
@@ -616,9 +616,9 @@ After setup, verify the MCP server is connected:
 claude mcp list
 ```
 
-If the Ruflo MCP server isn't showing, re-add it:
+If the FidgetFlo MCP server isn't showing, re-add it:
 ```bash
-claude mcp add ruflo -- npx -y ruflo@latest
+claude mcp add fidgetflo -- npx -y fidgetflo@latest
 ```
 
 ---
@@ -686,7 +686,7 @@ Step 6 installs eight optional tools in this order:
 
 > **Calendar recommendation:** Morgen (5) is the recommended default calendar + task tool. It unifies Google, Outlook, iCloud, and native tasks behind a single API key. Google Calendar (4) and Motion (6) are secondary — install them only if you specifically need direct access to those accounts.
 >
-> **Obsidian MCP?** That lives in [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing), not here. Install 2ndbrain-maxxing after this repo completes — it handles vault setup AND registers the Obsidian MCP with Claude Code.
+> **Obsidian MCP?** That lives in [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging), not here. Install 2ndBrain-mogging after this repo completes — it handles vault setup AND registers the Obsidian MCP with Claude Code.
 
 ### Notion
 
@@ -801,7 +801,7 @@ Once you're inside the Claude session, paste this and hit Enter:
 
 ### After Step 6
 
-You now have your productivity stack connected to Claude. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them. For the Obsidian MCP and vault access, install [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing).
+You now have your productivity stack connected to Claude. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 6 to add them. For the Obsidian MCP and vault access, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
 
 ---
 
@@ -809,12 +809,12 @@ You now have your productivity stack connected to Claude. Ask about your schedul
 
 [Back to top](#quick-navigation)
 
-> **This step has moved.** See [lorecraft-io/2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing).
+> **This step has moved.** See [lorecraft-io/2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
 
-2ndbrain-maxxing sets up your Obsidian knowledge base, imports your Claude conversation history, and installs `cbrain`/`cbraintg` commands. Install it after completing cli-maxxing.
+2ndBrain-mogging sets up your Obsidian knowledge base, imports your Claude conversation history, and installs `cbrain`/`cbraintg` commands. Install it after completing cli-maxxing.
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndbrain-maxxing/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndBrain-mogging/main/install.sh)
 ```
 
 ---
@@ -823,7 +823,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndbrain-maxxin
 
 [Back to top](#quick-navigation)
 
-This step connects Claude to Telegram so you can message it from your phone. You create a bot on Telegram using @BotFather (free, takes about 2 minutes), then the script configures it locally. After setup, you can send Claude messages, photos, and files from anywhere — your phone, tablet, or any device with Telegram installed. The `ctg` command (already installed in Step 1) launches Claude with Telegram connected, and `cbraintg` does the same but also opens your 2ndBrain vault (requires [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing)). This step is optional but makes Claude accessible from your pocket.
+This step connects Claude to Telegram so you can message it from your phone. You create a bot on Telegram using @BotFather (free, takes about 2 minutes), then the script configures it locally. After setup, you can send Claude messages, photos, and files from anywhere — your phone, tablet, or any device with Telegram installed. The `ctg` command (already installed in Step 1) launches Claude with Telegram connected, and `cbraintg` does the same but also opens your 2ndBrain vault (requires [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)). This step is optional but makes Claude accessible from your pocket.
 
 ### What It Sets Up
 
@@ -958,7 +958,7 @@ This is the wrap-up step. It installs a custom status line that shows you what's
 
 | Component | What it shows |
 |-----------|--------------|
-| ⚡ Ruflo | The Ruflo MCP server is connected |
+| ⚡ FidgetFlo | The FidgetFlo MCP server is connected |
 | 🎨 UIPro | Design skill is loaded (installed with [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)) |
 | 🐝 Swarm | A swarm is active (shows agent count during `/fswarm`) |
 | 🍯 Mini | A mini swarm is active (shows agent count during `/fmini`) |
@@ -966,7 +966,7 @@ This is the wrap-up step. It installs a custom status line that shows you what's
 
 The status line also shows your current model, session duration, and context window usage.
 
-> **2ndbrain-maxxing adds a 🧠 brain indicator** that lights up when you're working inside your Obsidian vault. It's part of [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing)'s statusline patch.
+> **2ndBrain-mogging adds a 🧠 brain indicator** that lights up when you're working inside your Obsidian vault. It's part of [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)'s statusline patch.
 
 **`/gitfix` skill:**
 
@@ -1003,7 +1003,7 @@ After the status line installs, run a quick check to make sure every command, sk
 
 This tells Claude to cross-reference the cheatsheet against your actual system and fill in any gaps. It's the final sanity check — if a skill didn't install, an MCP didn't connect, or an alias didn't register, Claude will catch it and fix it right there.
 
-> **Note:** Use `cskip` for this step, not `cbrain`. The `cbrain` command requires your Obsidian vault to exist. If you haven't run 2ndbrain-maxxing yet, or if something went wrong during vault setup, `cbrain` will error out. `cskip` always works.
+> **Note:** Use `cskip` for this step, not `cbrain`. The `cbrain` command requires your Obsidian vault to exist. If you haven't run 2ndBrain-mogging yet, or if something went wrong during vault setup, `cbrain` will error out. `cskip` always works.
 
 ### After Final Step
 
@@ -1103,11 +1103,11 @@ bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/mai
 
 ### Obsidian MCP returns internal errors
 
-See the [2ndbrain-maxxing troubleshooting guide](https://github.com/lorecraft-io/2ndbrain-maxxing#troubleshooting). The Obsidian MCP is installed and configured by 2ndbrain-maxxing.
+See the [2ndBrain-mogging troubleshooting guide](https://github.com/lorecraft-io/2ndBrain-mogging#troubleshooting). The Obsidian MCP is installed and configured by 2ndBrain-mogging.
 
 ### `cbrain` says it can't find my vault
 
-See [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing) — vault setup is handled there. If your vault exists but isn't found, set `VAULT_PATH=/path/to/your/vault cbrain`.
+See [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) — vault setup is handled there. If your vault exists but isn't found, set `VAULT_PATH=/path/to/your/vault cbrain`.
 
 
 ### A step failed or something is missing
@@ -1139,7 +1139,7 @@ Once you're inside Claude, type:
 /mcp
 ```
 
-This shows every MCP server and its connection status. Everything you installed — Ruflo, Notion, Granola, n8n, Morgen, Motion Calendar, Google Calendar, Playwright, SwiftKit, Obsidian (from 2ndbrain-maxxing), design tools (from creativity-maxxing) — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
+This shows every MCP server and its connection status. Everything you installed — FidgetFlo, Notion, Granola, n8n, Morgen, Motion Calendar, Google Calendar, Playwright, SwiftKit, Obsidian (from 2ndBrain-mogging), design tools (from creativity-maxxing) — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
 
 > "One of my MCP servers isn't connecting — can you troubleshoot it?"
 
@@ -1157,7 +1157,7 @@ Everything is installed, configured, and wired together. From now on, this is th
 
 That's it. `cbrain` opens Claude Code directly inside your 2ndBrain vault with all permissions skipped. Your vault is your home base — every tool, skill, and MCP server you just installed is available the moment you type it.
 
-> **Haven't run 2ndbrain-maxxing yet?** Use `cskip` instead of `cbrain` until your Second Brain vault is set up. `cbrain` requires the Obsidian vault to exist — it will error if you haven't created one. Once [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing) is complete, switch to `cbrain` as your daily driver.
+> **Haven't run 2ndBrain-mogging yet?** Use `cskip` instead of `cbrain` until your Second Brain vault is set up. `cbrain` requires the Obsidian vault to exist — it will error if you haven't created one. Once [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) is complete, switch to `cbrain` as your daily driver.
 
 **What `cbrain` gives you:**
 - Drops you into your Obsidian vault automatically — no `cd`-ing around
@@ -1186,16 +1186,16 @@ Run the steps in this order:
 | Bonus | Ghostty Terminal | GPU-accelerated terminal (optional) |
 | Bonus | Arc Browser | Power-user browser with sidebar tabs (optional, macOS) |
 | 2 | Dev Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
-| 3 | Ruflo + Context Hub | Multi-agent orchestration + API docs |
+| 3 | FidgetFlo + Context Hub | Multi-agent orchestration + API docs |
 | 4 | Design Tools | → **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** (UI/UX Pro Max, Taste Skill, 21st.dev Magic) |
 | 5 | Visual Media | → **[creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)** (Remotion, YouTube Transcripts, yt-dlp, Whisper, FFmpeg) |
 | 6 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit (all optional — pick what you use; Morgen recommended) |
-| 7 | Second Brain | → **[2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing)** (Obsidian vault setup, Claude history import, `cbrain`/`cbraintg`) |
+| 7 | Second Brain | → **[2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)** (Obsidian vault setup, Claude history import, `cbrain`/`cbraintg`) |
 | 8 | Telegram *(optional)* | Telegram bot setup — message Claude from your phone. Press Enter to skip if you don't have a bot yet. |
 | 9 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
 | **Final** | **Status Line + /gitfix** | **Final config — status indicators, system health check, /gitfix skill** |
 
-> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Steps 4 and 5 are handled by [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). Step 7 (Second Brain) is handled by [2ndbrain-maxxing](https://github.com/lorecraft-io/2ndbrain-maxxing). Step 8 (Telegram) is completely optional — press Enter to skip if you don't have a bot token yet; you can always re-run it later. Step 9 (Safety Check) installs a security auditing skill — 8 standard checks for any project, plus 12 MCP-specific checks that auto-activate when an MCP project is detected. The Final Step (Status Line + /gitfix) is the wrap-up — it wires your status indicators, installs the /gitfix skill, and runs a system health check.
+> **Note:** Step 6 (Productivity Tools) is all optional — install only the tools you use. Steps 4 and 5 are handled by [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing). Step 7 (Second Brain) is handled by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). Step 8 (Telegram) is completely optional — press Enter to skip if you don't have a bot token yet; you can always re-run it later. Step 9 (Safety Check) installs a security auditing skill — 8 standard checks for any project, plus 12 MCP-specific checks that auto-activate when an MCP project is detected. The Final Step (Status Line + /gitfix) is the wrap-up — it wires your status indicators, installs the /gitfix skill, and runs a system health check.
 
 ---
 
@@ -1238,7 +1238,7 @@ If you need to remove everything installed by this setup, the uninstall script r
 
 **What it removes:**
 - Claude Code + shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and scripts (`ctg`, `cbrain`, `cbraintg` in `~/.local/bin/`)
-- All MCP servers (Ruflo, Notion, Granola, n8n, Morgen, Motion Calendar, Playwright, SwiftKit) — Magic, YouTube Transcript, yt-dlp, Whisper, and Obsidian are managed by the companion repos
+- All MCP servers (FidgetFlo, Notion, Granola, n8n, Morgen, Motion Calendar, Playwright, SwiftKit) — Magic, YouTube Transcript, yt-dlp, Whisper, and Obsidian are managed by the companion repos
 - All skills (fswarm, fmini, fhive, w4w, get-api-docs, gitfix, safetycheck) — UI/UX Pro Max, Taste Skill pack, and Remotion are managed by creativity-maxxing
 - Dev tools (pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler)
 - Whisper models (~/.whisper/)

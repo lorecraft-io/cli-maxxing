@@ -223,7 +223,7 @@ fi
 
 # =============================================================================
 # Clean up project-level statusLine overrides
-# Ruflo/claude-flow init can write a verbose statusLine into project .claude/settings.json
+# FidgetFlo/claude-flow init can write a verbose statusLine into project .claude/settings.json
 # files, which overrides our clean global statusline. Remove any we find.
 # =============================================================================
 info "Checking for project-level statusLine overrides..."
@@ -260,7 +260,7 @@ esac
 
 HC_PASS=0
 HC_FAIL=0
-# Optional add-ons (e.g., 2ndbrain-maxxing) are tracked separately so we don't
+# Optional add-ons (e.g., 2ndBrain-mogging) are tracked separately so we don't
 # tell the user to "re-run a step" when nothing is actually broken.
 OPTIONAL_FAIL=0
 OPTIONAL_MSGS=()
@@ -297,24 +297,24 @@ else
     HC_PASS=$((HC_PASS + 1))
 fi
 
-# --- cbrain script (optional — installed by 2ndbrain-maxxing) ---
+# --- cbrain script (optional — installed by 2ndBrain-mogging) ---
 if [ -x "$HOME/.local/bin/cbrain" ]; then
     success "HEALTH: cbrain command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    info "HEALTH: cbrain not installed — optional add-on (install 2ndbrain-maxxing for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndbrain-maxxing)"
+    info "HEALTH: cbrain not installed — optional add-on (install 2ndBrain-mogging for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndBrain-mogging)"
     OPTIONAL_FAIL=$((OPTIONAL_FAIL + 1))
-    OPTIONAL_MSGS+=("cbrain — install 2ndbrain-maxxing (https://github.com/lorecraft-io/2ndbrain-maxxing) for vault-aware Claude aliases")
+    OPTIONAL_MSGS+=("cbrain — install 2ndBrain-mogging (https://github.com/lorecraft-io/2ndBrain-mogging) for vault-aware Claude aliases")
 fi
 
-# --- cbraintg script (optional — installed by 2ndbrain-maxxing) ---
+# --- cbraintg script (optional — installed by 2ndBrain-mogging) ---
 if [ -x "$HOME/.local/bin/cbraintg" ]; then
     success "HEALTH: cbraintg command — installed"
     HC_PASS=$((HC_PASS + 1))
 else
-    info "HEALTH: cbraintg not installed — optional add-on (install 2ndbrain-maxxing for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndbrain-maxxing)"
+    info "HEALTH: cbraintg not installed — optional add-on (install 2ndBrain-mogging for vault-aware Claude aliases: https://github.com/lorecraft-io/2ndBrain-mogging)"
     OPTIONAL_FAIL=$((OPTIONAL_FAIL + 1))
-    OPTIONAL_MSGS+=("cbraintg — install 2ndbrain-maxxing (https://github.com/lorecraft-io/2ndbrain-maxxing) for vault-aware Claude aliases")
+    OPTIONAL_MSGS+=("cbraintg — install 2ndBrain-mogging (https://github.com/lorecraft-io/2ndBrain-mogging) for vault-aware Claude aliases")
 fi
 
 # --- ctg script (token-guarded — not an alias) ---
@@ -501,13 +501,13 @@ echo "    /gitfix      — full-repo consistency audit: docs, scripts, and code 
 echo ""
 echo "  Status line indicators:"
 echo "    🧠 2ndBrain  — in Obsidian vault"
-echo "    ⚡ Ruflo     — MCP server connected"
+echo "    ⚡ FidgetFlo     — MCP server connected"
 echo "    🎨 UIPro     — design skill loaded"
-echo "    🐝 Swarm     — swarm active (during /rswarm)"
-echo "    👑 Hive      — hive-mind active (during /rhive)"
-echo "    🍯 Mini      — mini swarm active (during /rmini)"
+echo "    🐝 Swarm     — swarm active (during /fswarm)"
+echo "    👑 Hive      — hive-mind active (during /fhive)"
+echo "    🍯 Mini      — mini swarm active (during /fmini)"
 echo ""
-echo -e "  ${YELLOW}Important: Until you set up Second Brain (2ndbrain-maxxing), use cskip${NC}"
+echo -e "  ${YELLOW}Important: Until you set up Second Brain (2ndBrain-mogging), use cskip${NC}"
 echo -e "  ${YELLOW}instead of cbrain. cbrain requires an Obsidian vault to exist.${NC}"
 echo ""
 echo "  Restart Claude Code to see your status line."

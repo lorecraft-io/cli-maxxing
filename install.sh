@@ -176,8 +176,8 @@ if [ "${#MISSING_CRUMBS[@]}" -gt 0 ]; then
 fi
 
 echo "  Available commands: cskip, ctg, cc, ccr, ccc"
-echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"
-echo "  Swarm tiers:        /rswarm{1,2,3,max}, /rmini{1,2,3,max} — 1=think, 2=think hard, 3=think harder, max=ultrathink"
+echo "  Available skills:   /fswarm, /fmini, /fhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"
+echo "  Swarm tiers:        /fswarm{1,2,3,max}, /fmini{1,2,3,max} — 1=think, 2=think hard, 3=think harder, max=ultrathink"
 echo ""
 echo "  Three steps require interactive input — run them separately:"
 echo ""
@@ -192,7 +192,7 @@ echo "    bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-m
 echo ""
 echo "  Companion repos (install after this):"
 echo "    Design + media:  bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/creativity-maxxing/main/install.sh)"
-echo "    Second Brain:    bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndbrain-maxxing/main/install.sh)"
+echo "    Second Brain:    bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/2ndBrain-mogging/main/install.sh)"
 echo ""
 echo "  Open a new terminal window for aliases to take effect."
 echo ""

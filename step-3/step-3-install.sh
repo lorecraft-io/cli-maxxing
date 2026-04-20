@@ -334,17 +334,17 @@ SKILL_EOF
 }
 
 # -----------------------------------------------------------------------------
-# Install Swarm Skills (/rswarm, /rhive, /rmini) + Statusline
+# Install Swarm Skills (/fswarm, /fhive, /fmini) + Statusline
 # -----------------------------------------------------------------------------
 install_swarm_skills() {
     info "Installing swarm skills and statusline..."
 
-    # --- /rswarm skill ---
-    RSWARM_DIR="$HOME/.claude/skills/rswarm"
-    mkdir -p "$RSWARM_DIR"
-    cat > "$RSWARM_DIR/SKILL.md" << 'RSWARM_EOF'
+    # --- /fswarm skill ---
+    FSWARM_DIR="$HOME/.claude/skills/fswarm"
+    mkdir -p "$FSWARM_DIR"
+    cat > "$FSWARM_DIR/SKILL.md" << 'FSWARM_EOF'
 ---
-name: rswarm
+name: fswarm
 description: "Launch a full 15-agent fidgetflo swarm to execute a task immediately. Triggers real multi-agent execution — not a reference."
 ---
 
@@ -354,7 +354,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm. Do NOT explain 
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rswarm`)
+1. Read the user's task (everything they typed after `/fswarm`)
 2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized` (skip if the fidgetflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
@@ -393,15 +393,15 @@ Adapt agent assignments to the task — not every task needs all 15 roles. If th
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RSWARM_EOF
-    success "Swarm skill (/rswarm) installed"
+FSWARM_EOF
+    success "Swarm skill (/fswarm) installed"
 
-    # --- /rhive skill ---
-    RHIVE_DIR="$HOME/.claude/skills/rhive"
-    mkdir -p "$RHIVE_DIR"
-    cat > "$RHIVE_DIR/SKILL.md" << 'RHIVE_EOF'
+    # --- /fhive skill ---
+    FHIVE_DIR="$HOME/.claude/skills/fhive"
+    mkdir -p "$FHIVE_DIR"
+    cat > "$FHIVE_DIR/SKILL.md" << 'FHIVE_EOF'
 ---
-name: rhive
+name: fhive
 description: "Launch a queen-led fidgetflo hive-mind with raft consensus for autonomous task execution. The queen decomposes and delegates — hands-off."
 ---
 
@@ -409,16 +409,16 @@ description: "Launch a queen-led fidgetflo hive-mind with raft consensus for aut
 
 When this skill is invoked, IMMEDIATELY initialize a hive-mind with a queen agent that autonomously manages the work. Do NOT explain how hive-minds work. Do NOT show code examples. ACT.
 
-## How This Differs from /rswarm
+## How This Differs from /fswarm
 
-- `/rswarm` = you define the task, Claude pre-assigns 15 agents with fixed roles
-- `/rhive` = you define the GOAL, a queen agent takes over and autonomously manages everything
+- `/fswarm` = you define the task, Claude pre-assigns 15 agents with fixed roles
+- `/fhive` = you define the GOAL, a queen agent takes over and autonomously manages everything
 
 The queen decides how many workers to spawn, what roles they need, how to coordinate them, and when the work is done. You set the goal and step back.
 
 ## Execution Steps
 
-1. Read the user's goal (everything they typed after `/rhive`)
+1. Read the user's goal (everything they typed after `/fhive`)
 2. **Signal status line**: Run `touch /tmp/fidgetflo-hive-active` via Bash to light up the hive indicator
 3. Initialize the hive-mind in ONE message:
    - Call `mcp__fidgetflo__hive-mind_init` with consensus `raft` (skip if the fidgetflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
@@ -454,16 +454,16 @@ The queen MUST:
 - Maximum workers: 15 (respect maxAgents config)
 - After spawning the queen, STOP and wait
 - Trust the queen's judgment on team composition and coordination
-RHIVE_EOF
-    success "Hive skill (/rhive) installed"
+FHIVE_EOF
+    success "Hive skill (/fhive) installed"
 
-    # --- /rmini skill ---
-    RMINI_DIR="$HOME/.claude/skills/rmini"
-    mkdir -p "$RMINI_DIR"
-    cat > "$RMINI_DIR/SKILL.md" << 'RMINI_EOF'
+    # --- /fmini skill ---
+    FMINI_DIR="$HOME/.claude/skills/fmini"
+    mkdir -p "$FMINI_DIR"
+    cat > "$FMINI_DIR/SKILL.md" << 'FMINI_EOF'
 ---
-name: rmini
-description: "Launch a compact 5-agent fidgetflo swarm for focused task execution. Smaller than /rswarm but still parallel and powerful."
+name: fmini
+description: "Launch a compact 5-agent fidgetflo swarm for focused task execution. Smaller than /fswarm but still parallel and powerful."
 ---
 
 # fidgetflo Mini Swarm — Compact Execution
@@ -472,7 +472,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm. Do NOT explain h
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rmini`)
+1. Read the user's task (everything they typed after `/fmini`)
 2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized` (skip if the fidgetflo MCP tool isn't available — the Agent-tool spawn below is what actually does the work)
@@ -501,15 +501,15 @@ Adapt agent assignments to the task — if the task is research-heavy, shift rol
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RMINI_EOF
-    success "Mini swarm skill (/rmini) installed"
+FMINI_EOF
+    success "Mini swarm skill (/fmini) installed"
 
-    # --- /rmini1 skill ---
-    RMINI1_DIR="$HOME/.claude/skills/rmini1"
-    mkdir -p "$RMINI1_DIR"
-    cat > "$RMINI1_DIR/SKILL.md" << 'RMINI1_EOF'
+    # --- /fmini1 skill ---
+    FMINI1_DIR="$HOME/.claude/skills/fmini1"
+    mkdir -p "$FMINI1_DIR"
+    cat > "$FMINI1_DIR/SKILL.md" << 'FMINI1_EOF'
 ---
-name: rmini1
+name: fmini1
 description: "Launch a compact 5-agent fidgetflo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, mini swarm with thinking."
 ---
 
@@ -519,7 +519,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with light extend
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rmini1`)
+1. Read the user's task (everything they typed after `/fmini1`)
 2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
@@ -550,15 +550,15 @@ Adapt agent assignments to the task — if the task is research-heavy, shift rol
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RMINI1_EOF
-    success "Mini swarm tier 1 (/rmini1) installed"
+FMINI1_EOF
+    success "Mini swarm tier 1 (/fmini1) installed"
 
-    # --- /rmini2 skill ---
-    RMINI2_DIR="$HOME/.claude/skills/rmini2"
-    mkdir -p "$RMINI2_DIR"
-    cat > "$RMINI2_DIR/SKILL.md" << 'RMINI2_EOF'
+    # --- /fmini2 skill ---
+    FMINI2_DIR="$HOME/.claude/skills/fmini2"
+    mkdir -p "$FMINI2_DIR"
+    cat > "$FMINI2_DIR/SKILL.md" << 'FMINI2_EOF'
 ---
-name: rmini2
+name: fmini2
 description: "Launch a compact 5-agent fidgetflo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking mini swarm."
 ---
 
@@ -568,7 +568,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with hard/deep ex
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rmini2`)
+1. Read the user's task (everything they typed after `/fmini2`)
 2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
@@ -599,15 +599,15 @@ Adapt agent assignments to the task — if the task is research-heavy, shift rol
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RMINI2_EOF
-    success "Mini swarm tier 2 (/rmini2) installed"
+FMINI2_EOF
+    success "Mini swarm tier 2 (/fmini2) installed"
 
-    # --- /rmini3 skill ---
-    RMINI3_DIR="$HOME/.claude/skills/rmini3"
-    mkdir -p "$RMINI3_DIR"
-    cat > "$RMINI3_DIR/SKILL.md" << 'RMINI3_EOF'
+    # --- /fmini3 skill ---
+    FMINI3_DIR="$HOME/.claude/skills/fmini3"
+    mkdir -p "$FMINI3_DIR"
+    cat > "$FMINI3_DIR/SKILL.md" << 'FMINI3_EOF'
 ---
-name: rmini3
+name: fmini3
 description: "Launch a compact 5-agent fidgetflo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking mini swarm."
 ---
 
@@ -617,7 +617,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm with harder/deepe
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rmini3`)
+1. Read the user's task (everything they typed after `/fmini3`)
 2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
@@ -648,15 +648,15 @@ Adapt agent assignments to the task — if the task is research-heavy, shift rol
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RMINI3_EOF
-    success "Mini swarm tier 3 (/rmini3) installed"
+FMINI3_EOF
+    success "Mini swarm tier 3 (/fmini3) installed"
 
-    # --- /rminimax skill ---
-    RMINIMAX_DIR="$HOME/.claude/skills/rminimax"
-    mkdir -p "$RMINIMAX_DIR"
-    cat > "$RMINIMAX_DIR/SKILL.md" << 'RMINIMAX_EOF'
+    # --- /fminimax skill ---
+    FMINIMAX_DIR="$HOME/.claude/skills/fminimax"
+    mkdir -p "$FMINIMAX_DIR"
+    cat > "$FMINIMAX_DIR/SKILL.md" << 'FMINIMAX_EOF'
 ---
-name: rminimax
+name: fminimax
 description: "Launch a compact 5-agent fidgetflo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, mini swarm max."
 ---
 
@@ -666,7 +666,7 @@ When this skill is invoked, IMMEDIATELY launch a 5-agent swarm at MAX extended t
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rminimax`)
+1. Read the user's task (everything they typed after `/fminimax`)
 2. **Signal status line**: Run `echo 5 > /tmp/fidgetflo-mini-active` via Bash to light up the 🍯 indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 5, strategy `specialized`
@@ -697,15 +697,15 @@ Adapt agent assignments to the task — if the task is research-heavy, shift rol
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RMINIMAX_EOF
-    success "Mini swarm max (/rminimax) installed"
+FMINIMAX_EOF
+    success "Mini swarm max (/fminimax) installed"
 
-    # --- /rswarm1 skill ---
-    RSWARM1_DIR="$HOME/.claude/skills/rswarm1"
-    mkdir -p "$RSWARM1_DIR"
-    cat > "$RSWARM1_DIR/SKILL.md" << 'RSWARM1_EOF'
+    # --- /fswarm1 skill ---
+    FSWARM1_DIR="$HOME/.claude/skills/fswarm1"
+    mkdir -p "$FSWARM1_DIR"
+    cat > "$FSWARM1_DIR/SKILL.md" << 'FSWARM1_EOF'
 ---
-name: rswarm1
+name: fswarm1
 description: "Launch a full 15-agent fidgetflo swarm with light extended thinking (~4k token budget per agent). Natural-language triggers: light thinking, simple reasoning, full swarm with thinking."
 ---
 
@@ -715,7 +715,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with light exten
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rswarm1`)
+1. Read the user's task (everything they typed after `/fswarm1`)
 2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
@@ -756,15 +756,15 @@ Adapt agent assignments to the task — not every task needs all 15 roles. If th
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RSWARM1_EOF
-    success "Full swarm tier 1 (/rswarm1) installed"
+FSWARM1_EOF
+    success "Full swarm tier 1 (/fswarm1) installed"
 
-    # --- /rswarm2 skill ---
-    RSWARM2_DIR="$HOME/.claude/skills/rswarm2"
-    mkdir -p "$RSWARM2_DIR"
-    cat > "$RSWARM2_DIR/SKILL.md" << 'RSWARM2_EOF'
+    # --- /fswarm2 skill ---
+    FSWARM2_DIR="$HOME/.claude/skills/fswarm2"
+    mkdir -p "$FSWARM2_DIR"
+    cat > "$FSWARM2_DIR/SKILL.md" << 'FSWARM2_EOF'
 ---
-name: rswarm2
+name: fswarm2
 description: "Launch a full 15-agent fidgetflo swarm with hard/deep extended thinking (~10k token budget per agent). Natural-language triggers: think hard, think deep, hard reasoning, deep analysis, medium thinking full swarm."
 ---
 
@@ -774,7 +774,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with hard/deep e
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rswarm2`)
+1. Read the user's task (everything they typed after `/fswarm2`)
 2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
@@ -815,15 +815,15 @@ Adapt agent assignments to the task — not every task needs all 15 roles. If th
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RSWARM2_EOF
-    success "Full swarm tier 2 (/rswarm2) installed"
+FSWARM2_EOF
+    success "Full swarm tier 2 (/fswarm2) installed"
 
-    # --- /rswarm3 skill ---
-    RSWARM3_DIR="$HOME/.claude/skills/rswarm3"
-    mkdir -p "$RSWARM3_DIR"
-    cat > "$RSWARM3_DIR/SKILL.md" << 'RSWARM3_EOF'
+    # --- /fswarm3 skill ---
+    FSWARM3_DIR="$HOME/.claude/skills/fswarm3"
+    mkdir -p "$FSWARM3_DIR"
+    cat > "$FSWARM3_DIR/SKILL.md" << 'FSWARM3_EOF'
 ---
-name: rswarm3
+name: fswarm3
 description: "Launch a full 15-agent fidgetflo swarm with harder/deeper extended thinking (~31k token budget per agent). Natural-language triggers: think harder, think deeper, harder reasoning, deeper analysis, heavy thinking full swarm."
 ---
 
@@ -833,7 +833,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm with harder/deep
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rswarm3`)
+1. Read the user's task (everything they typed after `/fswarm3`)
 2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
@@ -874,15 +874,15 @@ Adapt agent assignments to the task — not every task needs all 15 roles. If th
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RSWARM3_EOF
-    success "Full swarm tier 3 (/rswarm3) installed"
+FSWARM3_EOF
+    success "Full swarm tier 3 (/fswarm3) installed"
 
-    # --- /rswarmmax skill ---
-    RSWARMMAX_DIR="$HOME/.claude/skills/rswarmmax"
-    mkdir -p "$RSWARMMAX_DIR"
-    cat > "$RSWARMMAX_DIR/SKILL.md" << 'RSWARMMAX_EOF'
+    # --- /fswarmmax skill ---
+    FSWARMMAX_DIR="$HOME/.claude/skills/fswarmmax"
+    mkdir -p "$FSWARMMAX_DIR"
+    cat > "$FSWARMMAX_DIR/SKILL.md" << 'FSWARMMAX_EOF'
 ---
-name: rswarmmax
+name: fswarmmax
 description: "Launch a full 15-agent fidgetflo swarm at MAX extended thinking budget (ultrathink, ~32k tokens per agent). Natural-language triggers: ultrathink, megathink, max thinking, maximum reasoning, deepest analysis, full swarm max."
 ---
 
@@ -892,7 +892,7 @@ When this skill is invoked, IMMEDIATELY launch a 15-agent swarm at MAX extended 
 
 ## Execution Steps
 
-1. Read the user's task (everything they typed after `/rswarmmax`)
+1. Read the user's task (everything they typed after `/fswarmmax`)
 2. **Signal status line**: Run `echo 15 > /tmp/fidgetflo-swarm-active` via Bash to light up the swarm indicator
 3. Initialize the swarm in ONE message:
    - Call `mcp__fidgetflo__swarm_init` with topology `hierarchical-mesh`, maxAgents 15, strategy `specialized`
@@ -933,8 +933,8 @@ Adapt agent assignments to the task — not every task needs all 15 roles. If th
 - Each agent gets a clear, specific sub-task with full context — not vague instructions
 - After spawning, STOP and wait
 - When results arrive, review ALL results before presenting final output
-RSWARMMAX_EOF
-    success "Full swarm max (/rswarmmax) installed"
+FSWARMMAX_EOF
+    success "Full swarm max (/fswarmmax) installed"
 
     # --- /w4w skill ---
     W4W_DIR="$HOME/.claude/skills/w4w"
@@ -971,7 +971,7 @@ W4W_EOF
 
     # --- Statusline script ---
     # Writes a statusline.sh that uses /tmp lock files to detect swarm/hive activity.
-    # Lock files are used because rswarm/rhive agents run as Claude Code subprocesses
+    # Lock files are used because fswarm/fhive agents run as Claude Code subprocesses
     # (via the Agent tool), not as CLI processes — process detection cannot find them.
     STATUSLINE_DIR="$HOME/.claude"
     cat > "$STATUSLINE_DIR/statusline.sh" << 'STATUSLINE_EOF'
@@ -1017,7 +1017,7 @@ fi
 UIPRO="🎨 UIPro"
 
 # --- SWARM CHECK (only shows when actively running) ---
-# Lock file is written by /rswarm skill, removed on completion.
+# Lock file is written by /fswarm skill, removed on completion.
 # Agents run as Claude Code subprocesses (not CLI), so pgrep won't find them.
 # Auto-clean lock files older than 30 min as stale.
 SWARM=""
@@ -1181,102 +1181,102 @@ run_self_test() {
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Swarm skill (/rswarm)
-    if [ -f "$HOME/.claude/skills/rswarm/SKILL.md" ]; then
-        success "TEST: Swarm skill (/rswarm) installed"
+    # Swarm skill (/fswarm)
+    if [ -f "$HOME/.claude/skills/fswarm/SKILL.md" ]; then
+        success "TEST: Swarm skill (/fswarm) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Swarm skill (/rswarm) not found"
+        soft_fail "TEST: Swarm skill (/fswarm) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Hive skill (/rhive)
-    if [ -f "$HOME/.claude/skills/rhive/SKILL.md" ]; then
-        success "TEST: Hive skill (/rhive) installed"
+    # Hive skill (/fhive)
+    if [ -f "$HOME/.claude/skills/fhive/SKILL.md" ]; then
+        success "TEST: Hive skill (/fhive) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Hive skill (/rhive) not found"
+        soft_fail "TEST: Hive skill (/fhive) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Mini swarm skill (/rmini)
-    if [ -f "$HOME/.claude/skills/rmini/SKILL.md" ]; then
-        success "TEST: Mini swarm skill (/rmini) installed"
+    # Mini swarm skill (/fmini)
+    if [ -f "$HOME/.claude/skills/fmini/SKILL.md" ]; then
+        success "TEST: Mini swarm skill (/fmini) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Mini swarm skill (/rmini) not found"
+        soft_fail "TEST: Mini swarm skill (/fmini) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Mini swarm tier 1 (/rmini1)
-    if [ -f "$HOME/.claude/skills/rmini1/SKILL.md" ]; then
-        success "TEST: Mini swarm tier 1 (/rmini1) installed"
+    # Mini swarm tier 1 (/fmini1)
+    if [ -f "$HOME/.claude/skills/fmini1/SKILL.md" ]; then
+        success "TEST: Mini swarm tier 1 (/fmini1) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Mini swarm tier 1 (/rmini1) not found"
+        soft_fail "TEST: Mini swarm tier 1 (/fmini1) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Mini swarm tier 2 (/rmini2)
-    if [ -f "$HOME/.claude/skills/rmini2/SKILL.md" ]; then
-        success "TEST: Mini swarm tier 2 (/rmini2) installed"
+    # Mini swarm tier 2 (/fmini2)
+    if [ -f "$HOME/.claude/skills/fmini2/SKILL.md" ]; then
+        success "TEST: Mini swarm tier 2 (/fmini2) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Mini swarm tier 2 (/rmini2) not found"
+        soft_fail "TEST: Mini swarm tier 2 (/fmini2) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Mini swarm tier 3 (/rmini3)
-    if [ -f "$HOME/.claude/skills/rmini3/SKILL.md" ]; then
-        success "TEST: Mini swarm tier 3 (/rmini3) installed"
+    # Mini swarm tier 3 (/fmini3)
+    if [ -f "$HOME/.claude/skills/fmini3/SKILL.md" ]; then
+        success "TEST: Mini swarm tier 3 (/fmini3) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Mini swarm tier 3 (/rmini3) not found"
+        soft_fail "TEST: Mini swarm tier 3 (/fmini3) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Mini swarm max (/rminimax)
-    if [ -f "$HOME/.claude/skills/rminimax/SKILL.md" ]; then
-        success "TEST: Mini swarm max (/rminimax) installed"
+    # Mini swarm max (/fminimax)
+    if [ -f "$HOME/.claude/skills/fminimax/SKILL.md" ]; then
+        success "TEST: Mini swarm max (/fminimax) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Mini swarm max (/rminimax) not found"
+        soft_fail "TEST: Mini swarm max (/fminimax) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Full swarm tier 1 (/rswarm1)
-    if [ -f "$HOME/.claude/skills/rswarm1/SKILL.md" ]; then
-        success "TEST: Full swarm tier 1 (/rswarm1) installed"
+    # Full swarm tier 1 (/fswarm1)
+    if [ -f "$HOME/.claude/skills/fswarm1/SKILL.md" ]; then
+        success "TEST: Full swarm tier 1 (/fswarm1) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Full swarm tier 1 (/rswarm1) not found"
+        soft_fail "TEST: Full swarm tier 1 (/fswarm1) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Full swarm tier 2 (/rswarm2)
-    if [ -f "$HOME/.claude/skills/rswarm2/SKILL.md" ]; then
-        success "TEST: Full swarm tier 2 (/rswarm2) installed"
+    # Full swarm tier 2 (/fswarm2)
+    if [ -f "$HOME/.claude/skills/fswarm2/SKILL.md" ]; then
+        success "TEST: Full swarm tier 2 (/fswarm2) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Full swarm tier 2 (/rswarm2) not found"
+        soft_fail "TEST: Full swarm tier 2 (/fswarm2) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Full swarm tier 3 (/rswarm3)
-    if [ -f "$HOME/.claude/skills/rswarm3/SKILL.md" ]; then
-        success "TEST: Full swarm tier 3 (/rswarm3) installed"
+    # Full swarm tier 3 (/fswarm3)
+    if [ -f "$HOME/.claude/skills/fswarm3/SKILL.md" ]; then
+        success "TEST: Full swarm tier 3 (/fswarm3) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Full swarm tier 3 (/rswarm3) not found"
+        soft_fail "TEST: Full swarm tier 3 (/fswarm3) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 
-    # Full swarm max (/rswarmmax)
-    if [ -f "$HOME/.claude/skills/rswarmmax/SKILL.md" ]; then
-        success "TEST: Full swarm max (/rswarmmax) installed"
+    # Full swarm max (/fswarmmax)
+    if [ -f "$HOME/.claude/skills/fswarmmax/SKILL.md" ]; then
+        success "TEST: Full swarm max (/fswarmmax) installed"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        soft_fail "TEST: Full swarm max (/rswarmmax) not found"
+        soft_fail "TEST: Full swarm max (/fswarmmax) not found"
         TEST_FAIL=$((TEST_FAIL + 1))
     fi
 

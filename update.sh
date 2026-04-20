@@ -92,8 +92,8 @@ main() {
     curl -fsSL "$BASE_URL/step-2/step-2-install.sh" | bash
     echo ""
 
-    # Step 3 — refreshes ruflo/agentic-flow + skill files (/gitfix, /w4w, /rswarm*, /rmini*, /rhive, get-api-docs)
-    echo -e "${YELLOW}>>> Running Step 3 — Ruflo + Context Hub${NC}"
+    # Step 3 — refreshes fidgetflo/agentic-flow + skill files (/gitfix, /w4w, /fswarm*, /fmini*, /fhive, get-api-docs)
+    echo -e "${YELLOW}>>> Running Step 3 — FidgetFlo + Context Hub${NC}"
     echo ""
     curl -fsSL "$BASE_URL/step-3/step-3-install.sh" | bash
     echo ""
@@ -129,10 +129,10 @@ main() {
     echo ""
 
     echo "  Available commands: cskip, ctg, cc, ccr, ccc"
-    echo "  Available skills:   /rswarm, /rmini, /rhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"
-    echo "  Swarm tiers:        /rswarm{1,2,3,max}, /rmini{1,2,3,max} — 1=think, 2=think hard, 3=think harder, max=ultrathink"
+    echo "  Available skills:   /fswarm, /fmini, /fhive, /w4w, /safetycheck, /gitfix, get-api-docs (auto-triggered)"
+    echo "  Swarm tiers:        /fswarm{1,2,3,max}, /fmini{1,2,3,max} — 1=think, 2=think hard, 3=think harder, max=ultrathink"
     echo "  Design + media:     github.com/lorecraft-io/creativity-maxxing"
-    echo "  Second Brain:       github.com/lorecraft-io/2ndbrain-maxxing"
+    echo "  Second Brain:       github.com/lorecraft-io/2ndBrain-mogging"
     echo ""
     echo "  Note: Steps 6 and 8 require interactive input (API credentials"
     echo "  and Telegram bot token). They may skip themselves if run"
