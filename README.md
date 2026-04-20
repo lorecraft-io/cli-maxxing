@@ -6,7 +6,6 @@
 > **fidg·et·code** \ ˈfij-ət-ˌkōd \   *verb*   ·   **fidgetcoded**; **fidgetcoding**
 > **1** : to code as self-regulation — the ADHD dopamine loop
 > **2** : to build software through relentless tinkering by someone with no formal training and too many browser tabs open
-> *see also* VIBECODING
 >
 > **Heads up — this was fidgetcoded.** I'm no expert, but I tried — nominally — my best. Getting this stack running end-to-end on a clean machine took a lot of trial and error, and it still might not be perfect.
 >
