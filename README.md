@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 # CLI Maxxing
 
 **Everything you need to start working with AI-powered development tools; one command per step.**
@@ -1283,3 +1285,5 @@ MIT — see [LICENSE](LICENSE).
 ---
 
 Built by [Nate Davidovich / Lorecraft](https://github.com/lorecraft-io)
+
+[⤴ back to top](#top)
