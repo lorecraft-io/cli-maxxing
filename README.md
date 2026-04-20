@@ -28,9 +28,9 @@ This is one of three repos in the cli-maxxing stack:
 |------|-------------|
 | **`cli-maxxing`** | **This repo** — Foundation — Claude Code, shell aliases, Ruflo, dev tools, productivity MCPs |
 | [`creativity-maxxing`](https://github.com/lorecraft-io/creativity-maxxing) | Design skills + video/audio pipeline |
-| [`2ndbrain-maxxing`](https://github.com/lorecraft-io/2ndbrain-maxxing) | Obsidian PKM vault setup, cbrain/cbraintg commands |
+| [`task-maxxing`](https://github.com/lorecraft-io/task-maxxing) | Three-way task sync — Obsidian ↔ Notion ↔ Morgen (requires [`2ndBrain-mogging`](https://github.com/lorecraft-io/2ndBrain-mogging)) |
 
-Install `cli-maxxing` first. `creativity-maxxing` and `2ndbrain-maxxing` can be installed in either order after that.
+Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be installed in either order after that.
 
 ## Quick Navigation
 
