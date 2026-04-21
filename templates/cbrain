@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # cbrain — Launch Claude Code in 2ndBrain Obsidian vault with full permissions
 for candidate in \
+    "$HOME/Desktop/BRAIN2" \
     "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
     "$HOME/Desktop/2ndBrain" \
     "$HOME/Desktop/Second-Brain" \

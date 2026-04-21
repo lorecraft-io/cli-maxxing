@@ -1,3 +1,9 @@
+---
+name: safetycheck
+description: "Comprehensive security audit — scans any project for exposed API keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, and insecure configurations. Auto-activates 12 MCP-specific checks on MCP projects."
+user_invocable: true
+---
+
 # Security Safety Check
 
 When this skill is invoked, run a comprehensive security audit on the current working directory. Detect the project type automatically and run all applicable checks.

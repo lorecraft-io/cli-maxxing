@@ -51,7 +51,8 @@ Close and reopen Claude Code for the status line to take effect.
 
 The script uses lock files to detect active sessions:
 
-- `/tmp/fidgetflo-swarm-active` — Created when a swarm starts. Contents can optionally hold the agent count (e.g., `8 agents`).
+- `/tmp/fidgetflo-swarm-active` — Created when a swarm starts. Contents hold the agent count as a plain integer (e.g., `15`).
+- `/tmp/fidgetflo-mini-active` — Created when a mini swarm starts. Contents hold the agent count as a plain integer (e.g., `5`).
 - `/tmp/fidgetflo-hive-active` — Created when a hive-mind starts.
 
 Stale lock files (where no matching process is running) are automatically cleaned up by the script.
@@ -60,7 +61,12 @@ Stale lock files (where no matching process is running) are automatically cleane
 
 When starting a swarm:
 ```bash
-echo "8 agents" > /tmp/fidgetflo-swarm-active
+echo 15 > /tmp/fidgetflo-swarm-active
+```
+
+When starting a mini swarm:
+```bash
+echo 5 > /tmp/fidgetflo-mini-active
 ```
 
 When starting a hive-mind:
@@ -71,6 +77,7 @@ touch /tmp/fidgetflo-hive-active
 When stopping:
 ```bash
 rm -f /tmp/fidgetflo-swarm-active
+rm -f /tmp/fidgetflo-mini-active
 rm -f /tmp/fidgetflo-hive-active
 ```
 

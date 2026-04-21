@@ -39,9 +39,9 @@ These aliases are added to your `~/.zshrc` (or `~/.bashrc`) and available in any
 | `cc` | Short alias for `claude` |
 | `ccr` | Resume last Claude conversation (`claude --resume`) |
 | `ccc` | Continue last Claude conversation (`claude --continue`) |
-| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(requires vault setup — see [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging))* |
-| `cbraintg` | Same as `cbrain` but with Telegram channel connected |
 | `ctg` | Skip-permissions + Telegram channel connected (any directory) |
+| `cbrain` | Launch Claude Code in your 2ndBrain vault with skip-permissions *(installed by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) — not Step 1)* |
+| `cbraintg` | Same as `cbrain` but with Telegram channel connected *(installed by 2ndBrain-mogging)* |
 | `g2` | Tile 2 Ghostty windows side by side, filling your screen *(requires Ghostty — Step 2, macOS only)* |
 | `g4` | Tile 4 Ghostty windows in a 2x2 grid *(requires Ghostty — Step 2, macOS only)* |
 

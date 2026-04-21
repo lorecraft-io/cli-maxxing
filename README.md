@@ -71,7 +71,7 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 - **Don't run it as root.** Just open your terminal normally and paste the command.
 - If anything is already installed on your machine, the scripts will detect that and skip it automatically.
 
-> **Windows:** Not supported. MacOS and Linux only (frankly, I'm not 100% certain Linux is supported).
+> **Windows:** Not supported. macOS and Linux only (frankly, I'm not 100% certain Linux is supported).
 
 ---
 
@@ -188,9 +188,9 @@ Open Terminal: **Cmd+Space → "Terminal"** on Mac, or **Ctrl+Alt+T** on Linux.
 | nvm + Node.js (v18+) | Node Version Manager + the JavaScript runtime Claude Code needs. |
 | Claude Code | Your AI coding assistant. The main tool. |
 | Shell aliases | `cskip`, `cc`, `ccr`, `ccc` — faster ways to launch Claude. |
-| cbrain | Launches Claude pointed at your Obsidian vault. Daily driver after setting up [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging). |
 | ctg | Launches Claude with Telegram connected from any directory. |
-| cbraintg | `cbrain` + Telegram. |
+| cbrain | Launches Claude pointed at your Obsidian vault. Installed by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) — available after you set up the vault. |
+| cbraintg | `cbrain` + Telegram. Also installed by 2ndBrain-mogging. |
 
 ### After the script finishes
 
@@ -892,14 +892,14 @@ One script reverses the whole stack. Your Obsidian vault, notes, and Claude acco
 > bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/uninstall.sh)
 > ```
 
-Removes the cli-maxxing aliases (`cskip`, `cc`, `ccr`, `ccc`), `ctg`/`cbrain`/`cbraintg` scripts, all MCPs this setup installed, all FidgetFlo skills + `/w4w` + `/safetycheck` + `/gitfix`, dev tools, Whisper models, Arc Browser, and the Ghostty config.
+Removes the cli-maxxing aliases (`cskip`, `cc`, `ccr`, `ccc`), the `ctg` script, all MCPs this setup installed, all FidgetFlo skills + `/w4w` + `/safetycheck` + `/gitfix`, dev tools, Whisper models, Arc Browser, and the Ghostty config. `cbrain` and `cbraintg` are managed by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) and are not touched here.
 
 **Keeps:** Homebrew, Git, Node.js, Claude Code itself, your Obsidian vault + notes, your Claude account — general-purpose tools + your data. The script prints manual-removal commands at the end if you want a fully clean machine.
 
 <details>
 <summary><strong>Full list of what gets removed</strong></summary>
 
-- Claude Code shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and scripts (`ctg`, `cbrain`, `cbraintg` in `~/.local/bin/`)
+- Claude Code shell aliases (`cskip`, `cc`, `ccr`, `ccc`) and the `ctg` script (`~/.local/bin/ctg`). `cbrain` and `cbraintg` are managed by 2ndBrain-mogging — not removed here.
 - All MCPs installed by this repo: FidgetFlo, Notion, Granola, n8n, Google Calendar, Morgen, Motion Calendar, Playwright, SwiftKit, Superhuman, Google Drive, GitHub — design + media MCPs are managed by [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing); Obsidian is managed by [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)
 - All skills: `fswarm*`, `fmini*`, `fhive`, `w4w`, `gitfix`, `safetycheck` — UI/UX Pro Max + Taste Skill pack + Remotion are managed by creativity-maxxing
 - Dev tools: pandoc, jq, ripgrep, gh, tree, fzf, wget, weasyprint, ffmpeg, xlsx2csv, poppler

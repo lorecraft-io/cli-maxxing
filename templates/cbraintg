@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # cbraintg — Launch Claude Code in 2ndBrain vault with full permissions + Telegram
 for candidate in \
+    "$HOME/Desktop/BRAIN2" \
     "$HOME/Desktop/WORK/OBSIDIAN/2ndBrain" \
     "$HOME/Desktop/2ndBrain" \
     "$HOME/Desktop/Second-Brain" \

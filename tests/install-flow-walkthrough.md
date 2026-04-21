@@ -1,10 +1,10 @@
 # CLI-MAXXING Install Flow Walkthrough -- Regression Test
 
-> **Note:** This walkthrough covers Steps 1, 2, 3, 5, 6, 8, and Final. Steps 4 (FidgetFlo) and 7 (GitHub) are present in the repo but not included in this regression test. See [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing) and [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) for their respective test walkthroughs.
+> **Note:** This walkthrough covers Steps 1, 2, 3, 5, 6, 8, and Final. Steps 4 (FidgetFlo) and 7 (GitHub) are present in the repo but not included in this regression test.
 
-**Test scenario:** Fresh Mac, username `testuser`, vault at `~/Desktop/2ndBrain`, no Telegram bot token, standard macOS, Homebrew either present or absent.
+**Test scenario:** Fresh Mac, username `testuser`, vault at `~/Desktop/BRAIN2`, no Telegram bot token, standard macOS, Homebrew either present or absent.
 
-**Test date:** 2026-04-05
+**Test date:** 2026-04-20
 
 **Finding:** All 3 known bugs from the live install have been fixed in the current codebase. This walkthrough documents the current state and identifies remaining edge cases.
 
@@ -25,9 +25,9 @@
 | `install_node` | Installs nvm, then Node LTS | PASS |
 | `install_claude_code` | `npm install -g @anthropic-ai/claude-code` | PASS |
 | Aliases to `~/.zshrc` | cskip, ctg, cc, ccr, ccc | PASS |
-| `cbrain` script | Searches `~/Desktop/WORK/OBSIDIAN/2ndBrain`, then `~/Desktop/2ndBrain` ... | PASS -- `~/Desktop/2ndBrain` is second candidate |
-| `cbraintg` script | Same search as cbrain | PASS |
 | Self-test | All 7 checks | PASS |
+
+> **Note:** `cbrain` and `cbraintg` are optional add-ons installed by the 2ndBrain-mogging installer, not Step 1. The step-final health check reports them as optional and links to the mogging repo.
 
 **Bugs found:** None.
 
@@ -117,11 +117,15 @@ Installs 10 optional productivity MCPs. Obsidian MCP has moved to [2ndBrain-mogg
 
 **Old code:** `while true` loop with `read -p` and no exit path on empty input. Infinite loop when piped.
 
-**Current code (lines 122-151):**
+**Current code (lines 147-157):**
 ```bash
 # Prompt for token -- empty input skips setup
-read -r -p "Paste your bot token here (press Enter to skip): " BOT_TOKEN
+read -rsp "Paste your bot token here (press Enter to skip): " BOT_TOKEN
+echo ""
+
+# Trim whitespace
 BOT_TOKEN=$(echo "$BOT_TOKEN" | xargs)
+
 if [ -z "$BOT_TOKEN" ]; then
     info "Telegram setup skipped. You can add your token later by re-running Step 6."
     SKIP_TOKEN=true
@@ -156,6 +160,7 @@ The `while true` loop has been replaced with a single `read` call. Empty input (
 |---------|-------------------|--------|
 | Install statusline.sh | Writes to `~/.claude/statusline.sh` | PASS |
 | 2ndBrain check | Reads `~/.claude/.mogging-vault` marker; fallback regex for legacy vault names | PASS -- **BUG WAS FIXED** |
+| AGENT_COUNT sanitization | Lock-file value stripped to digits before use (`${AGENT_COUNT//[^0-9]/}`) — same pattern applied to MINI_AGENT_COUNT | PASS |
 | Settings.json | Merges statusLine config via jq | PASS |
 | Project override cleanup | Removes project-level statusLine overrides | PASS |
 | Health check | Verifies aliases, tools, config | PASS |
@@ -169,9 +174,10 @@ The `while true` loop has been replaced with a single `read` call. Empty input (
 
 | Section | Expected Behavior | Result |
 |---------|-------------------|--------|
-| Steps 1-3 | Run via `curl \| bash` | PASS |
+| Steps 1-4 | Run via `curl \| bash` (non-interactive); Step 4 installs fidgetflo + skills | PASS |
 | Step 5 | Detects non-interactive, exits cleanly with instructions | PASS |
 | Step 6 | Token prompt gets EOF, skip path activates | PASS -- **BUG WAS FIXED** |
+| Step 7 | GitHub PAT prompt gets EOF, skips cleanly | PASS |
 | Step 8 | Downloads safetycheck skill | PASS |
 | Final | Installs statusline with correct vault detection | PASS -- **BUG WAS FIXED** |
 
@@ -192,9 +198,9 @@ The `while true` loop has been replaced with a single `read` call. Empty input (
 | # | Issue | Location | Impact |
 |---|-------|----------|--------|
 | 1 | Step 4 writes config to CWD | `step-4/step-4-install.sh` | FidgetFlo config files land in whatever directory user opened terminal in |
-| 2 | Statusline vault name false positives | All 3 statusline locations | If CWD contains "Vault" anywhere in the path (e.g., `/some/Vault-backup/project`), brain indicator shows incorrectly. Very unlikely edge case. |
+| 2 | Statusline vault name false positives | Both statusline copies (`step-final` inline + `templates/statusline.sh`) | Fallback regex `/BRAIN2?(/|$)` matches any path ending in `/BRAIN` or `/BRAIN2` (e.g., `/home/user/BRAIN`). Primary `.mogging-vault` marker check prevents false positives for correctly installed vaults. Very unlikely edge case. |
 | 3 | Step 6 invalid token accepted | `step-6/step-6-install.sh:133-140` | Invalid token format is warned but saved anyway ("Saving anyway -- you can fix it later"). This is intentional leniency but means a typo gets stored. |
 
 ### Test Verdict
 
-**ALL CRITICAL AND MEDIUM BUGS RESOLVED.** The install flow will complete successfully on a fresh Mac (username: `testuser`, vault at `~/Desktop/2ndBrain`, no Telegram token) with no hangs, no missing indicators, and correct vault detection.
+**ALL CRITICAL AND MEDIUM BUGS RESOLVED.** The install flow will complete successfully on a fresh Mac (username: `testuser`, vault at `~/Desktop/BRAIN2`, no Telegram token) with no hangs, no missing indicators, and correct vault detection.
