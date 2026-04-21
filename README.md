@@ -669,48 +669,62 @@ Setup is complete. Head to **[You're Ready](#youre-ready)** below for your daily
 
 ### I ran the installer but `claude` command is not found
 
-First install has a catch: the installer adds Homebrew, nvm, and the shell aliases to your config files, but those only load when a brand new shell starts. On top of that, the script may have been running in bash while your default shell on modern macOS is zsh — so even `source`-ing the file the script wrote can miss.
+The installer adds Homebrew, nvm, and the shell aliases to your config — but those only load when a **brand new** shell starts. Sourcing the same window often misses.
 
 **Fix:**
-1. Fully close the terminal window (Cmd+Q on Mac works too).
-2. Open a fresh terminal.
-3. Run `claude --version`. You should see something like `2.1.112 (Claude Code)`.
 
-If it's still missing after a fresh terminal, paste the **Reset PATH (stuck install)** block from [CHEATSHEET.md](CHEATSHEET.md#reset-path-stuck-install) — it rewires `~/.zshrc` with Homebrew shellenv, nvm, `~/.local/bin`, and the four aliases in one shot.
+1. Fully close the terminal (Cmd+Q on Mac).
+2. Open a fresh terminal.
+3. Run:
+   ```bash
+   claude --version
+   ```
+   You should see something like `2.1.112 (Claude Code)`.
+
+**Still missing?** Paste the **Reset PATH (stuck install)** block from [CHEATSHEET.md](CHEATSHEET.md#reset-path-stuck-install) — it rewires `~/.zshrc` with Homebrew, nvm, `~/.local/bin`, and the four aliases in one shot.
 
 ### Some steps say "Homebrew not found" during install
 
-Step 1 installs Homebrew mid-pipeline and the downstream steps in the same shell session don't see it yet — the installer hadn't refreshed PATH for subsequent commands. Known issue, fixed 2026-04-17.
+Step 1 installs Homebrew mid-pipeline, but downstream steps in the same shell don't see it yet. Known issue, fixed 2026-04-17.
 
-**Fix:** close the terminal, open a fresh one, and re-run the installer:
+**Fix:** close the terminal, open a fresh one, re-run the installer:
+
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/install.sh)
 ```
+
 It's idempotent — anything already installed gets skipped.
 
 ### I see the zsh/bash shell prompt change after install
 
-The installer detects your default shell and writes integrations accordingly. On modern macOS, zsh is the default even if `/etc/passwd` still says bash (Terminal.app overrides passwd with the "default login shell" preference), so you may notice your prompt looks different after a fresh terminal.
+Modern macOS defaults to zsh even if `/etc/passwd` still says bash (Terminal.app overrides passwd with its "default login shell" preference). You may notice your prompt looks different after a fresh terminal.
 
-**Fix:** confirm which shell you're actually in:
+**Check which shell you're actually in:**
+
 ```bash
 echo $SHELL
 ```
-If you want your passwd entry to match what Terminal.app uses, run:
+
+**Want your passwd entry to match Terminal.app?** (Optional — everything works either way.)
+
 ```bash
 chsh -s /bin/zsh
 ```
-This is optional — everything works fine either way. The installer writes to both `~/.zshrc` and `~/.bashrc` so both shells pick up the aliases.
+
+The installer writes to both `~/.zshrc` and `~/.bashrc` so the aliases work in either shell.
 
 ### xlsx2csv failed to install
 
-Python 3.9 (the macOS default) ships with PEP 668 restrictions that block `pip install` into the system Python. The installer now uses `pipx` to work around this.
+macOS default Python (3.9) ships with PEP 668 restrictions that block `pip install` into the system Python. The installer now uses `pipx` to work around this.
 
-**Fix:** re-run Step 2:
+**Fix:** re-run Step 3:
+
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-3/step-3-install.sh)
 ```
-If it's still failing, install manually:
+
+**Still failing?** Install manually:
+
 ```bash
 brew install pipx
 pipx install xlsx2csv
@@ -722,26 +736,33 @@ See the [Uninstall](#uninstall) section below — one script reverses the whole 
 
 ### Telegram: pressing Enter skips setup
 
-This is intentional. If you press Enter without pasting a token, the script skips Telegram setup and continues. You can always re-run Step 6 later when you have your bot token ready.
+**This is intentional, not a bug.** If you hit Enter without pasting a token, Step 6 skips Telegram and continues. Re-run Step 6 later when you have a bot token.
 
 ### Telegram: stuck in a warning loop after setup
 
-If you launch Claude with `ctg` or `cbraintg` and see a stream of repeating messages like `telegram channel: TELEGRAM_BOT_TOKEN required` that never stops — your bot token isn't being detected.
-
-**What's happening:** Claude Code is trying to start the Telegram channel, the server exits immediately because there's no token, and then Claude Code restarts it — over and over. This creates an infinite loop of warning messages in your terminal.
+Launching `ctg` or `cbraintg` gives a never-ending stream of `telegram channel: TELEGRAM_BOT_TOKEN required` messages? Your bot token isn't being detected — Claude Code starts the Telegram channel, it exits immediately (no token), Claude Code restarts it, repeat forever.
 
 **Fix:**
-1. Press **Ctrl+C** to kill the session
-2. Continue with the remaining setup steps using `cskip` (no Telegram) instead of `ctg`
-3. Come back to Telegram troubleshooting later — type `cskip`, then ask Claude: *"My Telegram bot token isn't being detected — can you check my config at ~/.claude/channels/telegram/ and fix it?"*
 
-The most common cause is the token file being missing or in the wrong format. Re-running Step 6 (`bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6-install.sh)`) and re-entering your token usually resolves it.
+1. Press **Ctrl+C** to kill the session.
+2. Use `cskip` instead of `ctg` to keep working — no Telegram needed.
+3. Re-run Step 6 to re-enter the token:
+   ```bash
+   bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-6/step-6-install.sh)
+   ```
+
+**If that doesn't fix it**, open `cskip` and ask Claude:
+
+> *"My Telegram bot token isn't being detected — can you check my config at `~/.claude/channels/telegram/` and fix it?"*
+
+The token file is usually the culprit — missing or wrong format.
 
 ### Step 5 (Productivity Tools) skips when run through the update command
 
-Step 5 requires interactive input for API credentials. When run via `curl | bash` (including through the update command), it detects non-interactive mode and exits with instructions.
+Step 5 needs interactive input for API credentials. When piped through `curl | bash` (including the update command), it detects non-interactive mode and exits.
 
-**Fix:** Run Step 5 directly in your terminal:
+**Fix:** run Step 5 directly in your terminal:
+
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-5/step-5-install.sh)
 ```
@@ -757,12 +778,13 @@ See [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging) — vau
 
 ### A step failed or something is missing
 
-Run the update command to re-run everything. It skips what's already installed and fills in any gaps:
+Run the update command — it re-runs every step, skips what's already installed, fills in any gaps:
+
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/update.sh)
 ```
 
-Or open a `cskip` session and describe the problem to Claude. It can diagnose and fix most issues on the spot.
+**Or:** open a `cskip` session and describe the problem to Claude. It can diagnose and fix most issues on the spot.
 
 ---
 
