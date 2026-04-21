@@ -4,7 +4,7 @@ set -uo pipefail
 # =============================================================================
 # Step 3 — Developer & Utility Tools
 # Installs: Python, Pandoc, xlsx2csv, pdftotext, jq, ripgrep, gh, tree, fzf, wget, weasyprint
-# Run this in your terminal after completing Step 1
+# Run this in your terminal after completing Step 2
 # Usage: curl -fsSL <hosted-url>/step-3/step-3-install.sh | bash
 # =============================================================================
 
@@ -551,7 +551,7 @@ configure_memory_hook() {
                 && mv "${CLAUDE_SETTINGS}.tmp" "$CLAUDE_SETTINGS"
             success "Memory auto-save hook configured"
         else
-            warn "jq not available yet, skipping hook config. Run Step 2 again after jq installs."
+            warn "jq not available yet, skipping hook config. Run Step 3 again after jq installs."
         fi
     else
         # No settings file — create one with the hook
@@ -671,7 +671,7 @@ print_summary() {
 # -----------------------------------------------------------------------------
 main() {
     # Defense-in-depth for BUG A: hydrate PATH before any brew/node/claude probe.
-    # install.sh wrapper calls reload_path between steps, but step-2 may be
+    # install.sh wrapper calls reload_path between steps, but step-3 may be
     # invoked standalone (curl | bash) — so we self-hydrate first thing.
     source_runtime_path
 

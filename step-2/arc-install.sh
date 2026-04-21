@@ -5,7 +5,7 @@ set -uo pipefail
 # Bonus — Arc Browser
 # Installs Arc Browser via Homebrew.
 # A faster, cleaner browser built for people who live in their browser.
-# Usage: curl -fsSL <hosted-url>/bonus-arc/bonus-arc.sh | bash
+# Usage: curl -fsSL <hosted-url>/step-2/arc-install.sh | bash
 # =============================================================================
 
 RED='\033[0;31m'

@@ -5,7 +5,7 @@ set -uo pipefail
 # Bonus — Ghostty Terminal
 # Installs Ghostty and configures it with a polished, fully-featured setup.
 # GPU-accelerated, customizable, clickable links, tabbed interface.
-# Usage: curl -fsSL <hosted-url>/bonus-ghostty/bonus-ghostty.sh | bash
+# Usage: curl -fsSL <hosted-url>/step-2/ghostty-install.sh | bash
 # =============================================================================
 
 RED='\033[0;31m'
