@@ -297,7 +297,7 @@ uninstall_fidgetflo_stack() {
 
     # Global npm packages
     for pkg in fidgetflo@latest agentic-flow@latest @aisuite/chub typescript; do
-        PKG_NAME=$(echo "$pkg" | sed 's/@latest//')
+        PKG_NAME="${pkg//@latest/}"
         if npm list -g "$PKG_NAME" 2>/dev/null | grep -q "$PKG_NAME"; then
             npm uninstall -g "$PKG_NAME" 2>/dev/null || true
             success "npm: $PKG_NAME"
@@ -460,6 +460,7 @@ uninstall_step_1() {
         # — user's more elaborate PATH lines (with extra paths) are left alone.
         if grep -q '# Local bin (ctg' "$rc" 2>/dev/null; then
             strip_line '# Local bin (ctg' "$rc"
+            # shellcheck disable=SC2016  # single quotes intentional: pattern is a sed regex, not shell expansion
             strip_line '^export PATH="\$HOME/\.local/bin:\$PATH"$' "$rc"
             rc_localbin_removed=$((rc_localbin_removed + 1))
         fi
@@ -516,7 +517,9 @@ uninstall_step_1() {
         if grep -q '^# Homebrew$' "$profile" 2>/dev/null \
            && grep -q 'brew shellenv' "$profile" 2>/dev/null; then
             strip_line '^# Homebrew$' "$profile"
+            # shellcheck disable=SC2016  # single quotes intentional: patterns are sed regexes, not shell expansion
             strip_line 'eval "\$(/opt/homebrew/bin/brew shellenv)"' "$profile"
+            # shellcheck disable=SC2016  # single quotes intentional: pattern is a sed regex, not shell expansion
             strip_line 'eval "\$(/usr/local/bin/brew shellenv)"' "$profile"
             profile_brew_removed=$((profile_brew_removed + 1))
         fi

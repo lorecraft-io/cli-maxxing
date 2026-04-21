@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # =============================================================================
-# Step 9 — Safety Check — Security Auditing
+# Step 8 — Safety Check — Security Auditing
 # Installs the /safetycheck Claude Code skill for running security audits
 # Run after Step 1 — requires Claude Code installed
 # =============================================================================
@@ -100,7 +100,7 @@ verify_prerequisites() {
     if command -v claude &>/dev/null; then
         success "Claude Code is installed"
     else
-        NVM_CLAUDE=$(ls -1 "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -n1)
+        NVM_CLAUDE=$(find "$HOME/.nvm/versions/node" -name "claude" -path "*/bin/claude" 2>/dev/null | head -n1)
         if [ -n "${NVM_CLAUDE:-}" ] && [ -x "$NVM_CLAUDE" ]; then
             info "Claude Code found at $NVM_CLAUDE (not on PATH — source ~/.zshrc or open a new shell to use it)"
         else
@@ -134,7 +134,7 @@ install_skill() {
     # Pinned to a specific commit SHA — prevents rug-pull via mutable branch ref
     # To update: change the SHA to the new commit and update SKILL_SHA256 to match
     SKILL_COMMIT="7b449b652d946a8eef9aca65f0c8e182b4fb80f7"
-    SKILL_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/${SKILL_COMMIT}/step-9/safetycheck-skill/SKILL.md"
+    SKILL_URL="https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/${SKILL_COMMIT}/step-8/safetycheck-skill/SKILL.md"
     SKILL_SHA256="77e1ef1127fa35cd860925a652b96dd062ab080d438787b3bde348176597ab12"
 
     info "Creating skill directory..."
@@ -149,7 +149,7 @@ install_skill() {
         else
             echo ""
             echo -e "${YELLOW}Existing /safetycheck skill found at $SKILL_FILE${NC}"
-            read -p "Overwrite with latest version? (Y/n): " OVERWRITE
+            read -rp "Overwrite with latest version? (Y/n): " OVERWRITE
             if [[ "$OVERWRITE" =~ ^[Nn]$ ]]; then
                 info "Keeping existing skill file."
                 return
@@ -276,7 +276,7 @@ run_self_test() {
         success "TEST: Claude Code is available"
         TEST_PASS=$((TEST_PASS + 1))
     else
-        NVM_CLAUDE=$(ls -1 "$HOME"/.nvm/versions/node/*/bin/claude 2>/dev/null | head -n1)
+        NVM_CLAUDE=$(find "$HOME/.nvm/versions/node" -name "claude" -path "*/bin/claude" 2>/dev/null | head -n1)
         if [ -n "${NVM_CLAUDE:-}" ] && [ -x "$NVM_CLAUDE" ]; then
             info "TEST: Claude Code found at $NVM_CLAUDE (not on PATH — open a new shell to pick it up)"
             TEST_PASS=$((TEST_PASS + 1))
@@ -303,7 +303,7 @@ run_self_test() {
 print_summary() {
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}  Step 9 Complete — /safetycheck Installed (20 checks)${NC}"
+    echo -e "${GREEN}  Step 8 Complete — /safetycheck Installed (20 checks)${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo "  Installed:"
@@ -360,7 +360,7 @@ main() {
 
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Step 9 — Safety Check${NC}"
+    echo -e "${BLUE}  Step 8 — Safety Check${NC}"
     echo -e "${BLUE}  Install the /safetycheck security audit skill${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
@@ -373,7 +373,7 @@ main() {
 
     # Mark step complete (best-effort — don't fail the run if mkdir/touch can't write)
     mkdir -p "$HOME/.cli-maxxing" 2>/dev/null || true
-    touch "$HOME/.cli-maxxing/step-9.done" 2>/dev/null || true
+    touch "$HOME/.cli-maxxing/step-8.done" 2>/dev/null || true
 }
 
 main "$@"
