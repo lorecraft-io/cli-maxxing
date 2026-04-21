@@ -1,0 +1,3 @@
+[submodule "terminal-academy"]
+	path = terminal-academy
+	url = https://github.com/lorecraft-io/terminal-academy.git
