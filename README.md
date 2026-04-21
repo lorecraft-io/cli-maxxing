@@ -50,7 +50,6 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Step 8](#step-8---safety-check) | Safety Check | Security auditing — scan any project for vulnerabilities + full MCP security checks | ~2 min |
 | [Final Step](#final-step---status-line) | Status Line | Final config — status indicators for active swarms, vault, MCP | ~2 min |
 | [You're Ready](#youre-ready) | **Start here after setup** | Your daily command and what to do next | |
-| [Video Tutorials (coming soon)](#video-tutorials-coming-soon) | Walkthroughs | Shows you exactly how to do everything, screen by screen | |
 | [Staying Up to Date](#staying-up-to-date) | Update command | Re-run everything, catch new steps | |
 | [Uninstall](#uninstall) | Remove everything | Reverses all steps, cleans up tools and config | |
 
@@ -103,8 +102,6 @@ Run the steps in order. Each one builds on the last.
 After the Final Step, head to **[You're Ready](#youre-ready)** — it tells you the one command you need going forward and what to do next.
 
 Between Steps 1 and 2, make sure to read the **[Keyboard + Command Cheat Sheet](#keyboard--command-cheat-sheet)** so you know how to type, navigate, and use hotkeys in your terminal.
-
-**[Video tutorials](#video-tutorials-coming-soon)** walking through every step are coming soon.
 
 Already done with everything? Use the **[Staying Up to Date](#staying-up-to-date)** command to catch any new steps or updates that have been added since your last visit.
 
@@ -564,51 +561,43 @@ Ask *"list my open GitHub issues"* or *"create a PR on cli-maxxing"* and the MCP
 
 [Back to top](#quick-navigation)
 
-This step installs a security auditing skill that lets Claude scan any project for vulnerabilities. Exposed API keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, insecure configurations — the stuff that slips through code review. For MCP projects, it automatically activates 12 additional checks covering tool poisoning, prompt injection vectors, transport security, authentication, and supply chain attacks. You point Claude at a project and tell it to run a safety check. It does the rest.
+Installs `/safetycheck` — a Claude Code skill that scans any project for security issues. 8 standard API checks + 12 MCP-specific checks auto-activate when it detects an MCP project. Point Claude at a repo, run the command (or say *"run a safety check"* in plain English), get findings by severity.
 
-### What It Does
-
-The `/safetycheck` skill gives Claude a structured security audit framework. Instead of asking Claude to "look for security issues" and hoping for the best, this skill runs a systematic scan across the categories that actually matter:
-
-**API Security (all projects):**
-- **Exposed secrets.** API keys, tokens, passwords hardcoded in source files, git history, or MCP config files.
-- **Missing rate limiting.** Endpoints that accept unlimited requests without throttling.
-- **Input sanitization gaps.** User input flowing into queries, commands, file paths, or MCP tool handlers without validation.
-- **Dependency vulnerabilities.** Known CVEs in npm/pip packages, including MCP SDK version checks.
-- **Insecure configurations.** CORS misconfigurations, missing .gitignore entries, untracked secrets.
-
-**MCP Security (auto-activated for MCP projects):**
-- **Tool description integrity.** Hidden instructions, file path references, and injection markers in tool descriptions.
-- **Unicode smuggling.** Invisible Unicode characters used to hide malicious instructions from human reviewers.
-- **MCP transport security.** DNS rebinding vulnerabilities, HTTP vs HTTPS, known CVEs (CVE-2025-66414, CVE-2025-66416).
-- **MCP authentication.** Missing bearer auth on HTTP-based MCP servers.
-- **Supply chain hygiene.** `@latest` floating versions, rug-pull risk, unverified packages in MCP configs.
-- **Tool response sanitization.** Stack traces and raw errors leaking through tool results.
-- **Audit logging.** Missing structured logging for tool invocations.
-
-This isn't a replacement for a full security audit. It's a first line of defense — the kind of check you should run before every deploy, every PR, every time you hand code off to someone else.
+It's a first line of defense — the kind of check to run before every deploy, every PR, every handoff. Not a replacement for a full audit.
 
 ### Run Step 8
 
-You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
-
-Once you're inside the Claude session, paste this and hit Enter:
+In a `cskip` session, paste:
 
 > [!IMPORTANT]
-> **Paste this into your Claude session:**
 > ```
 > run this command to install the safety check skill: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh)
 > ```
 
-### What This Step Installs
+<details>
+<summary><strong>What it checks</strong></summary>
 
-| Component | What it does |
-|-----------|-------------|
-| Safety Check Skill (`/safetycheck`) | A Claude Code skill that runs 8 API security checks on any project, plus 12 MCP-specific checks when an MCP project is detected. Covers tool poisoning, prompt injection vectors, DNS rebinding CVEs, supply chain attacks, and more. |
+**API Security (all projects):**
+- **Exposed secrets** — API keys, tokens, passwords in source, git history, MCP config.
+- **Missing rate limiting** — unlimited-request endpoints.
+- **Input sanitization gaps** — user input flowing into queries, commands, file paths, MCP tool handlers.
+- **Dependency vulnerabilities** — CVEs in npm/pip packages, MCP SDK version checks.
+- **Insecure configurations** — CORS misconfig, missing `.gitignore` entries, untracked secrets.
+
+**MCP Security (auto-activated on MCP projects):**
+- **Tool description integrity** — hidden instructions, injection markers in tool descriptions.
+- **Unicode smuggling** — invisible chars hiding instructions from human reviewers.
+- **MCP transport security** — DNS rebinding, HTTP vs HTTPS, known CVEs (CVE-2025-66414/66416).
+- **MCP authentication** — missing bearer auth on HTTP MCPs.
+- **Supply chain hygiene** — `@latest` floating versions, rug-pull risk, unverified packages.
+- **Tool response sanitization** — stack traces and raw errors leaking through tool results.
+- **Audit logging** — missing structured logging for tool invocations.
+
+</details>
 
 ### After Step 8
 
-Open any project in Claude and type `/safetycheck` to run a security audit. For standard projects, Claude runs 8 checks and reports findings by severity. For MCP projects, it automatically detects the project type and activates 12 additional MCP-specific checks. You can also ask Claude to "run a safety check" in plain English — the skill kicks in automatically.
+Open any project in Claude and type `/safetycheck` (or just ask Claude to *"run a safety check"*). For standard projects, 8 checks run and get reported by severity. For MCP projects, the 12 MCP-specific checks auto-activate.
 
 ---
 
@@ -616,23 +605,20 @@ Open any project in Claude and type `/safetycheck` to run a security audit. For 
 
 [Back to top](#quick-navigation)
 
-This is the wrap-up step. It installs a custom status line that shows you what's active at a glance — your vault, MCP connection, design tools, and any running swarms, mini swarms, or hive-minds.
+The wrap-up. Installs a custom status line that shows what's active at a glance, plus a final verification pass.
 
-### What It Sets Up
+### Indicators
 
-**Status line indicators:**
-
-| Component | What it shows |
-|-----------|--------------|
-| ⚡ FidgetFlo | The FidgetFlo MCP server is connected |
-| 🎨 UIPro | Design skill is loaded (installed with [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)) |
-| 🐝 Swarm | A swarm is active (shows agent count during `/fswarm`) |
-| 🍯 Mini | A mini swarm is active (shows agent count during `/fmini`) |
-| 👑 Hive | A hive-mind is active (during `/fhive`) |
+| Icon | When it shows |
+|------|---------------|
+| ⚡ FidgetFlo | FidgetFlo MCP connected |
+| 🧠 2ndBrain | CWD is inside your Obsidian vault (requires [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)) |
+| 🎨 UIPro | Design skill loaded (via [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)) |
+| 🐝 Swarm | A swarm is active (`/fswarm`, shows agent count) |
+| 🍯 Mini | A mini swarm is active (`/fmini`, shows agent count) |
+| 👑 Hive | A hive-mind is active (`/fhive`) |
 
 The status line also shows your current model, session duration, and context window usage.
-
-> **🧠 2ndBrain indicator.** This statusline lights up a 🧠 icon when your CWD is inside the Obsidian vault that [`2ndBrain-mogging`](https://github.com/lorecraft-io/2ndBrain-mogging) registered. Mogging's installer writes `~/.claude/.mogging-vault` with the vault's absolute path; this script reads that file. No mogging installed → marker doesn't exist → indicator stays hidden (everything else still works). To re-point at a different vault without re-running mogging: `echo "$NEW_VAULT" > ~/.claude/.mogging-vault`.
 
 ### Run Final Step
 
@@ -642,28 +628,32 @@ The status line also shows your current model, session duration, and context win
 > run this command to set up your status line: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-final/step-final-install.sh)
 > ```
 
-Or manually:
-1. Copy `statusline.sh` to `~/.claude/statusline.sh`
-2. Add to your `~/.claude/settings.json`:
-```json
-"statusLine": {
-  "type": "command",
-  "command": "~/.claude/statusline.sh"
-}
-```
-3. Restart Claude Code
-
 ### Verify Everything Works
 
-After the status line installs, run a quick check to make sure every command, skill, and tool from the setup was installed correctly.
+Once the status line is up, run one last cross-check:
 
 > [!IMPORTANT]
-> **Open a new `cskip` session and paste this:**
+> **In a fresh `cskip` session, paste:**
 > ```
 > Open the cheat sheet at CHEATSHEET.md in this repo and go through every command, skill, and tool listed there. For each one, verify it's installed and working on my machine. If anything is missing, broken, or not configured, fix it. Give me a summary of what passed and what you had to fix.
 > ```
 
-This tells Claude to cross-reference the cheatsheet against your actual system and fill in any gaps. It's the final sanity check — if a skill didn't install, an MCP didn't connect, or an alias didn't register, Claude will catch it and fix it right there.
+Claude cross-references CHEATSHEET.md against your actual system, then fixes anything that didn't land — missing skill, unconnected MCP, unregistered alias. Final sanity check.
+
+<details>
+<summary><strong>Manual install + 🧠 2ndBrain details</strong></summary>
+
+**Manual install** (if you'd rather skip the script):
+1. Copy `statusline.sh` to `~/.claude/statusline.sh`
+2. Add to `~/.claude/settings.json`:
+   ```json
+   "statusLine": { "type": "command", "command": "~/.claude/statusline.sh" }
+   ```
+3. Restart Claude Code.
+
+**🧠 2ndBrain indicator:** lights up when your CWD is inside the Obsidian vault that 2ndBrain-mogging registered. Mogging's installer writes the vault path to `~/.claude/.mogging-vault`; this statusline reads it. No mogging installed → marker doesn't exist → indicator stays hidden (everything else still works). To re-point at a different vault without re-running mogging: `echo "$NEW_VAULT" > ~/.claude/.mogging-vault`.
+
+</details>
 
 > **Note:** Use `cskip` for this step, not `cbrain`. The `cbrain` command requires your Obsidian vault to exist. If you haven't run 2ndBrain-mogging yet, or if something went wrong during vault setup, `cbrain` will error out. `cskip` always works.
 
@@ -855,14 +845,6 @@ Run the steps in this order:
 | **Final** | **Status Line** | **Status indicators + system health check** |
 
 > **Note:** Step 5 (Productivity Tools) is all optional — install only the tools you use. Step 6 (Telegram) is optional — press Enter to skip if you don't have a bot token yet; you can always re-run it later. Step 7 (GitHub) is optional — skip it if you don't use GitHub with Claude. Step 8 (Safety Check) installs a security auditing skill — 8 standard checks for any project, plus 12 MCP-specific checks that auto-activate when an MCP project is detected. The Final Step (Status Line) is the wrap-up — it wires your status indicators and runs a system health check.
-
----
-
-## Video Tutorials *(coming soon)*
-
-[Back to top](#quick-navigation)
-
-Video walkthroughs for every step are coming soon. These will show you exactly what to do, screen by screen, so you can follow along at your own pace.
 
 ---
 
