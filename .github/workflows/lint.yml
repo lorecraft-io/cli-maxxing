@@ -34,4 +34,4 @@ jobs:
         with:
           scandir: '.'
           severity: warning
-          ignore: terminal-academy node_modules
+          ignore_paths: terminal-academy node_modules

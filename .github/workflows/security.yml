@@ -27,7 +27,7 @@ jobs:
         with:
           scandir: '.'
           severity: error
-          ignore: terminal-academy node_modules
+          ignore_paths: terminal-academy node_modules
 
   secret-scan:
     name: Secret scanning
