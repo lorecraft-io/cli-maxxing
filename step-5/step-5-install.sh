@@ -32,6 +32,7 @@ INSTALLED_MORGEN=false
 INSTALLED_MOTION=false
 INSTALLED_PLAYWRIGHT=false
 INSTALLED_SWIFTKIT=false
+INSTALLED_SUPERHUMAN=false
 # Pre-existing installs (credentials managed outside this script).
 # Only Motion tracks this because Motion persists credentials to a local .env
 # the self-test checks for; Morgen/Notion/n8n credentials live inside Claude's
@@ -137,6 +138,10 @@ choose_tools() {
             CHOICES="$CHOICES 8"
             INSTALLED_SWIFTKIT=true
         fi
+        if claude mcp list 2>/dev/null | grep -q "superhuman" 2>/dev/null; then
+            CHOICES="$CHOICES 9"
+            INSTALLED_SUPERHUMAN=true
+        fi
 
         if [ -n "$CHOICES" ]; then
             info "Found already-installed tools — verifying configuration"
@@ -165,6 +170,7 @@ choose_tools() {
     echo "    6) Motion Calendar  — Motion events, availability, scheduling"
     echo "    7) Playwright       — browser automation for web apps with no API"
     echo "    8) SwiftKit         — hosted MCP toolkit (100+ tools across services)"
+    echo "    9) Superhuman       — email triage + drafting via the official Superhuman MCP"
     echo ""
     echo -e "${YELLOW}  Note: Morgen (5) is the recommended calendar+task tool.${NC}"
     echo -e "${YELLOW}  Motion (6) and Google Calendar (4) are secondary —${NC}"
@@ -633,6 +639,42 @@ install_swiftkit() {
 }
 
 # -----------------------------------------------------------------------------
+# Install Superhuman MCP (official remote MCP — OAuth on first use)
+# -----------------------------------------------------------------------------
+install_superhuman() {
+    info "Installing Superhuman MCP server..."
+
+    if claude mcp list 2>/dev/null | grep -q "superhuman"; then
+        success "Superhuman MCP already installed"
+        INSTALLED_SUPERHUMAN=true
+        return
+    fi
+
+    echo ""
+    echo -e "${BLUE}  Superhuman is an email client with an official remote MCP.${NC}"
+    echo -e "${BLUE}  Claude gets structured access to your inbox: triage, read,${NC}"
+    echo -e "${BLUE}  draft, send. Hosted endpoint — nothing to install locally.${NC}"
+    echo ""
+    echo -e "${BLUE}  Auth: OAuth flow on first tool use. Your default browser${NC}"
+    echo -e "${BLUE}  will open — approve Claude against your Superhuman account.${NC}"
+    echo ""
+    echo -e "${YELLOW}  Requires an active Superhuman subscription${NC}"
+    echo -e "${YELLOW}  (https://superhuman.com).${NC}"
+    echo ""
+
+    # No API key to collect — Superhuman uses browser OAuth on first use.
+    claude mcp add --scope user --transport http \
+        superhuman https://mcp.mail.superhuman.com/mcp 2>/dev/null
+
+    if claude mcp list 2>/dev/null | grep -q "superhuman"; then
+        success "Superhuman MCP installed (authorize on first use)"
+        INSTALLED_SUPERHUMAN=true
+    else
+        soft_fail "Superhuman MCP installation could not be verified — try manually: claude mcp add --transport http superhuman https://mcp.mail.superhuman.com/mcp"
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # Self-test — check each installed tool is registered
 # -----------------------------------------------------------------------------
 run_self_test() {
@@ -666,6 +708,7 @@ run_self_test() {
     if $INSTALLED_MOTION;   then check_registered "Motion Calendar" "motion"; else info "TEST: Motion Calendar — skipped"; TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_PLAYWRIGHT; then check_registered "Playwright"    "playwright";      else info "TEST: Playwright — skipped";      TEST_SKIP=$((TEST_SKIP + 1)); fi
     if $INSTALLED_SWIFTKIT;  then check_registered "SwiftKit"     "swiftkit";        else info "TEST: SwiftKit — skipped";        TEST_SKIP=$((TEST_SKIP + 1)); fi
+    if $INSTALLED_SUPERHUMAN; then check_registered "Superhuman"  "superhuman";      else info "TEST: Superhuman — skipped";      TEST_SKIP=$((TEST_SKIP + 1)); fi
 
     # Credential-file checks for tools that persist a local .env
     if $INSTALLED_GCAL; then
@@ -721,6 +764,7 @@ print_summary() {
     if $INSTALLED_MOTION;   then echo "  Motion Calendar   — Motion events, availability, scheduling";         INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
     if $INSTALLED_PLAYWRIGHT; then echo "  Playwright        — browser automation for web apps with no API (Microsoft @playwright/mcp)"; INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
     if $INSTALLED_SWIFTKIT;  then echo "  SwiftKit          — hosted MCP toolkit with 100+ tools across services (swiftkit.sh)";     INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
+    if $INSTALLED_SUPERHUMAN; then echo "  Superhuman        — email triage + drafting from Claude (superhuman.com)"; INSTALLED_COUNT=$((INSTALLED_COUNT + 1)); fi
 
     if [ "$INSTALLED_COUNT" -eq 0 ]; then
         echo "  No tools were installed."
@@ -759,6 +803,10 @@ print_summary() {
         if $INSTALLED_SWIFTKIT; then
             echo "    - Ask Claude \"build me an iPhone app that does X\" — it'll route through SwiftKit"
             echo "    - For best results, add to your CLAUDE.md: \"Default to SwiftKit MCP for any iOS/macOS/Swift task\""
+        fi
+        if $INSTALLED_SUPERHUMAN; then
+            echo "    - Ask Claude \"triage my inbox\" or \"draft a reply to the last email from X\""
+            echo "    - Browser opens on first use for one-time OAuth against your Superhuman account"
         fi
     fi
 
@@ -801,7 +849,8 @@ main() {
             5) if ! $INSTALLED_MORGEN;  then install_morgen;          else success "Morgen already configured";          fi ;;
             6) if ! $INSTALLED_MOTION;  then install_motion_calendar; else success "Motion Calendar already configured"; fi ;;
             7) if ! $INSTALLED_PLAYWRIGHT; then install_playwright;   else success "Playwright already configured";     fi ;;
-            8) if ! $INSTALLED_SWIFTKIT;  then install_swiftkit;    else success "SwiftKit already configured";      fi ;;
+            8) if ! $INSTALLED_SWIFTKIT;   then install_swiftkit;   else success "SwiftKit already configured";   fi ;;
+            9) if ! $INSTALLED_SUPERHUMAN; then install_superhuman; else success "Superhuman already configured"; fi ;;
             *) warn "Unknown choice: $CHOICE (skipping)" ;;
         esac
     done

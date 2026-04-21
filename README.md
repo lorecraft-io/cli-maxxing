@@ -433,158 +433,58 @@ claude mcp add fidgetflo -- npx -y fidgetflo@latest
 
 [Back to top](#quick-navigation)
 
-This step connects Claude to the productivity tools you already use. Everything here is optional — install only the tools that match your workflow. Skip what you don't use.
+Connects Claude to the productivity tools you already use. Everything's optional — install only the ones that match your workflow. Once connected they all work through natural language:
 
-Once installed, these tools work through natural language. No commands to memorize, no special syntax — you just talk to Claude the way you'd talk to a person:
+> *"What's on my calendar this week?"* · *"Add a task called 'Review contracts' due Friday"* · *"Create a Notion page called Project Roadmap"* · *"What were the key points from my last meeting?"* · *"Triage my inbox"* · *"Trigger my lead-qualification workflow for this email"*
 
-- *"What's on my calendar this week?"*
-- *"Add a task called 'Review contracts' due Friday, high priority"*
-- *"Create a new page in Notion called Project Roadmap"*
-- *"What were the key points from my last meeting?"*
-- *"Trigger my lead-qualification workflow for this inbound email"*
+Claude picks the right tool automatically based on what you ask. Pick whichever apply:
 
-Claude picks the right tool automatically based on what you ask. You never need to think about which MCP is handling it.
+1. **Notion** · 2. **Granola** · 3. **n8n** · 4. **Google Calendar** · 5. **Morgen** ⭐ · 6. **Motion Calendar** · 7. **Playwright** · 8. **SwiftKit** · 9. **Superhuman**
 
-Step 5 installs nine optional tools in this order:
-
-1. **Notion** — pages, databases, knowledge management
-2. **Granola** — meeting transcripts and notes
-3. **n8n** — your own n8n instance for workflow automation
-4. **Google Calendar** — calendar events via Google OAuth
-5. **Morgen** — unified calendar + tasks (recommended default)
-6. **Motion Calendar** — Motion-specific events, teammate visibility
-7. **Playwright** — browser automation via Microsoft's official `@playwright/mcp`
-8. **SwiftKit** — hosted MCP toolkit with 100+ tools across services
-9. **Superhuman** — email triage + drafting via the official Superhuman MCP
-
-> **Calendar recommendation:** Morgen (5) is the recommended default calendar + task tool. It unifies Google, Outlook, iCloud, and native tasks behind a single API key. Google Calendar (4) and Motion (6) are secondary — install them only if you specifically need direct access to those accounts.
+> **Morgen (5) is the recommended default** — it unifies Google, Outlook, iCloud, and native calendars + tasks behind a single API key. Google Calendar (4) and Motion (6) are secondary — install only if you need those accounts directly.
 >
-> **Obsidian MCP?** That lives in [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging), not here. Install 2ndBrain-mogging after this repo completes — it handles vault setup AND registers the Obsidian MCP with Claude Code.
-
-### Notion
-
-Built by [@notionhq](https://github.com/makenotion/notion-mcp-server) — the official MCP server from Notion's own team. Gives Claude full access to your Notion workspace.
-
-- **Read and search.** Search across all your pages and databases.
-- **Create and edit.** Create new pages, append content, update existing pages — all in Markdown.
-- **Databases.** Query, create, and update Notion databases.
-- **22 tools** covering pages, databases, comments, and templates.
-
-> **Requires:** A free Notion account and an integration token. Go to [notion.so/profile/integrations](https://www.notion.so/profile/integrations), create a new integration named "Claude Code", select your workspace, and copy the token (starts with `ntn_`). Then share any pages you want Claude to access: on each page, click the `...` menu > **Connections** > add your integration. Claude can only see pages you explicitly share.
-
-### Granola
-
-[Granola](https://granola.ai) is an AI meeting notes app for Mac. This MCP connects Claude to your Granola library — all your meeting transcripts and notes, searchable through conversation.
-
-- **Meeting transcripts.** Ask Claude what was decided in a meeting, who said what, or what action items came out of it.
-- **Search across meetings.** Find notes from a specific person, project, or topic without digging through folders.
-- **Zero config.** No API keys needed — Granola handles auth through the app itself.
-
-> **Requires:** Granola installed and signed in on your Mac. Get it at [granola.ai](https://granola.ai).
-
-### n8n
-
-Connect Claude to **your own** n8n instance (cloud or self-hosted) so Claude can trigger and inspect the workflows you've built. This is a thin HTTP bridge to an MCP Server Trigger node that you create inside your n8n workflow — it is NOT a hosted service. Everything runs against your own n8n.
-
-- **Trigger workflows.** Ask Claude to run any workflow you've exposed through an MCP Server Trigger.
-- **Pass structured inputs.** Claude can call the workflow with arbitrary JSON parameters.
-- **Bring your own auth.** Optional Bearer Token if you've secured the trigger in n8n.
-
-> **Requires:** An n8n instance you control (n8n Cloud or self-hosted), and a workflow that includes an **MCP Server Trigger** node. In n8n, create a workflow, add the MCP Server Trigger (search "MCP"), activate the workflow, and copy the Production URL the node shows. Paste that URL when the setup script asks for it. Docs: [docs.n8n.io/advanced-ai/mcp/mcp-server-trigger](https://docs.n8n.io/advanced-ai/mcp/mcp-server-trigger/).
-
-### Google Calendar
-
-Direct Google Calendar access via OAuth. This is a secondary calendar tool — if you have Morgen or Motion installed, Claude will use those first. Install Google Calendar only if you need direct access to a specific Google account that isn't synced through your primary calendar tool.
-
-- **Direct Google access.** Reads and writes events on a specific Google Calendar account.
-- **Independent auth.** Useful for a Google account that isn't wired into Morgen or Motion.
-
-> **Requires:** A Google account and ~5 minutes to create OAuth credentials in Google Cloud Console. The setup script walks you through it.
-
-### Morgen
-
-**Recommended default.** Built by [@lorecraft-io](https://github.com/lorecraft-io/morgen-mcp). Wraps [Morgen](https://morgen.so)'s public API so Claude can read and change events across all your connected calendars (Google, Outlook, iCloud, native) AND manage Morgen tasks — all through a single API key.
-
-- **Unified calendar.** Morgen aggregates all your calendar accounts. One MCP, all your events.
-- **Tasks with auto-schedule.** Create tasks with due dates, priorities, and tag labels. Morgen's scheduler places them on your calendar automatically.
-- **Natural-language dates and recurrence.** "next Tuesday at 3pm", "every other Thursday" — parsed and sent as proper JSCalendar recurrence.
-- **Reflow your day.** Compress or rearrange your solo blocks back-to-back without touching real meetings.
-- **Single API key.** No OAuth, no refresh tokens, no Firebase — just one key from the Morgen developer portal.
-
-> **Requires:** A Morgen account and an API key from [platform.morgen.so/developers-api](https://platform.morgen.so/developers-api). The setup script asks for the key and an optional IANA timezone (defaults to `America/New_York`).
-
-### Motion Calendar
-
-Built by [@lorecraft-io](https://github.com/lorecraft-io/motion-mcp). A Motion-specific MCP that fills a few gaps Morgen doesn't cover — install this only if you specifically need Motion's teammate features or full event search.
-
-- **Teammate visibility.** See when teammates are busy or out of office — something Morgen's API doesn't expose.
-- **Full event search.** Query events by title or description across all your Motion calendars.
-- **Direct calendar management.** Create and manage Motion's internal calendar objects.
-
-> **Requires:** A Motion account and ~5 minutes to extract your API credentials (Motion API key, Firebase API key, Firebase refresh token, Motion user ID). The setup script walks you through it.
-
-### Playwright
-
-Built by [Microsoft](https://github.com/microsoft/playwright-mcp) — the official [`@playwright/mcp`](https://www.npmjs.com/package/@playwright/mcp) server. Lets Claude log into and operate web apps that don't have an API. Runs a separate Chromium instance — not your real browser — so Claude's automation is fully isolated from your own session.
-
-- **Real Chromium, not a session hijack.** Playwright launches its own browser instance. Your Chrome/Arc profile, cookies, and tabs are untouched. Authenticated sessions Claude creates live inside Playwright's own user-data directory.
-- **Structured DOM, not pixels.** Claude reads the page via accessibility-tree snapshots, not by guessing from screenshots. It sees button labels, input names, and link targets as structured data. Faster and dramatically more reliable than vision-based browser control.
-- **Full automation surface.** Navigate, click, type, submit forms, follow links, take screenshots, and scrape content — all exposed as MCP tools Claude can invoke from natural language.
-- **Best use case: no-API web apps.** Anything with a web UI but no public API (e.g. Higgsfield, scrappy internal tools, niche SaaS) becomes scriptable. Tell Claude to log in, navigate a few pages, fill a form, and report what it saw — Playwright handles the rest.
-- **No credentials to configure.** Just install and start asking.
-
-> **Requires:** Node.js 18+ (already installed in Step 1) and ~hundreds of MB of disk space for Chromium. Browser binaries auto-download on first use. Defaults to headed mode (you'll see the browser window); pass `--headless` to the server for background runs.
->
-> **Scope note:** Playwright MCP is designed for productivity, not security isolation. Microsoft explicitly says "Playwright MCP is not a security boundary" — treat anything Claude loads through it with the same trust you'd give any browser session you drove manually.
-
-### SwiftKit
-
-Built by [SwiftKit](https://swiftkit.sh). A hosted MCP service that bundles 100+ tools across multiple services into a single HTTP endpoint. Instead of installing individual MCP servers for every service, SwiftKit provides a unified toolkit behind one API key.
-
-- **Single endpoint, many tools.** One MCP connection gives Claude access to a wide range of capabilities across different services.
-- **No local packages.** Everything runs on SwiftKit's hosted infrastructure — nothing to install, update, or maintain locally.
-- **HTTP transport.** Connects via Bearer token auth over HTTPS. Your key is stored in Claude's MCP config only.
-
-> **Requires:** A SwiftKit account and API key from [swiftkit.sh](https://swiftkit.sh). Sign up, generate a key (starts with `sk_live_` or `sk_test_`), and paste it when the setup script asks.
-
-### Superhuman
-
-Built by [Superhuman](https://superhuman.com). Official remote MCP connector — gives Claude structured access to your inbox: triage, read, draft, and send. Great if you live in Superhuman and want Claude to write first-pass replies or summarize a long thread.
-
-- **HTTP transport.** Hosted endpoint at `mcp.mail.superhuman.com/mcp` — nothing to install locally.
-- **OAuth auth.** First call opens a browser to authorize Claude against your Superhuman account. Expect occasional re-auth prompts (remote MCP TTL).
-
-> **Requires:** An active [Superhuman](https://superhuman.com) subscription. After registration, the first tool use will trigger a one-time OAuth flow in your default browser.
+> **Obsidian MCP** lives in [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging), not here. Install mogging after this repo completes — it handles vault setup AND registers the Obsidian MCP with Claude Code.
 
 ### Run Step 5
 
-You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
-
-Once you're inside the Claude session, paste this and hit Enter:
+In a `cskip` session, paste this:
 
 > [!IMPORTANT]
-> **Paste this into your Claude session:**
 > ```
 > run this command to install productivity tools: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-5/step-5-install.sh)
 > ```
 
-### What This Step Installs
+The script asks which tools you want, then walks you through each one's credentials. Skip anything you don't use — re-run the script later to add more.
 
-| Component | What it does |
-|-----------|-------------|
-| Notion MCP | Official Notion integration — pages, databases, search, content management. 22 tools. |
-| Granola MCP | Meeting transcript access — search and query your Granola meeting notes through conversation. |
-| n8n MCP | HTTP bridge to YOUR OWN n8n instance — trigger and inspect workflows you built. |
-| Google Calendar MCP | Direct Google Calendar access via OAuth — secondary, install only if needed. |
-| Morgen MCP | **Recommended default.** Unified calendar + tasks across Google/Outlook/iCloud/native. Single API key. |
-| Motion Calendar MCP | Motion-specific MCP for teammate visibility and full event search. Secondary. |
-| Playwright MCP | Microsoft's official browser automation — runs a separate Chromium instance (not your browser), uses accessibility-tree snapshots instead of pixels. Lets Claude log into and operate web apps that have no API. No credentials. |
-| SwiftKit MCP | Hosted MCP toolkit by [SwiftKit](https://swiftkit.sh) — 100+ tools across services behind a single HTTP endpoint. Bearer token auth, nothing to install locally. |
-| Superhuman MCP | Official remote MCP from [Superhuman](https://superhuman.com) — inbox triage, read/draft/send from Claude. OAuth browser flow on first use. |
+### What each tool does
+
+| # | Tool | What it does | Needs |
+|---|------|--------------|-------|
+| 1 | **Notion** ([@notionhq](https://github.com/makenotion/notion-mcp-server)) | Search, read, create pages + databases in your Notion workspace. Official, 22 tools. | Integration token from [notion.so/profile/integrations](https://www.notion.so/profile/integrations); share specific pages via page `...` → Connections. |
+| 2 | **Granola** | Search your Granola meeting transcripts + notes through conversation. | [Granola](https://granola.ai) installed + signed in on Mac. No key. |
+| 3 | **n8n** | HTTP bridge to **your own** n8n instance — trigger and inspect workflows you built. Not a hosted service. | An n8n workflow with an **MCP Server Trigger** node; copy its Production URL. Optional Bearer token. |
+| 4 | **Google Calendar** | Direct Google Calendar access via OAuth. *Secondary — only install if you need a specific Google account bypassing Morgen.* | Google account + ~5min to create OAuth creds (script walks you through). |
+| 5 | **Morgen** ⭐ ([@lorecraft-io](https://github.com/lorecraft-io/morgen-mcp)) | Unified calendar + tasks across Google/Outlook/iCloud/native. Natural-language dates/recurrence, auto-schedule, day reflow. One key for everything. | API key from [platform.morgen.so/developers-api](https://platform.morgen.so/developers-api). |
+| 6 | **Motion Calendar** ([@lorecraft-io](https://github.com/lorecraft-io/motion-mcp)) | Teammate visibility + full event search that Morgen's API doesn't expose. *Motion-specific features only.* | Motion API key + Firebase key + refresh token + user ID (script walks you through). |
+| 7 | **Playwright** ([Microsoft](https://github.com/microsoft/playwright-mcp)) | Lets Claude log into and operate web apps with no API. Runs its own Chromium (not your real browser), reads via accessibility-tree snapshots — fast + reliable. | Node 18+ (from Step 1) + ~hundreds of MB disk for Chromium. No credentials. |
+| 8 | **SwiftKit** ([swiftkit.sh](https://swiftkit.sh)) | Hosted MCP toolkit for **iOS / macOS / Swift development** — 100+ tools for writing, building, and shipping Apple-platform code behind one HTTP endpoint. Default for anything iPhone/iOS/Swift-related. Nothing to install locally. | Account + API key (`sk_live_` or `sk_test_`). |
+| 9 | **Superhuman** ([superhuman.com](https://superhuman.com)) | Email triage + drafting from Claude via Superhuman's official remote MCP. | Active Superhuman subscription. One-time browser OAuth on first use. |
+
+> **Playwright scope note:** Microsoft explicitly says "Playwright MCP is not a security boundary." Treat anything Claude loads through it the same as any browser session you'd drive manually.
+
+### Also worth flipping on — claude.ai connectors
+
+These live on claude.ai's hosted side (Settings → Connectors), not in this install script. One OAuth click and they show up alongside the MCPs above:
+
+| Tool | What it does |
+|------|--------------|
+| [**Google Drive**](https://claude.ai) | Browse, search, and read Google Drive files — Docs, Sheets, PDFs, shared folders. Great for pulling in reference material mid-session without an OAuth dance per file. |
+
+To enable: [claude.ai](https://claude.ai) → avatar → **Settings** → **Connectors** → find Google Drive → **Connect**. Done.
 
 ### After Step 5
 
-You now have your productivity stack connected to Claude. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. If you skipped any tools, you can always come back and re-run Step 5 to add them. For the Obsidian MCP and vault access, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
+Your productivity stack is wired up. Ask about your schedule, add a task, query Notion, trigger a workflow — all from your terminal. Skipped something? Re-run Step 5 later. For Obsidian vault access, install [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging).
 
 ---
 
@@ -625,58 +525,6 @@ Two launcher commands come with it (both installed back in Step 1):
 Open a new terminal and run `ctg` to launch Claude with Telegram connected. Inside your Claude session, tell it to pair your Telegram bot. Once paired, messages you send from Telegram will appear in your Claude session in real time. You can also use `cbraintg` to launch with both Telegram and your 2ndBrain vault loaded.
 
 > **If you see repeating `TELEGRAM_BOT_TOKEN required` warnings that won't stop:** Press **Ctrl+C** to exit. Your token isn't being detected — Claude Code keeps restarting the Telegram channel in a loop. Use `cskip` instead of `ctg` to continue setup, and troubleshoot Telegram separately later. See [Troubleshooting → Telegram: stuck in a warning loop](#telegram-stuck-in-a-warning-loop-after-setup).
-
----
-
-## Step 8 - Safety Check
-
-[Back to top](#quick-navigation)
-
-This step installs a security auditing skill that lets Claude scan any project for vulnerabilities. Exposed API keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, insecure configurations — the stuff that slips through code review. For MCP projects, it automatically activates 12 additional checks covering tool poisoning, prompt injection vectors, transport security, authentication, and supply chain attacks. You point Claude at a project and tell it to run a safety check. It does the rest.
-
-### What It Does
-
-The `/safetycheck` skill gives Claude a structured security audit framework. Instead of asking Claude to "look for security issues" and hoping for the best, this skill runs a systematic scan across the categories that actually matter:
-
-**API Security (all projects):**
-- **Exposed secrets.** API keys, tokens, passwords hardcoded in source files, git history, or MCP config files.
-- **Missing rate limiting.** Endpoints that accept unlimited requests without throttling.
-- **Input sanitization gaps.** User input flowing into queries, commands, file paths, or MCP tool handlers without validation.
-- **Dependency vulnerabilities.** Known CVEs in npm/pip packages, including MCP SDK version checks.
-- **Insecure configurations.** CORS misconfigurations, missing .gitignore entries, untracked secrets.
-
-**MCP Security (auto-activated for MCP projects):**
-- **Tool description integrity.** Hidden instructions, file path references, and injection markers in tool descriptions.
-- **Unicode smuggling.** Invisible Unicode characters used to hide malicious instructions from human reviewers.
-- **MCP transport security.** DNS rebinding vulnerabilities, HTTP vs HTTPS, known CVEs (CVE-2025-66414, CVE-2025-66416).
-- **MCP authentication.** Missing bearer auth on HTTP-based MCP servers.
-- **Supply chain hygiene.** `@latest` floating versions, rug-pull risk, unverified packages in MCP configs.
-- **Tool response sanitization.** Stack traces and raw errors leaking through tool results.
-- **Audit logging.** Missing structured logging for tool invocations.
-
-This isn't a replacement for a full security audit. It's a first line of defense — the kind of check you should run before every deploy, every PR, every time you hand code off to someone else.
-
-### Run Step 9
-
-You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
-
-Once you're inside the Claude session, paste this and hit Enter:
-
-> [!IMPORTANT]
-> **Paste this into your Claude session:**
-> ```
-> run this command to install the safety check skill: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh)
-> ```
-
-### What This Step Installs
-
-| Component | What it does |
-|-----------|-------------|
-| Safety Check Skill (`/safetycheck`) | A Claude Code skill that runs 8 API security checks on any project, plus 12 MCP-specific checks when an MCP project is detected. Covers tool poisoning, prompt injection vectors, DNS rebinding CVEs, supply chain attacks, and more. |
-
-### After Step 9
-
-Open any project in Claude and type `/safetycheck` to run a security audit. For standard projects, Claude runs 8 checks and reports findings by severity. For MCP projects, it automatically detects the project type and activates 12 additional MCP-specific checks. You can also ask Claude to "run a safety check" in plain English — the skill kicks in automatically.
 
 ---
 
@@ -723,6 +571,58 @@ The script prompts for your PAT, registers the GitHub MCP with Claude Code, inje
 ### After Step 7
 
 Ask Claude to *"list my open GitHub issues"* or *"create a PR on cli-maxxing"* and the MCP tools kick in automatically. Type `/gitfix` (or just ask *"sync the repo"* / *"fix the github"* in plain English) after any significant change to make the docs match the code again. If you ever need to rotate the PAT, re-run Step 7 — it'll overwrite the entry in your MCP config.
+
+---
+
+## Step 8 - Safety Check
+
+[Back to top](#quick-navigation)
+
+This step installs a security auditing skill that lets Claude scan any project for vulnerabilities. Exposed API keys, missing rate limiting, input sanitization gaps, dependency vulnerabilities, insecure configurations — the stuff that slips through code review. For MCP projects, it automatically activates 12 additional checks covering tool poisoning, prompt injection vectors, transport security, authentication, and supply chain attacks. You point Claude at a project and tell it to run a safety check. It does the rest.
+
+### What It Does
+
+The `/safetycheck` skill gives Claude a structured security audit framework. Instead of asking Claude to "look for security issues" and hoping for the best, this skill runs a systematic scan across the categories that actually matter:
+
+**API Security (all projects):**
+- **Exposed secrets.** API keys, tokens, passwords hardcoded in source files, git history, or MCP config files.
+- **Missing rate limiting.** Endpoints that accept unlimited requests without throttling.
+- **Input sanitization gaps.** User input flowing into queries, commands, file paths, or MCP tool handlers without validation.
+- **Dependency vulnerabilities.** Known CVEs in npm/pip packages, including MCP SDK version checks.
+- **Insecure configurations.** CORS misconfigurations, missing .gitignore entries, untracked secrets.
+
+**MCP Security (auto-activated for MCP projects):**
+- **Tool description integrity.** Hidden instructions, file path references, and injection markers in tool descriptions.
+- **Unicode smuggling.** Invisible Unicode characters used to hide malicious instructions from human reviewers.
+- **MCP transport security.** DNS rebinding vulnerabilities, HTTP vs HTTPS, known CVEs (CVE-2025-66414, CVE-2025-66416).
+- **MCP authentication.** Missing bearer auth on HTTP-based MCP servers.
+- **Supply chain hygiene.** `@latest` floating versions, rug-pull risk, unverified packages in MCP configs.
+- **Tool response sanitization.** Stack traces and raw errors leaking through tool results.
+- **Audit logging.** Missing structured logging for tool invocations.
+
+This isn't a replacement for a full security audit. It's a first line of defense — the kind of check you should run before every deploy, every PR, every time you hand code off to someone else.
+
+### Run Step 8
+
+You should still have a Claude session open. If you closed it, open your terminal and type `cskip` to start a new Claude session.
+
+Once you're inside the Claude session, paste this and hit Enter:
+
+> [!IMPORTANT]
+> **Paste this into your Claude session:**
+> ```
+> run this command to install the safety check skill: bash <(curl -fsSL https://raw.githubusercontent.com/lorecraft-io/cli-maxxing/main/step-8/step-8-install.sh)
+> ```
+
+### What This Step Installs
+
+| Component | What it does |
+|-----------|-------------|
+| Safety Check Skill (`/safetycheck`) | A Claude Code skill that runs 8 API security checks on any project, plus 12 MCP-specific checks when an MCP project is detected. Covers tool poisoning, prompt injection vectors, DNS rebinding CVEs, supply chain attacks, and more. |
+
+### After Step 8
+
+Open any project in Claude and type `/safetycheck` to run a security audit. For standard projects, Claude runs 8 checks and reports findings by severity. For MCP projects, it automatically detects the project type and activates 12 additional MCP-specific checks. You can also ask Claude to "run a safety check" in plain English — the skill kicks in automatically.
 
 ---
 
