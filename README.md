@@ -43,7 +43,7 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Step 1](#step-1---cli-tools) | CLI Tools | Git, Node.js, Claude Code, shell aliases — the foundation | ~10 min |
 | [Step 2](#step-2---bonus-software) | Bonus Software | Ghostty (terminal) + Arc (browser) — optional but highly recommended | ~4 min |
 | [Step 3](#step-3---developer--utility-tools) | Developer & Utility Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
-| [Step 4](#step-4---fidgetflo) | FidgetFlo | Multi-agent orchestration — swarms, hives, persistent memory, Opus locked | ~3 min |
+| [Step 4](#step-4---fidgetflo) | FidgetFlo | Multi-agent orchestration — swarms, hives, persistent memory, Opus-locked | ~3 min |
 | [Step 5](#step-5---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit + Superhuman + Google Drive (pick what you use; Morgen recommended) | ~5 min |
 | [Step 6](#step-6---telegram) | Telegram | Message Claude from your phone via Telegram bot | ~2 min |
 | [Step 7](#step-7---github) | GitHub | GitHub MCP + /gitfix skill — repos, issues, PRs, code search, full-repo doc sync (requires PAT) | ~2 min |
@@ -611,7 +611,7 @@ The wrap-up. Installs a custom status line that shows what's active at a glance,
 
 | Icon | When it shows |
 |------|---------------|
-| ⚡ FidgetFlo | FidgetFlo MCP connected |
+| ⚡️ fidgetflo | FidgetFlo MCP connected |
 | 🧠 2ndBrain | CWD is inside your Obsidian vault (requires [2ndBrain-mogging](https://github.com/lorecraft-io/2ndBrain-mogging)) |
 | 🎨 UIPro | Design skill loaded (via [creativity-maxxing](https://github.com/lorecraft-io/creativity-maxxing)) |
 | 🐝 Swarm | A swarm is active (`/fswarm`, shows agent count) |
