@@ -44,7 +44,7 @@ Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be inst
 | [Step 2](#step-2---bonus-software) | Bonus Software | Ghostty (terminal) + Arc (browser) — optional but highly recommended | ~4 min |
 | [Step 3](#step-3---developer--utility-tools) | Developer & Utility Tools | Adds file converters, search, utilities, and no-flicker mode | ~3 min |
 | [Step 4](#step-4---fidgetflo) | FidgetFlo | Multi-agent orchestration — swarms, hives, persistent memory, Opus locked | ~3 min |
-| [Step 5](#step-5---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit (pick what you use; Morgen recommended) | ~5 min |
+| [Step 5](#step-5---productivity-tools) | Productivity Tools | Notion + Granola + n8n + GCal + Morgen + Motion + Playwright + SwiftKit + Superhuman + Google Drive (pick what you use; Morgen recommended) | ~5 min |
 | [Step 6](#step-6---telegram) | Telegram | Message Claude from your phone via Telegram bot | ~2 min |
 | [Step 7](#step-7---github) | GitHub | GitHub MCP + /gitfix skill — repos, issues, PRs, code search, full-repo doc sync (requires PAT) | ~2 min |
 | [Step 8](#step-8---safety-check) | Safety Check | Security auditing — scan any project for vulnerabilities + full MCP security checks | ~2 min |
@@ -89,7 +89,7 @@ Run the steps in order. Each one builds on the last.
 
 **[Step 4 — FidgetFlo](#step-4---fidgetflo)** is where you set up [FidgetFlo](https://github.com/lorecraft-io/fidgetflo), the multi-agent orchestration layer that turns Claude into a full team of AI agents — `/fswarm`, `/fmini`, `/fhive`, persistent memory, Opus-locked.
 
-**[Step 5 — Productivity Tools](#step-5---productivity-tools)** connects Claude to your productivity tools — notes, calendars, meetings, workflows, browser automation, and hosted toolkits. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), Motion Calendar, Playwright, or SwiftKit. All optional, install only what you need.
+**[Step 5 — Productivity Tools](#step-5---productivity-tools)** connects Claude to your productivity tools — notes, calendars, email, meetings, workflows, browser automation, and hosted toolkits. Pick the ones you use: Notion, Granola, your own n8n instance, Google Calendar, Morgen (recommended), Motion Calendar, Playwright, SwiftKit, Superhuman, or Google Drive. All optional, install only what you need.
 
 **[Step 6 — Telegram](#step-6---telegram)** connects Claude to Telegram so you can message it straight from your phone. You create a free bot through Telegram (takes about two minutes), the script handles the rest, and then you use `ctg` or `cbraintg` to launch Claude with Telegram connected — messages show up in your session in real time. This step is completely optional; everything else works without it.
 
@@ -806,7 +806,7 @@ Once you're inside Claude, type:
 /mcp
 ```
 
-This shows every MCP server and its connection status. Everything you installed — FidgetFlo, Notion, Granola, n8n, Morgen, Motion Calendar, Google Calendar, Playwright, SwiftKit, Obsidian (from 2ndBrain-mogging), design tools (from creativity-maxxing) — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
+This shows every MCP server and its connection status. Everything you installed — FidgetFlo, Notion, Granola, n8n, Google Calendar, Morgen, Motion Calendar, Playwright, SwiftKit, Superhuman, Google Drive, GitHub (if you ran Step 7), Obsidian (from 2ndBrain-mogging), and design tools (from creativity-maxxing) — should show as **Connected**. If anything shows as failed or disconnected, just tell Claude:
 
 > "One of my MCP servers isn't connecting — can you troubleshoot it?"
 
@@ -829,7 +829,7 @@ That's it. `cbrain` opens Claude Code directly inside your 2ndBrain vault with a
 **What `cbrain` gives you:**
 - Drops you into your Obsidian vault automatically — no `cd`-ing around
 - All permissions skipped — Claude acts immediately, no approval prompts
-- Full access to everything: `/fswarm` (+ tiers `1`/`2`/`3`/`max`), `/fmini` (+ tiers `1`/`2`/`3`/`max`), `/fhive`, `/w4w`, `/safetycheck`, `/gitfix`, FidgetFlo, Context Hub, Morgen, Motion, Notion, Obsidian, Granola, n8n, design tools, video tools — all of it
+- Full access to everything: `/fswarm` (+ tiers `1`/`2`/`3`/`max`), `/fmini` (+ tiers `1`/`2`/`3`/`max`), `/fhive`, `/w4w`, `/safetycheck`, `/gitfix`, FidgetFlo, Morgen, Motion, Notion, Obsidian, Granola, n8n, Superhuman, Google Drive, design tools, video tools — all of it
 - Your status line shows what's active at a glance
 
 **When to use something else:**
@@ -852,8 +852,8 @@ Run the steps in this order:
 | 1 | CLI Tools | Git, Node.js, Claude Code, shell aliases |
 | 2 | Bonus Software | Ghostty (GPU-accelerated terminal) + Arc (power-user browser). Optional but recommended. |
 | 3 | Developer & Utility Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
-| 4 | FidgetFlo + Context Hub | Multi-agent orchestration + API docs |
-| 5 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit (all optional — pick what you use; Morgen recommended) |
+| 4 | FidgetFlo | Multi-agent orchestration — swarms, hives, persistent memory, Opus-locked |
+| 5 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit + Superhuman + Google Drive (all optional — pick what you use; Morgen recommended) |
 | 6 | Telegram | Telegram bot setup — message Claude from your phone. Press Enter to skip if you don't have a bot yet. |
 | 7 | GitHub | GitHub MCP (repos, issues, PRs, code search — requires PAT) + `/gitfix` skill for full-repo doc sync |
 | 8 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
