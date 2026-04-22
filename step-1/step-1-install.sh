@@ -96,6 +96,7 @@ detect_os() {
     fi
 
     # Ensure every target file exists before we try to read/write it.
+    local f
     for f in "${SHELL_RCS[@]}" "${SHELL_PROFILES[@]}"; do
         [ -e "$f" ] || touch "$f"
     done
@@ -146,8 +147,8 @@ install_build_tools() {
             echo -e "    ${YELLOW}Click 'Install' and wait for it to finish.${NC}"
             echo -e "    ${YELLOW}This can take a few minutes...${NC}"
             echo ""
-            CLT_WAIT=0
-            CLT_MAX=180
+            local CLT_WAIT=0
+            local CLT_MAX=180
             until xcode-select -p &>/dev/null; do
                 sleep 5
                 CLT_WAIT=$((CLT_WAIT + 1))
@@ -200,6 +201,7 @@ install_homebrew() {
 
         # Pick the right brew prefix and eval it into THIS shell so subsequent
         # install_git / install_node steps see `brew`.
+        local BREW_SHELLENV_LINE profile
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
             # shellcheck disable=SC2016
@@ -262,6 +264,7 @@ install_git() {
 # 7. Node.js via nvm
 # -----------------------------------------------------------------------------
 install_node() {
+    local NODE_MAJOR
     if command -v node &>/dev/null; then
         NODE_MAJOR=$(node -v | sed 's/v//' | cut -d. -f1)
         if [ "$NODE_MAJOR" -ge 18 ]; then
@@ -307,7 +310,8 @@ install_claude_code() {
         local attempt=0
         local max_attempts=3
         local installed=0
-        while [ $attempt -lt $max_attempts ]; do
+        local backoff
+        while [ "$attempt" -lt "$max_attempts" ]; do
             attempt=$((attempt + 1))
             if npm install -g @anthropic-ai/claude-code 2>/dev/null \
                 || sudo npm install -g @anthropic-ai/claude-code; then
@@ -320,14 +324,14 @@ install_claude_code() {
                     break
                 fi
             fi
-            if [ $attempt -lt $max_attempts ]; then
-                local backoff=$((attempt * 5))
+            if [ "$attempt" -lt "$max_attempts" ]; then
+                backoff=$((attempt * 5))
                 warn "Claude Code install attempt $attempt/$max_attempts failed — retrying in ${backoff}s..."
                 sleep "$backoff"
             fi
         done
 
-        if [ $installed -ne 1 ]; then
+        if [ "$installed" -ne 1 ]; then
             fail "Claude Code installation failed after $max_attempts attempts. Check internet + npm registry access (https://registry.npmjs.org/), then re-run this installer."
         fi
 
@@ -342,10 +346,11 @@ install_claude_code() {
     # fill gaps without duplicating. Also migrates the old `alias ctg=` line
     # (now replaced by ~/.local/bin/ctg which can do the token pre-check).
     local total_aliases_added=0
+    local rc aliases_added_here
     for rc in "${SHELL_RCS[@]}"; do
         [ -e "$rc" ] || touch "$rc"
 
-        local aliases_added_here=0
+        aliases_added_here=0
 
         # Marker comment — only once per file
         if ! grep -q '# Claude Code shortcuts' "$rc" 2>/dev/null; then
@@ -354,14 +359,15 @@ install_claude_code() {
         fi
 
         # Each alias — skip if already present in this rc
+        local alias_line alias_name
         for alias_line in \
             "alias cskip='claude --dangerously-skip-permissions'" \
             "alias cc='claude'" \
             "alias ccr='claude --resume'" \
             "alias ccc='claude --continue'"; do
-            ALIAS_NAME="${alias_line%%=*}"
-            ALIAS_NAME="${ALIAS_NAME#alias }"
-            if ! grep -q "alias ${ALIAS_NAME}=" "$rc" 2>/dev/null; then
+            alias_name="${alias_line%%=*}"
+            alias_name="${alias_name#alias }"
+            if ! grep -q "alias ${alias_name}=" "$rc" 2>/dev/null; then
                 echo "$alias_line" >> "$rc"
                 aliases_added_here=$((aliases_added_here + 1))
             fi
@@ -432,8 +438,9 @@ run_self_test() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
-    TEST_PASS=0
-    TEST_FAIL=0
+    local TEST_PASS=0
+    local TEST_FAIL=0
+    local NODE_MAJOR
 
     # Git
     if command -v git &>/dev/null; then
@@ -480,8 +487,9 @@ run_self_test() {
     # Shell aliases — success if each alias appears in AT LEAST ONE rc file.
     # On macOS we write to both zsh + bash, and finding it in either shell's
     # rc is enough (user only opens one shell at a time in practice).
-    ALIAS_PASS=0
-    ALIAS_TOTAL=4
+    local ALIAS_PASS=0
+    local ALIAS_TOTAL=4
+    local alias_name found_in_any_rc rc
     for alias_name in cskip cc ccr ccc; do
         found_in_any_rc=0
         for rc in "${SHELL_RCS[@]}"; do
