@@ -444,7 +444,7 @@ install_google_calendar() {
     claude mcp add --scope user \
         -e GOOGLE_CLIENT_ID="$GCAL_CLIENT_ID" \
         -e GOOGLE_CLIENT_SECRET="$GCAL_CLIENT_SECRET" \
-        google-calendar -- npx -y google-calendar-mcp 2>/dev/null
+        google-calendar -- npx -y @cocal/google-calendar-mcp 2>/dev/null
 
     if claude mcp list 2>/dev/null | grep -qE '^google-calendar:'; then
         success "Google Calendar MCP installed"
@@ -452,7 +452,7 @@ install_google_calendar() {
         echo ""
         echo -e "${BLUE}  Final step — authorize Claude to access your calendar:${NC}"
         echo ""
-        echo -e "    ${GREEN}npx google-calendar-mcp auth${NC}"
+        echo -e "    ${GREEN}npx @cocal/google-calendar-mcp auth${NC}"
         echo ""
         echo "  A browser window will open. Sign in with your Google account"
         echo "  and allow access. The token is stored locally."
