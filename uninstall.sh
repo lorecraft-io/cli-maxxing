@@ -176,12 +176,29 @@ uninstall_status_line() {
         skip "Status line script (not found)"
     fi
 
-    # Remove statusline hook from settings if present — don't mutate settings.json
-    # directly (CLAUDE.md rule: always jq-merge, never overwrite).
-    if [ -f "$HOME/.claude/settings.json" ]; then
-        if grep -q "statusline" "$HOME/.claude/settings.json" 2>/dev/null; then
-            info "Status line hook found in settings.json — remove manually via Claude settings"
+    # Remove the statusLine key from settings.json via jq (CLAUDE.md rule:
+    # always jq-merge, never overwrite). If jq isn't available, fall back to
+    # a notice — the user can either install jq or clear the field manually.
+    # IMPORTANT: run this BEFORE uninstall_dev_tools, which removes jq itself.
+    local settings="$HOME/.claude/settings.json"
+    if [ -f "$settings" ]; then
+        if grep -q '"statusLine"' "$settings" 2>/dev/null; then
+            if command -v jq &>/dev/null; then
+                if jq 'del(.statusLine)' "$settings" > "${settings}.tmp" 2>/dev/null; then
+                    mv "${settings}.tmp" "$settings" 2>/dev/null || true
+                    success "statusLine key removed from $settings"
+                else
+                    rm -f "${settings}.tmp" 2>/dev/null || true
+                    warn "Could not strip statusLine from $settings — remove the key manually"
+                fi
+            else
+                warn "jq not available — remove the \"statusLine\" key from $settings manually"
+            fi
+        else
+            skip "statusLine key (not found in settings.json)"
         fi
+    else
+        skip "settings.json (not found — nothing to strip)"
     fi
 }
 
@@ -355,21 +372,43 @@ uninstall_dev_tools() {
         fi
     done
 
-    # xlsx2csv (pip)
-    if python3 -c "import xlsx2csv" 2>/dev/null; then
-        python3 -m pip uninstall xlsx2csv -y 2>/dev/null || true
-        success "pip: xlsx2csv"
+    # xlsx2csv — step-3 installs this via `pipx install xlsx2csv`, NOT via plain
+    # pip, because modern macOS Python trips PEP 668 (externally-managed-env).
+    # The old `python3 -c "import xlsx2csv"` probe always failed because pipx
+    # keeps the package in an isolated venv the user's python3 can't see.
+    # Detect via the CLI shim on PATH, then try pipx first (its own isolated
+    # venv is where step-3 put it), falling back to pip for pre-pipx legacy
+    # installs. Both commands are quiet-on-missing, so the fallback is safe.
+    if command -v xlsx2csv &>/dev/null; then
+        local removed=false
+        if command -v pipx &>/dev/null; then
+            if pipx uninstall xlsx2csv &>/dev/null; then
+                success "pipx: xlsx2csv"
+                removed=true
+            fi
+        fi
+        if [ "$removed" = "false" ]; then
+            if python3 -m pip uninstall xlsx2csv -y &>/dev/null; then
+                success "pip: xlsx2csv (legacy install)"
+            else
+                warn "xlsx2csv found on PATH but could not be removed via pipx or pip"
+            fi
+        fi
     else
-        skip "pip: xlsx2csv (not found)"
+        skip "xlsx2csv (not found)"
     fi
 }
 
 # -----------------------------------------------------------------------------
-# Bonus — Ghostty Config (remove config only, keep the app)
+# Bonus — Ghostty (config + cask + duti)
+# Mirrors uninstall_arc — step-2/ghostty-install.sh runs `brew install --cask
+# ghostty`, so if the cask is registered with brew we clean it up here. Users
+# who installed Ghostty manually (direct download) keep the app; only the
+# Homebrew-tracked cask is removed.
 # -----------------------------------------------------------------------------
 uninstall_ghostty() {
     echo ""
-    echo -e "${BLUE}--- Bonus: Ghostty Config ---${NC}"
+    echo -e "${BLUE}--- Bonus: Ghostty ---${NC}"
 
     GHOSTTY_CONFIG_MAC="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
     GHOSTTY_CONFIG_LINUX="$HOME/.config/ghostty/config"
@@ -384,6 +423,23 @@ uninstall_ghostty() {
         success "Ghostty config (Linux)"
     else
         skip "Ghostty config (not found)"
+    fi
+
+    # Ghostty app — only remove when installed via the brew cask (step-2 path).
+    # Mirrors the Arc cleanup: app removed only if brew is the owner.
+    if [ -d "/Applications/Ghostty.app" ] && brew list --cask ghostty &>/dev/null 2>&1; then
+        brew uninstall --cask ghostty 2>/dev/null || true
+        success "Ghostty app (brew cask)"
+    else
+        skip "Ghostty app (not found or not installed via Homebrew)"
+    fi
+
+    # JetBrains Mono font — installed by step-2/ghostty-install.sh as a cask.
+    if brew list --cask font-jetbrains-mono &>/dev/null 2>&1; then
+        brew uninstall --cask font-jetbrains-mono 2>/dev/null || true
+        success "font: JetBrains Mono (brew cask)"
+    else
+        skip "font: JetBrains Mono (not found or not installed via Homebrew)"
     fi
 
     # duti (installed by step-2/ghostty-install.sh)
