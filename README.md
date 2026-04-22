@@ -861,7 +861,7 @@ Run the steps in this order:
 | 2 | Bonus Software | Ghostty (GPU-accelerated terminal) + Arc (power-user browser). Optional but recommended. |
 | 3 | Developer & Utility Tools | Python, Pandoc, jq, ripgrep, no-flicker mode, etc. |
 | 4 | FidgetFlo | Multi-agent orchestration — swarms, hives, persistent memory, Opus-locked |
-| 5 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit + Superhuman + Google Drive (all optional — pick what you use; Morgen recommended) |
+| 5 | Productivity Tools | Notion + Granola + n8n + Google Calendar + Morgen + Motion Calendar + Playwright + SwiftKit + Superhuman + Google Drive + Vercel (all optional — pick what you use; Morgen recommended) |
 | 6 | Telegram | Telegram bot setup — message Claude from your phone. Press Enter to skip if you don't have a bot yet. |
 | 7 | GitHub | GitHub CLI (`gh`) + GitHub MCP (repos, issues, PRs, code search — MCP requires PAT) + `/gitfix` skill for full-repo doc sync |
 | 8 | Safety Check | Security auditing — 8 API checks + 12 MCP checks for tool poisoning, DNS rebinding, supply chain attacks |
