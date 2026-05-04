@@ -36,7 +36,7 @@ This is one of three repos in the cli-maxxing stack:
 |------|-------------|
 | **`cli-maxxing`** | **This repo** — Foundation — Claude Code, shell aliases, FidgetFlo, dev tools, productivity MCPs |
 | [`creativity-maxxing`](https://github.com/lorecraft-io/creativity-maxxing) | Design skills + video/audio pipeline |
-| [`task-maxxing`](https://github.com/lorecraft-io/task-maxxing) | Three-way task sync — Obsidian ↔ Notion ↔ Morgen (requires [`2ndBrain-mogging`](https://github.com/lorecraft-io/2ndBrain-mogging)) |
+| [`task-maxxing`](https://github.com/lorecraft-io/task-maxxing) | Two-way task sync — Obsidian ↔ Morgen (Notion dropped 2026-05-04) (requires [`2ndBrain-mogging`](https://github.com/lorecraft-io/2ndBrain-mogging)) |
 
 Install `cli-maxxing` first. `creativity-maxxing` and `task-maxxing` can be installed in either order after that.
 
